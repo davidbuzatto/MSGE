@@ -26,7 +26,14 @@ import br.com.davidbuzatto.msge.geom.Rectangle;
 import br.com.davidbuzatto.msge.geom.Triangle;
 import br.com.davidbuzatto.msge.geom.Vector2;
 import java.awt.Color;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Random;
+import org.apache.maven.model.Model;
+import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 /**
  * Classe com métodos estáticos utilitários.
@@ -39,6 +46,7 @@ public class Utils {
     
     private static final double FLT_EPSILON = 2.2204460492503131e-16;
     private static final Random random = new Random();
+    private static final Model MAVEN_MODEL = getMavenModel();
 
     /**
      * Realiza a interpolação linear entre dois valores.
@@ -1579,6 +1587,45 @@ public class Utils {
         int b = (int) clamp( lerp( start.getBlue(), end.getBlue(), amount ), 0, 255 );
         int a = (int) clamp( lerp( start.getAlpha(), end.getAlpha(), amount ), 0, 255 );
         return new Color( r, g, b, a );
+    }
+    
+    /**
+     * Returna o modelo do maven para extração de informações.
+     * 
+     * @return O modelo do Maven.
+     */
+    private static Model getMavenModel() {
+        
+        MavenXpp3Reader reader = new MavenXpp3Reader();
+        Model mavenModel = null;
+        
+        try {
+            if ( ( new File( "pom.xml" )).exists() ) {
+                mavenModel = reader.read( new FileReader( "pom.xml" ) );
+            } else {
+                mavenModel = reader.read(
+                    new InputStreamReader(
+                        Utils.class.getResourceAsStream(
+                            "/META-INF/maven/br.com.davidbuzatto.msge/MSGE/pom.xml"
+                        )
+                    )
+                );
+            }
+        } catch ( IOException | XmlPullParserException exc ) {
+            exc.printStackTrace();
+        }
+        
+        return mavenModel;
+      
+    }
+    
+    /**
+     * Obtém a versão atual da MSGE.
+     * 
+     * @return A versão da MSGE
+     */
+    public static String getVersion() {
+        return MAVEN_MODEL.getVersion();
     }
 
 }

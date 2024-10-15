@@ -135,6 +135,31 @@ public abstract class Engine extends JFrame {
     private GameAction mouseRightActionInitial;
     private GameAction mouseWheelUpAction;
     private GameAction mouseWheelDownAction;
+    
+    private boolean mouseButtonLeftProcessed;
+    private boolean mouseButtonMiddleProcessed;
+    private boolean mouseButtonRightProcessed;
+    
+    private boolean mouseLeftPressed;
+    private boolean mouseLeftReleased;
+    private boolean mouseLeftDown;
+    private boolean mouseLeftUp;
+    
+    private boolean mouseMiddlePressed;
+    private boolean mouseMiddleReleased;
+    private boolean mouseMiddleDown;
+    private boolean mouseMiddleUp;
+    
+    private boolean mouseRightPressed;
+    private boolean mouseRightReleased;
+    private boolean mouseRightDown;
+    private boolean mouseRightUp;
+    
+    private Map<Integer, Boolean> keysProcessedMap;
+    private Map<Integer, Boolean> keysPressedMap;
+    private Map<Integer, Boolean> keysReleasedMap;
+    private Map<Integer, Boolean> keysDownMap;
+    private Map<Integer, Boolean> keysUpMap;
 
     /**
      * Processa a entrada inicial fornecida pelo usuário e cria
@@ -270,6 +295,8 @@ public abstract class Engine extends JFrame {
 
                 timeBefore = System.currentTimeMillis();
                 update();
+                resetMouseButtonsState();
+                resetKeysState();
                 
                 try {
                     SwingUtilities.invokeAndWait( () -> {
@@ -351,11 +378,55 @@ public abstract class Engine extends JFrame {
         inputManager.mapToMouse( mouseWheelDownAction, InputManager.MOUSE_WHEEL_DOWN );
 
         registerAllKeys();
+        
+        keysProcessedMap = new HashMap<>();
+        keysPressedMap = new HashMap<>();
+        keysReleasedMap = new HashMap<>();
+        keysDownMap = new HashMap<>();
+        keysUpMap = new HashMap<>();
 
     }
-
-
-
+    
+    private void resetMouseButtonsState() {
+        mouseButtonLeftProcessed = false;
+        mouseButtonMiddleProcessed = false;
+        mouseButtonRightProcessed = false;
+    }
+    
+    private void processMouseButtonsState( int button ) {
+        switch ( button ) {
+            case MOUSE_BUTTON_LEFT:
+                if ( !mouseButtonLeftProcessed ) {
+                    mouseLeftPressed = mouseLeftActionInitial.isPressed();
+                    mouseLeftReleased = mouseLeftAction.isPressed() && mouseLeftAction.getAmount() == 0;
+                    mouseLeftDown = mouseLeftAction.isPressed();
+                    mouseLeftUp = !mouseLeftDown;
+                    mouseButtonLeftProcessed = true;
+                }
+                break;    
+            case MOUSE_BUTTON_MIDDLE:
+                if ( !mouseButtonMiddleProcessed ) {
+                    mouseMiddlePressed = mouseMiddleActionInitial.isPressed();
+                    mouseMiddleReleased = mouseMiddleAction.isPressed() && mouseMiddleAction.getAmount() == 0;
+                    mouseMiddleDown = mouseMiddleAction.isPressed();
+                    mouseMiddleUp = !mouseMiddleDown;
+                    mouseButtonMiddleProcessed = true;
+                }
+                break;    
+            case MOUSE_BUTTON_RIGHT:
+                if ( !mouseButtonRightProcessed ) {
+                    mouseRightPressed = mouseRightActionInitial.isPressed();
+                    mouseRightReleased = mouseRightAction.isPressed() && mouseRightAction.getAmount() == 0;
+                    mouseRightDown = mouseRightAction.isPressed();
+                    mouseRightUp = !mouseRightDown;
+                    mouseButtonRightProcessed = true;
+                }
+                break;    
+        }
+    }
+    
+    
+    
     /***************************************************************************
      * Tratamento do mouse.
      **************************************************************************/
@@ -366,16 +437,25 @@ public abstract class Engine extends JFrame {
      * @return Verdadeiro caso o botão tenha sido pressionado uma vez, falso caso contrário.
      */
     public boolean isMouseButtonPressed( int button ) {
+        processMouseButtonsState( button );
         switch ( button ) {
-            case MouseEvent.BUTTON1:
-                return mouseLeftActionInitial.isPressed();
-            case MouseEvent.BUTTON2:
-                return mouseMiddleActionInitial.isPressed();
-            case MouseEvent.BUTTON3:
-                return mouseRightActionInitial.isPressed();
+            case MOUSE_BUTTON_LEFT: return mouseLeftPressed;
+            case MOUSE_BUTTON_MIDDLE: return mouseMiddlePressed;
+            case MOUSE_BUTTON_RIGHT: return mouseRightPressed;
         }
         return false;
     }
+    /*public boolean isMouseButtonPressed( int button ) {
+        switch ( button ) {
+            case MOUSE_BUTTON_LEFT:
+                return mouseLeftActionInitial.isPressed();
+            case MOUSE_BUTTON_MIDDLE:
+                return mouseMiddleActionInitial.isPressed();
+            case MOUSE_BUTTON_RIGHT:
+                return mouseRightActionInitial.isPressed();
+        }
+        return false;
+    }*/
 
     /**
      * Retorna se um botão do mouse foi solto.
@@ -384,16 +464,25 @@ public abstract class Engine extends JFrame {
      * @return Verdadeiro caso o botão tenha sido solto, falso caso contrário.
      */
     public boolean isMouseButtonReleased( int button ) {
+        processMouseButtonsState( button );
         switch ( button ) {
-            case MouseEvent.BUTTON1:
-                return mouseLeftAction.isPressed() && mouseLeftAction.getAmount() == 0;
-            case MouseEvent.BUTTON2:
-                return mouseMiddleAction.isPressed() && mouseMiddleAction.getAmount() == 0;
-            case MouseEvent.BUTTON3:
-                return mouseRightAction.isPressed() && mouseRightAction.getAmount() == 0;
+            case MOUSE_BUTTON_LEFT: return mouseLeftReleased;
+            case MOUSE_BUTTON_MIDDLE: return mouseMiddleReleased;
+            case MOUSE_BUTTON_RIGHT: return mouseRightReleased;
         }
         return false;
     }
+    /*public boolean isMouseButtonReleased( int button ) {
+        switch ( button ) {
+            case MOUSE_BUTTON_LEFT:
+                return mouseLeftAction.isPressed() && mouseLeftAction.getAmount() == 0;
+            case MOUSE_BUTTON_MIDDLE:
+                return mouseMiddleAction.isPressed() && mouseMiddleAction.getAmount() == 0;
+            case MOUSE_BUTTON_RIGHT:
+                return mouseRightAction.isPressed() && mouseRightAction.getAmount() == 0;
+        }
+        return false;
+    }*/
 
     /**
      * Retorna se um botão do mouse está pressionado.
@@ -402,16 +491,25 @@ public abstract class Engine extends JFrame {
      * @return Verdadeiro caso o botão esteja pressionado, falso caso contrário.
      */
     public boolean isMouseButtonDown( int button ) {
+        processMouseButtonsState( button );
         switch ( button ) {
-            case MouseEvent.BUTTON1:
-                return mouseLeftAction.isPressed();
-            case MouseEvent.BUTTON2:
-                return mouseMiddleAction.isPressed();
-            case MouseEvent.BUTTON3:
-                return mouseRightAction.isPressed();
+            case MOUSE_BUTTON_LEFT: return mouseLeftDown;
+            case MOUSE_BUTTON_MIDDLE: return mouseMiddleDown;
+            case MOUSE_BUTTON_RIGHT: return mouseRightDown;
         }
         return false;
     }
+    /*public boolean isMouseButtonDown( int button ) {
+        switch ( button ) {
+            case MOUSE_BUTTON_LEFT:
+                return mouseLeftAction.isPressed();
+            case MOUSE_BUTTON_MIDDLE:
+                return mouseMiddleAction.isPressed();
+            case MOUSE_BUTTON_RIGHT:
+                return mouseRightAction.isPressed();
+        }
+        return false;
+    }*/
     
     /**
      * Retorna se um botão do mouse não está pressionado.
@@ -420,8 +518,17 @@ public abstract class Engine extends JFrame {
      * @return Verdadeiro caso o botão não esteja pressionado, falso caso contrário.
      */
     public boolean isMouseButtonUp( int button ) {
-        return !isMouseButtonDown( button );
+        processMouseButtonsState( button );
+        switch ( button ) {
+            case MOUSE_BUTTON_LEFT: return mouseLeftUp;
+            case MOUSE_BUTTON_MIDDLE: return mouseMiddleUp;
+            case MOUSE_BUTTON_RIGHT: return mouseRightUp;
+        }
+        return false;
     }
+    /*public boolean isMouseButtonUp( int button ) {
+        return !isMouseButtonDown( button );
+    }*/
 
     /**
      * Obtém a posição x do mouse.
@@ -536,6 +643,34 @@ public abstract class Engine extends JFrame {
         }
 
     }
+    
+    private void resetKeysState() {
+        keysProcessedMap.clear();
+    }
+    
+    private void processKeysState( int keyCode ) {
+        
+        if ( !keysProcessedMap.containsKey( keyCode ) ) {
+            
+            List<GameAction> keyActions = inputManager.getKeyActions( keyCode );
+            keysProcessedMap.put( keyCode, true );
+        
+            if ( keyActions != null ) {
+                for ( GameAction ga : keyActions ) {
+                    if ( ga.isInitialPressOnly() ) {
+                        keysPressedMap.put( keyCode, ga.isPressed() );
+                    } else {
+                        boolean down = ga.isPressed();
+                        keysReleasedMap.put( keyCode, down && ga.getAmount() == 0 );
+                        keysDownMap.put( keyCode, down );
+                        keysUpMap.put( keyCode, !down );
+                    }
+                }
+            }
+            
+        }
+        
+    }
 
     /**
      * Retorna se uma tecla foi pressionada uma vez.
@@ -544,6 +679,10 @@ public abstract class Engine extends JFrame {
      * @return Verdadeiro caso a tecla tenha sido pressionada uma vez, falso caso contrário.
      */
     public boolean isKeyPressed( int keyCode ) {
+        processKeysState( keyCode );
+        return keysPressedMap.getOrDefault( keyCode, false );
+    }
+    /*public boolean isKeyPressed( int keyCode ) {
 
         List<GameAction> keyActions = inputManager.getKeyActions( keyCode );
         
@@ -557,7 +696,7 @@ public abstract class Engine extends JFrame {
 
         return false;
 
-    }
+    }*/
 
     /**
      * Retorna se uma tecla foi solta.
@@ -566,6 +705,10 @@ public abstract class Engine extends JFrame {
      * @return Verdadeiro caso a tecla tenha sido solta, falso caso contrário.
      */
     public boolean isKeyReleased( int keyCode ) {
+        processKeysState( keyCode );
+        return keysReleasedMap.getOrDefault( keyCode, false );
+    }
+    /*public boolean isKeyReleased( int keyCode ) {
 
         List<GameAction> keyActions = inputManager.getKeyActions( keyCode );
         
@@ -579,7 +722,7 @@ public abstract class Engine extends JFrame {
 
         return false;
 
-    }
+    }*/
 
     /**
      * Retorna se uma tecla está pressionada.
@@ -588,6 +731,10 @@ public abstract class Engine extends JFrame {
      * @return Verdadeiro caso a tecla esteja pressionada, falso caso contrário.
      */
     public boolean isKeyDown( int keyCode ) {
+        processKeysState( keyCode );
+        return keysDownMap.getOrDefault( keyCode, false );
+    }
+    /*public boolean isKeyDown( int keyCode ) {
         
         List<GameAction> keyActions = inputManager.getKeyActions( keyCode );
         
@@ -601,7 +748,7 @@ public abstract class Engine extends JFrame {
 
         return false;
 
-    }
+    }*/
     
     /**
      * Retorna se uma tecla não está pressionada.
@@ -610,8 +757,12 @@ public abstract class Engine extends JFrame {
      * @return Verdadeiro caso a tecla não esteja pressionada, falso caso contrário.
      */
     public boolean isKeyUp( int keyCode ) {
-        return !isKeyDown( keyCode );
+        processKeysState( keyCode );
+        return keysUpMap.getOrDefault( keyCode, false );
     }
+    /*public boolean isKeyUp( int keyCode ) {
+        return !isKeyDown( keyCode );
+    }*/
 
     /**
      * Retorna um conjunto dos códigos das teclas pressionadas no momento.
@@ -2412,10 +2563,10 @@ public abstract class Engine extends JFrame {
      */
     public void drawText( String text, double posX, double posY, int fontSize, Color color ) {
         g2d.setColor( color );
-        Font f = g2d.getFont();
-        g2d.setFont( f.deriveFont( (float) fontSize ) );
-        g2d.drawString( text, (int) posX, (int) posY );
-        g2d.setFont( f );
+        Graphics2D ig2d = (Graphics2D) g2d.create();
+        ig2d.setFont( g2d.getFont().deriveFont( (float) fontSize ) );
+        ig2d.drawString( text, (int) posX, (int) posY );
+        ig2d.dispose();
     }
     
     /**
@@ -2771,7 +2922,7 @@ public abstract class Engine extends JFrame {
      * @param name Nome da fonte.
      */
     public void setFontName( String name ) {
-        g2d.setFont( new Font( name, defaultFont.getStyle(), defaultFont.getSize() ) );
+        g2d.setFont( new Font( name, g2d.getFont().getStyle(), g2d.getFont().getSize() ) );
     }
 
     /**
@@ -2781,7 +2932,7 @@ public abstract class Engine extends JFrame {
      * @param style O estilo da fonte corrente.
      */
     public void setFontStyle( int style ) {
-        g2d.setFont( new Font( defaultFont.getName(), style, defaultFont.getSize() ) );
+        g2d.setFont( g2d.getFont().deriveFont( style ) );
     }
 
     /**
@@ -2791,7 +2942,7 @@ public abstract class Engine extends JFrame {
      * @param size O tamanho da fonte corrente.
      */
     public void setFontSize( int size ) {
-        g2d.setFont( new Font( defaultFont.getName(), defaultFont.getStyle(), size ) );
+        g2d.setFont( g2d.getFont().deriveFont( (float) size ) );
     }
 
     /**

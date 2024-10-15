@@ -14,6 +14,13 @@
         <maven.compiler.target>17</maven.compiler.target>
         <exec.mainClass>br.com.davidbuzatto.msge.Main</exec.mainClass>
     </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-model</artifactId>
+            <version>3.9.4</version>
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
             <plugin>
