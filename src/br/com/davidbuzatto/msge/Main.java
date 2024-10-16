@@ -35,6 +35,7 @@ import br.com.davidbuzatto.msge.geom.Vector2;
 import br.com.davidbuzatto.msge.utils.Utils;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -347,11 +348,6 @@ public class Main extends Engine {
     private List<Particula> particulas;
     private Rectangle limitesParticulas;
     
-    public Main() {
-        super( 800, 450, "MSGE - v" + Utils.getVersion(), 60, true );
-        setExtendedState( MAXIMIZED_BOTH );
-    }
-    
     // testes de desenho
     private DrawingTests drawingTests;
     
@@ -364,7 +360,19 @@ public class Main extends Engine {
     private String mouseMiddleDown = "none";
     private String mouseRightPress = "none";
     private String mouseRightDown = "none";
-
+    
+    // imagens
+    private BufferedImage img;
+    private Color cr = new Color( 255, 0, 0, 100 );
+    private Color cg = new Color( 0, 255, 0, 100 );
+    private Color cb = new Color( 0, 0, 255, 100 );
+    
+    
+    public Main() {
+        super( 800, 450, "MSGE - v" + Utils.getVersion(), 60, true );
+        setExtendedState( MAXIMIZED_BOTH );
+    }
+    
     /**
      * Processa a entrada inicial fornecida pelo usuário e cria
      * e/ou inicializa os objetos/contextos/variáveis do jogo ou simulação.
@@ -411,6 +419,9 @@ public class Main extends Engine {
         
         // testes de desenho
         drawingTests = new DrawingTests();
+        
+        // imagens
+        img = loadImage( "resources/images/duke.png" );
         
     }
 
@@ -657,6 +668,19 @@ public class Main extends Engine {
         drawText( "  Mouse left: " + mouseLeftPress + " | " + mouseLeftDown, 15, 840, 20, BLACK );
         drawText( "Mouse middle: " + mouseMiddlePress + " | " + mouseMiddleDown, 15, 870, 20, BLACK );
         drawText( " Mouse right: " + mouseRightPress + " | " + mouseRightDown, 15, 900, 20, BLACK );
+        
+        // imagens
+        drawImage( img, 1700, 10, cg );
+        drawImage( img, 1700, 10, 45, cb );
+        drawImage( img, 1700, 10, 10, 10, 90, cr );
+        
+        drawImage( img, new Rectangle( 0, 0, 100, 100 ), 1700, 410, cg );
+        drawImage( img, new Rectangle( 0, 0, 100, 100 ), 1700, 410, 45, cb );
+        drawImage( img, new Rectangle( 0, 0, 100, 100 ), 1700, 410, 10, 10, 90 );
+        
+        drawImage( img, new Rectangle( 0, 0, 100, 100 ), new Rectangle( 1700, 610, 150, 150 ), cg );
+        drawImage( img, new Rectangle( 0, 0, 100, 100 ), new Rectangle( 1700, 610, 150, 150 ), 45, cb );
+        drawImage( img, new Rectangle( 0, 0, 100, 100 ), new Rectangle( 1700, 610, 150, 150 ), 10, 10, 90 );
         
         drawFPS( 10, 20 );
 

@@ -3065,135 +3065,40 @@ public abstract class Engine extends JFrame {
         
     }
     
-    public void drawImage( BufferedImage image, double x, double y, double ox, double oy, double rotation, Color bgColor ) {
-        Graphics2D ig2d = (Graphics2D) g2d.create();
-        ig2d.rotate( Math.toRadians( rotation ), x + ox, y + oy );
-        ig2d.drawImage( image, (int) x, (int) y, bgColor, null );
-        ig2d.dispose();
-    }
-    
-    public void drawImage( BufferedImage image, Point point, Point origin, double rotation, Color bgColor ) {
-        drawImage( image, point.x, point.y, origin.x, origin.y, rotation, bgColor );
-    }
-    
-    public void drawImage( BufferedImage image, Vector2 vector, Vector2 origin, double rotation, Color bgColor ) {
-        drawImage( image, vector.x, vector.y, origin.x, origin.y, rotation, bgColor );
-    }
-    
-    
-    public void drawImage( BufferedImage image, double x, double y, double ox, double oy, double rotation ) {
-        drawImage( image, x, y, ox, oy, rotation, null );
-    }
-    
-    public void drawImage( BufferedImage image, Point point, Point origin, double rotation ) {
-        drawImage( image, point.x, point.y, origin.x, origin.y, rotation );
-    }
-    
-    public void drawImage( BufferedImage image, Vector2 vector, Vector2 origin, double rotation ) {
-        drawImage( image, vector.x, vector.y, origin.x, origin.y, rotation );
-    }
-    
-    
-    public void drawImage( BufferedImage image, double x, double y, double rotation, Color bgColor ) {
-        drawImage( image, x, y, 0, 0, rotation, bgColor );
-    }
-    
-    public void drawImage( BufferedImage image, Point point, double rotation, Color bgColor ) {
-        drawImage( image, point.x, point.y, 0, 0, rotation, bgColor );
-    }
-    
-    public void drawImage( BufferedImage image, Vector2 vector, double rotation, Color bgColor ) {
-        drawImage( image, vector.x, vector.y, 0, 0, rotation, bgColor );
-    }
-    
-    
-    public void drawImage( BufferedImage image, double x, double y, double rotation ) {
-        drawImage( image, x, y, 0, 0, rotation, null );
-    }
-    
-    public void drawImage( BufferedImage image, Point point, double rotation ) {
-        drawImage( image, point.x, point.y, 0, 0, rotation );
-    }
-    
-    public void drawImage( BufferedImage image, Vector2 vector, double rotation ) {
-        drawImage( image, vector.x, vector.y, 0, 0, rotation );
-    }
-    
-    
+    // ok
     public void drawImage( BufferedImage image, double x, double y, Color bgColor ) {
         g2d.drawImage( image, (int) x, (int) y, bgColor, null );
     }
     
-    public void drawImage( BufferedImage image, Point point, Color bgColor ) {
-        drawImage( image, point.x, point.y, bgColor );
-    }
-    
-    public void drawImage( BufferedImage image, Vector2 vector, Color bgColor ) {
-        drawImage( image, vector.x, vector.y, bgColor );
-    }
-    
-    
+    // ok
     public void drawImage( BufferedImage image, double x, double y ) {
         drawImage( image, x, y, null );
     }
     
-    public void drawImage( BufferedImage image, Point point ) {
-        drawImage( image, point.x, point.y, null );
+    // ok
+    public void drawImage( BufferedImage image, double x, double y, double rotation, Color bgColor ) {
+        drawImage( image, x, y, 0, 0, rotation, bgColor );
     }
     
-    public void drawImage( BufferedImage image, Vector2 vector ) {
-        drawImage( image, vector.x, vector.y, null );
+    // ok
+    public void drawImage( BufferedImage image, double x, double y, double rotation ) {
+        drawImage( image, x, y, 0, 0, rotation, null );
     }
     
-    
-    public void drawImage( BufferedImage image, Rectangle source, double x, double y, double rotation, Color bgColor ) {
-        
+    // ok
+    public void drawImage( BufferedImage image, double x, double y, double xOrigin, double yOrigin, double rotation, Color bgColor ) {
+        Graphics2D ig2d = (Graphics2D) g2d.create();
+        ig2d.rotate( Math.toRadians( rotation ), x + xOrigin, y + yOrigin );
+        ig2d.drawImage( image, (int) x, (int) y, bgColor, null );
+        ig2d.dispose();
     }
     
-    public void drawImage( BufferedImage image, Rectangle source, Point point, double rotation, Color bgColor ) {
-        
+    // ok
+    public void drawImage( BufferedImage image, double x, double y, double xOrigin, double yOrigin, double rotation ) {
+        drawImage( image, x, y, xOrigin, yOrigin, rotation, null );
     }
     
-    public void drawImage( BufferedImage image, Rectangle source, Vector2 vector, double rotation, Color bgColor ) {
-        
-    }
-    
-    public void drawImage( BufferedImage image, Rectangle source, double x, double y, double rotation ) {
-        
-    }
-    
-    public void drawImage( BufferedImage image, Rectangle source, Point point, double rotation ) {
-        
-    }
-    
-    public void drawImage( BufferedImage image, Rectangle source, Vector2 vector, double rotation ) {
-        
-    }
-    
-    public void drawImage( BufferedImage image, Rectangle source, double x, double y, double ox, double oy, double rotation, Color bgColor ) {
-        
-    }
-    
-    public void drawImage( BufferedImage image, Rectangle source, Point point, Point origin, double rotation, Color bgColor ) {
-        
-    }
-    
-    public void drawImage( BufferedImage image, Rectangle source, Vector2 vector, Vector2 origin, double rotation, Color bgColor ) {
-        
-    }
-    
-    public void drawImage( BufferedImage image, Rectangle source, double x, double y, double ox, double oy, double rotation ) {
-        
-    }
-    
-    public void drawImage( BufferedImage image, Rectangle source, Point point, Point origin, double rotation ) {
-        
-    }
-    
-    public void drawImage( BufferedImage image, Rectangle source, Vector2 vector, Vector2 origin, double rotation ) {
-        
-    }
-    
+    // ok
     public void drawImage( BufferedImage image, Rectangle source, double x, double y, Color bgColor ) {
         g2d.drawImage( 
                 image, 
@@ -3210,60 +3115,47 @@ public abstract class Engine extends JFrame {
         );
     }
     
-    public void drawImage( BufferedImage image, Rectangle source, Point point, Color bgColor ) {
-        drawImage( image, source, point.x, point.y, bgColor );
-    }
-    
-    public void drawImage( BufferedImage image, Rectangle source, Vector2 vector, Color bgColor ) {
-        drawImage( image, source, vector.x, vector.y, bgColor );
-    }
-    
-    
+    // ok
     public void drawImage( BufferedImage image, Rectangle source, double x, double y ) {
         drawImage( image, source, x, y, null );
     }
     
-    public void drawImage( BufferedImage image, Rectangle source, Point point ) {
-        drawImage( image, source, point.x, point.y, null );
+    // ok
+    public void drawImage( BufferedImage image, Rectangle source, double x, double y, double rotation, Color bgColor ) {
+        drawImage( image, source, x, y, 0, 0, rotation, bgColor );
     }
     
-    public void drawImage( BufferedImage image, Rectangle source, Vector2 vector ) {
-        drawImage( image, source, vector.x, vector.y, null );
-    }
-        
-    
-    public void drawImage( BufferedImage image, Rectangle source, Rectangle dest, double ox, double oy, double rotation, Color bgColor ) {
-        
+    // ok
+    public void drawImage( BufferedImage image, Rectangle source, double x, double y, double rotation ) {
+        drawImage( image, source, x, y, 0, 0, rotation, null );
     }
     
-    public void drawImage( BufferedImage image, Rectangle source, Rectangle dest, Point origin, double rotation, Color bgColor ) {
-        
+    // ok
+    public void drawImage( BufferedImage image, Rectangle source, double x, double y, double xOrigin, double yOrigin, double rotation, Color bgColor ) {
+        Graphics2D ig2d = (Graphics2D) g2d.create();
+        ig2d.rotate( Math.toRadians( rotation ), x + xOrigin, y + yOrigin );
+        ig2d.drawImage( 
+                image, 
+                (int) x, 
+                (int) y, 
+                (int) ( x + source.width ), 
+                (int) ( y + source.height ), 
+                (int) source.x, 
+                (int) source.y, 
+                (int) ( source.x + source.width ), 
+                (int) ( source.y + source.height ), 
+                bgColor,
+                null
+        );
+        ig2d.dispose();
     }
     
-    public void drawImage( BufferedImage image, Rectangle source, Rectangle dest, Vector2 origin, double rotation, Color bgColor ) {
-        
+    // ok
+    public void drawImage( BufferedImage image, Rectangle source, double x, double y, double xOrigin, double yOrigin, double rotation ) {
+        drawImage( image, source, x, y, xOrigin, yOrigin, rotation, null );
     }
     
-    public void drawImage( BufferedImage image, Rectangle source, Rectangle dest, double ox, double oy, double rotation ) {
-        
-    }
-    
-    public void drawImage( BufferedImage image, Rectangle source, Rectangle dest, Point origin, double rotation ) {
-        
-    }
-    
-    public void drawImage( BufferedImage image, Rectangle source, Rectangle dest, Vector2 origin, double rotation ) {
-        
-    }
-    
-    public void drawImage( BufferedImage image, Rectangle source, Rectangle dest, double rotation, Color bgColor ) {
-        
-    }
-    
-    public void drawImage( BufferedImage image, Rectangle source, Rectangle dest, double rotation ) {
-        
-    }
-    
+    // ok
     public void drawImage( BufferedImage image, Rectangle source, Rectangle dest, Color bgColor ) {
         g2d.drawImage( 
                 image, 
@@ -3280,10 +3172,45 @@ public abstract class Engine extends JFrame {
         );
     }
     
+    // ok
     public void drawImage( BufferedImage image, Rectangle source, Rectangle dest ) {
         drawImage( image, source, dest, null );
     }
     
+    // ok
+    public void drawImage( BufferedImage image, Rectangle source, Rectangle dest, double rotation, Color bgColor ) {
+        drawImage( image, source, dest, 0, 0, rotation, bgColor );
+    }
+    
+    // ok
+    public void drawImage( BufferedImage image, Rectangle source, Rectangle dest, double rotation ) {
+        drawImage( image, source, dest, 0, 0, rotation, null );
+    }
+    
+    // ok
+    public void drawImage( BufferedImage image, Rectangle source, Rectangle dest, double xOrigin, double yOrigin, double rotation, Color bgColor ) {
+        Graphics2D ig2d = (Graphics2D) g2d.create();
+        ig2d.rotate( Math.toRadians( rotation ), dest.x + xOrigin, dest.y + yOrigin );
+        ig2d.drawImage( 
+                image, 
+                (int) dest.x, 
+                (int) dest.y, 
+                (int) ( dest.x + dest.width ), 
+                (int) ( dest.y + dest.height ), 
+                (int) source.x, 
+                (int) source.y, 
+                (int) ( source.x + source.width ), 
+                (int) ( source.y + source.height ), 
+                bgColor,
+                null
+        );
+        ig2d.dispose();
+    }
+    
+    // ok
+    public void drawImage( BufferedImage image, Rectangle source, Rectangle dest, double xOrigin, double yOrigin, double rotation ) {
+        drawImage( image, source, dest, xOrigin, yOrigin, rotation, null );
+    }
     
     private BufferedImage createBufferedImageOnError() {
         

@@ -18,6 +18,7 @@ package br.com.davidbuzatto.msge.tests;
 
 import br.com.davidbuzatto.msge.core.Engine;
 import br.com.davidbuzatto.msge.geom.Rectangle;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 /**
@@ -44,18 +45,27 @@ public class ImageTests extends Engine {
     
     double r = 0;
     
+    Color cr = new Color( 255, 0, 0, 100 );
+    Color cg = new Color( 0, 255, 0, 100 );
+    Color cb = new Color( 0, 0, 255, 100 );
+    
     @Override
     public void draw() {
         
-        drawImage( img, 100, 100 );
-        drawImage( img, 100, 100, r, GREEN );
-        drawImage( img, 100, 100, img.getWidth() / 2, img.getHeight() / 2, r );
+        drawImage( img, 10, 10, cg );
+        drawImage( img, 10, 10, 45, cb );
+        drawImage( img, 10, 10, 10, 10, 90, cr );
+        
+        drawImage( img, new Rectangle( 0, 0, 100, 100 ), 10, 10, cg );
+        drawImage( img, new Rectangle( 0, 0, 100, 100 ), 10, 10, 45, cb );
+        drawImage( img, new Rectangle( 0, 0, 100, 100 ), 10, 10, 10, 10, 90 );
+        
+        drawImage( img, new Rectangle( 0, 0, 100, 100 ), new Rectangle( 200, 100, 200, 200 ), cg );
+        drawImage( img, new Rectangle( 0, 0, 100, 100 ), new Rectangle( 200, 100, 200, 200 ), 45, cb );
+        drawImage( img, new Rectangle( 0, 0, 100, 100 ), new Rectangle( 200, 100, 200, 200 ), 10, 10, 90 );
+        
         r += 5;
         
-        /*drawImage( img, 10, 10 );
-        drawImage( img, new Rectangle( 0, 0, 100, 100 ), 10, 10, RED );
-        drawImage( img, new Rectangle( 50, 50, 100, 100 ), 200, 100, GREEN );*/
-        drawImage( img, new Rectangle( 50, 50, 100, 100 ), new Rectangle( 200, 100, 200, 200 ), BLUE );
     }
     
     public static void main( String[] args ) {
