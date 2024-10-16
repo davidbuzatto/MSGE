@@ -3026,9 +3026,16 @@ public abstract class Engine extends JFrame {
     }
 
     
+    
     /***************************************************************************
      * Métodos para carga e desenho de imagens.
      **************************************************************************/
+    /**
+     * TODO
+     * 
+     * @param filePath
+     * @return 
+     */
     public BufferedImage loadImage( String filePath ) {
         
         try {
@@ -3041,6 +3048,12 @@ public abstract class Engine extends JFrame {
         
     }
     
+    /**
+     * TODO
+     * 
+     * @param input
+     * @return 
+     */
     public BufferedImage loadImage( InputStream input ) {
         
         try {
@@ -3053,6 +3066,12 @@ public abstract class Engine extends JFrame {
         
     }
     
+    /**
+     * TODO
+     * 
+     * @param url
+     * @return 
+     */
     public BufferedImage loadImage( URL url ) {
         
         try {
@@ -3065,27 +3084,65 @@ public abstract class Engine extends JFrame {
         
     }
     
-    // ok
+    /**
+     * TODO
+     * 
+     * @param image
+     * @param x
+     * @param y
+     * @param bgColor 
+     */
     public void drawImage( BufferedImage image, double x, double y, Color bgColor ) {
         g2d.drawImage( image, (int) x, (int) y, bgColor, null );
     }
     
-    // ok
+    /**
+     * TODO
+     * 
+     * @param image
+     * @param x
+     * @param y 
+     */
     public void drawImage( BufferedImage image, double x, double y ) {
         drawImage( image, x, y, null );
     }
     
-    // ok
+    /**
+     * TODO
+     * 
+     * @param image
+     * @param x
+     * @param y
+     * @param rotation
+     * @param bgColor 
+     */
     public void drawImage( BufferedImage image, double x, double y, double rotation, Color bgColor ) {
         drawImage( image, x, y, 0, 0, rotation, bgColor );
     }
     
-    // ok
+    /**
+     * TODO
+     * 
+     * @param image
+     * @param x
+     * @param y
+     * @param rotation 
+     */
     public void drawImage( BufferedImage image, double x, double y, double rotation ) {
         drawImage( image, x, y, 0, 0, rotation, null );
     }
     
-    // ok
+    /**
+     * TODO
+     * 
+     * @param image
+     * @param x
+     * @param y
+     * @param xOrigin
+     * @param yOrigin
+     * @param rotation
+     * @param bgColor 
+     */
     public void drawImage( BufferedImage image, double x, double y, double xOrigin, double yOrigin, double rotation, Color bgColor ) {
         Graphics2D ig2d = (Graphics2D) g2d.create();
         ig2d.rotate( Math.toRadians( rotation ), x + xOrigin, y + yOrigin );
@@ -3093,12 +3150,29 @@ public abstract class Engine extends JFrame {
         ig2d.dispose();
     }
     
-    // ok
+    /**
+     * TODO
+     * 
+     * @param image
+     * @param x
+     * @param y
+     * @param xOrigin
+     * @param yOrigin
+     * @param rotation 
+     */
     public void drawImage( BufferedImage image, double x, double y, double xOrigin, double yOrigin, double rotation ) {
         drawImage( image, x, y, xOrigin, yOrigin, rotation, null );
     }
     
-    // ok
+    /**
+     * TODO
+     * 
+     * @param image
+     * @param source
+     * @param x
+     * @param y
+     * @param bgColor 
+     */
     public void drawImage( BufferedImage image, Rectangle source, double x, double y, Color bgColor ) {
         g2d.drawImage( 
                 image, 
@@ -3115,22 +3189,57 @@ public abstract class Engine extends JFrame {
         );
     }
     
-    // ok
+    /**
+     * TODO
+     * 
+     * @param image
+     * @param source
+     * @param x
+     * @param y 
+     */
     public void drawImage( BufferedImage image, Rectangle source, double x, double y ) {
         drawImage( image, source, x, y, null );
     }
     
-    // ok
+    /**
+     * TODO
+     * 
+     * @param image
+     * @param source
+     * @param x
+     * @param y
+     * @param rotation
+     * @param bgColor 
+     */
     public void drawImage( BufferedImage image, Rectangle source, double x, double y, double rotation, Color bgColor ) {
         drawImage( image, source, x, y, 0, 0, rotation, bgColor );
     }
     
-    // ok
+    /**
+     * TODO
+     * 
+     * @param image
+     * @param source
+     * @param x
+     * @param y
+     * @param rotation 
+     */
     public void drawImage( BufferedImage image, Rectangle source, double x, double y, double rotation ) {
         drawImage( image, source, x, y, 0, 0, rotation, null );
     }
     
-    // ok
+    /**
+     * TODO
+     * 
+     * @param image
+     * @param source
+     * @param x
+     * @param y
+     * @param xOrigin
+     * @param yOrigin
+     * @param rotation
+     * @param bgColor 
+     */
     public void drawImage( BufferedImage image, Rectangle source, double x, double y, double xOrigin, double yOrigin, double rotation, Color bgColor ) {
         Graphics2D ig2d = (Graphics2D) g2d.create();
         ig2d.rotate( Math.toRadians( rotation ), x + xOrigin, y + yOrigin );
@@ -3150,12 +3259,29 @@ public abstract class Engine extends JFrame {
         ig2d.dispose();
     }
     
-    // ok
+    /**
+     * TODO
+     * 
+     * @param image
+     * @param source
+     * @param x
+     * @param y
+     * @param xOrigin
+     * @param yOrigin
+     * @param rotation 
+     */
     public void drawImage( BufferedImage image, Rectangle source, double x, double y, double xOrigin, double yOrigin, double rotation ) {
         drawImage( image, source, x, y, xOrigin, yOrigin, rotation, null );
     }
     
-    // ok
+    /**
+     * TODO
+     * 
+     * @param image
+     * @param source
+     * @param dest
+     * @param bgColor 
+     */
     public void drawImage( BufferedImage image, Rectangle source, Rectangle dest, Color bgColor ) {
         g2d.drawImage( 
                 image, 
@@ -3172,22 +3298,53 @@ public abstract class Engine extends JFrame {
         );
     }
     
-    // ok
+    /**
+     * TODO
+     * 
+     * @param image
+     * @param source
+     * @param dest 
+     */
     public void drawImage( BufferedImage image, Rectangle source, Rectangle dest ) {
         drawImage( image, source, dest, null );
     }
     
-    // ok
+    /**
+     * TODO
+     * 
+     * @param image
+     * @param source
+     * @param dest
+     * @param rotation
+     * @param bgColor 
+     */
     public void drawImage( BufferedImage image, Rectangle source, Rectangle dest, double rotation, Color bgColor ) {
         drawImage( image, source, dest, 0, 0, rotation, bgColor );
     }
     
-    // ok
+    /**
+     * TODO
+     * 
+     * @param image
+     * @param source
+     * @param dest
+     * @param rotation 
+     */
     public void drawImage( BufferedImage image, Rectangle source, Rectangle dest, double rotation ) {
         drawImage( image, source, dest, 0, 0, rotation, null );
     }
     
-    // ok
+    /**
+     * TODO
+     * 
+     * @param image
+     * @param source
+     * @param dest
+     * @param xOrigin
+     * @param yOrigin
+     * @param rotation
+     * @param bgColor 
+     */
     public void drawImage( BufferedImage image, Rectangle source, Rectangle dest, double xOrigin, double yOrigin, double rotation, Color bgColor ) {
         Graphics2D ig2d = (Graphics2D) g2d.create();
         ig2d.rotate( Math.toRadians( rotation ), dest.x + xOrigin, dest.y + yOrigin );
@@ -3207,11 +3364,25 @@ public abstract class Engine extends JFrame {
         ig2d.dispose();
     }
     
-    // ok
+    /**
+     * TODO
+     * 
+     * @param image
+     * @param source
+     * @param dest
+     * @param xOrigin
+     * @param yOrigin
+     * @param rotation 
+     */
     public void drawImage( BufferedImage image, Rectangle source, Rectangle dest, double xOrigin, double yOrigin, double rotation ) {
         drawImage( image, source, dest, xOrigin, yOrigin, rotation, null );
     }
     
+    /**
+     * TODO
+     * 
+     * @return 
+     */
     private BufferedImage createBufferedImageOnError() {
         
         BufferedImage img = new BufferedImage( 80, 30, BufferedImage.TYPE_INT_ARGB );

@@ -16,6 +16,10 @@
  */
 package br.com.davidbuzatto.msge.utils;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+
 /**
  * Classe com métodos utilitários para tratamento de imagens.
  * 
@@ -23,17 +27,248 @@ package br.com.davidbuzatto.msge.utils;
  */
 public class ImageUtils {
     
-    //void ImageResize(Image *image, int newWidth, int newHeight);                                       // Resize image (Bicubic scaling algorithm)
-    //void ImageRotateCW(Image *image);                                                                  // Rotate image clockwise 90deg
-    //void ImageRotateCCW(Image *image);                                                                 // Rotate image counter-clockwise 90deg
-    //void ImageColorTint(Image *image, Color color);                                                    // Modify image color: tint
-    //void ImageColorInvert(Image *image);                                                               // Modify image color: invert
-    //void ImageColorGrayscale(Image *image);                                                            // Modify image color: grayscale
-    //void ImageColorContrast(Image *image, float contrast);                                             // Modify image color: contrast (-100 to 100)
-    //void ImageColorBrightness(Image *image, int brightness);                                           // Modify image color: brightness (-255 to 255)
-    //void ImageColorReplace(Image *image, Color color, Color replace);                                  // Modify image color: replace color
-    //Color GetImageColor(Image image, int x, int y);                                                    // Get image pixel color at (x, y) position
-    //void ImageClearBackground(Image *dst, Color color);                                                // Clear image background with given color
+    /**
+     * TODO
+     * 
+     * @param image
+     * @param newWidth
+     * @param newHeight
+     * @return 
+     */
+    public static BufferedImage imageResize( BufferedImage image, int newWidth, int newHeight ) {
+        
+        BufferedImage newImage = new BufferedImage( newWidth, newHeight, BufferedImage.TYPE_INT_ARGB );
+        
+        Graphics2D g2d = (Graphics2D) newImage.createGraphics();
+        g2d.drawImage( image, 0, 0, newWidth, newHeight, 0, 0, image.getWidth(), image.getHeight(), null );
+        g2d.dispose();
+        
+        return newImage;
+        
+    }
+    
+    /**
+     * TODO
+     * 
+     * @param image
+     * @return 
+     */
+    public static BufferedImage imageRotateCW( BufferedImage image ) {
+        
+        BufferedImage newImage = new BufferedImage( image.getHeight(), image.getWidth(), BufferedImage.TYPE_INT_ARGB );
+        
+        Graphics2D g2d = (Graphics2D) newImage.createGraphics();
+        g2d.translate( newImage.getWidth(), 0 );
+        g2d.rotate( Math.toRadians( 90 ) );
+        g2d.drawImage( image, 0, 0, null );
+        g2d.dispose();
+        
+        return newImage;
+        
+    }
+    
+    /**
+     * TODO
+     * 
+     * @param image
+     * @return 
+     */
+    public static BufferedImage imageRotateCCW( BufferedImage image ) {
+        
+        BufferedImage newImage = new BufferedImage( image.getHeight(), image.getWidth(), BufferedImage.TYPE_INT_ARGB );
+        
+        Graphics2D g2d = (Graphics2D) newImage.createGraphics();
+        g2d.translate( 0, newImage.getHeight() );
+        g2d.rotate( Math.toRadians( -90 ) );
+        g2d.drawImage( image, 0, 0, null );
+        g2d.dispose();
+        
+        return newImage;
+        
+    }
+    
+    /**
+     * TODO
+     * 
+     * @param image
+     * @param color
+     * @return 
+     */
+    public static BufferedImage imageColorTint( BufferedImage image, Color color ) {
+        
+        BufferedImage newImage = new BufferedImage( image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB );
+        
+        for ( int i = 0; i < image.getHeight(); i++ ) {
+            for ( int j = 0; j < image.getWidth(); j++ ) {
+                
+                Color c = Utils.colorTint( new Color( image.getRGB( j, i ) ), color );
+                int pixel = image.getRGB( j, i );
+                int alpha = (pixel >> 24) & 0xff;
+                c = new Color( c.getRed(), c.getGreen(), c.getBlue(), alpha );
+                
+                newImage.setRGB( j, i, c.getRGB() );
+                
+            }
+        }
+        
+        return newImage;
+        
+    }
+    
+    /**
+     * TODO
+     * 
+     * @param image
+     * @return 
+     */
+    public static BufferedImage imageColorInvert( BufferedImage image ) {
+        
+        BufferedImage newImage = new BufferedImage( image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB );
+        
+        for ( int i = 0; i < image.getHeight(); i++ ) {
+            for ( int j = 0; j < image.getWidth(); j++ ) {
+                int pixel = image.getRGB( j, i );
+                int alpha = (pixel >> 24) & 0xff;
+                int red = (pixel >> 16) & 0xff;
+                int green = (pixel >> 8) & 0xff;
+                int blue = (pixel >> 0) & 0xff;
+                newImage.setRGB( j, i, new Color( 255 - red, 255 - green, 255 - blue, alpha ).getRGB() );
+            }
+        }
+        
+        return newImage;
+        
+    }
+    
+    /**
+     * TODO
+     * 
+     * @param image
+     * @return 
+     */
+    public static BufferedImage imageColorGrayscale( BufferedImage image ) {
+        
+        BufferedImage newImage = new BufferedImage( image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB );
+        
+        for ( int i = 0; i < image.getHeight(); i++ ) {
+            for ( int j = 0; j < image.getWidth(); j++ ) {
+                int pixel = image.getRGB( j, i );
+                int alpha = (pixel >> 24) & 0xff;
+                int red = (pixel >> 16) & 0xff;
+                int green = (pixel >> 8) & 0xff;
+                int blue = (pixel >> 0) & 0xff;
+                int gray = ( red + green + blue ) / 3;
+                newImage.setRGB( j, i, new Color( gray, gray, gray, alpha ).getRGB() );
+            }
+        }
+        
+        return newImage;
+        
+    }
+    
+    /**
+     * TODO
+     * 
+     * @param image
+     * @param contrast
+     * @return 
+     */
+    public static BufferedImage imageColorContrast( BufferedImage image, double contrast ) {
+        
+        BufferedImage newImage = new BufferedImage( image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB );
+        
+        for ( int i = 0; i < image.getHeight(); i++ ) {
+            for ( int j = 0; j < image.getWidth(); j++ ) {
+                
+                Color c = Utils.colorContrast( new Color( image.getRGB( j, i ) ), contrast );
+                int pixel = image.getRGB( j, i );
+                int alpha = (pixel >> 24) & 0xff;
+                c = new Color( c.getRed(), c.getGreen(), c.getBlue(), alpha );
+                
+                newImage.setRGB( j, i, c.getRGB() );
+                
+            }
+        }
+        
+        return newImage;
+    }
+    
+    /**
+     * TODO
+     * 
+     * @param image
+     * @param brightness
+     * @return 
+     */
+    public static BufferedImage imageColorBrightness( BufferedImage image, double brightness ) {
+        
+        BufferedImage newImage = new BufferedImage( image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB );
+        
+        for ( int i = 0; i < image.getHeight(); i++ ) {
+            for ( int j = 0; j < image.getWidth(); j++ ) {
+                
+                Color c = Utils.colorBrightness( new Color( image.getRGB( j, i ) ), brightness );
+                int pixel = image.getRGB( j, i );
+                int alpha = (pixel >> 24) & 0xff;
+                c = new Color( c.getRed(), c.getGreen(), c.getBlue(), alpha );
+                
+                newImage.setRGB( j, i, c.getRGB() );
+                
+            }
+        }
+        
+        return newImage;
+        
+    }
+    
+    /**
+     * TODO
+     * 
+     * @param image
+     * @param color
+     * @param replace
+     * @return 
+     */
+    public static BufferedImage imageColorReplace( BufferedImage image, Color color, Color replace ) {
+        
+        BufferedImage newImage = new BufferedImage( image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB );
+        
+        for ( int i = 0; i < image.getHeight(); i++ ) {
+            for ( int j = 0; j < image.getWidth(); j++ ) {
+                
+                int pixel = image.getRGB( j, i );
+                int alpha = (pixel >> 24) & 0xff;
+                int red = (pixel >> 16) & 0xff;
+                int green = (pixel >> 8) & 0xff;
+                int blue = (pixel >> 0) & 0xff;
+                Color c = new Color( red, green, blue, alpha );
+                
+                if ( pixel == color.getRGB() ) {
+                    newImage.setRGB( j, i, replace.getRGB() );
+                } else {
+                    newImage.setRGB( j, i, c.getRGB() );
+                }
+                
+            }
+        }
+        
+        return newImage;
+        
+    }
+    
+    /**
+     * TODO
+     * 
+     * @param image
+     * @param x
+     * @param y
+     * @return 
+     */
+    public static Color getImageColor( BufferedImage image, int x, int y ) {
+        return new Color( image.getRGB( x, y ), true );
+    }
+    
+    
     //void ImageDrawPixel(Image *dst, int posX, int posY, Color color);                                  // Draw pixel within an image
     //void ImageDrawPixelV(Image *dst, Vector2 position, Color color);                                   // Draw pixel within an image (Vector version)
     //void ImageDrawLine(Image *dst, int startPosX, int startPosY, int endPosX, int endPosY, Color color); // Draw line within an image

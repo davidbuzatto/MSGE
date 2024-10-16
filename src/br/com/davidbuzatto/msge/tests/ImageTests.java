@@ -17,7 +17,7 @@
 package br.com.davidbuzatto.msge.tests;
 
 import br.com.davidbuzatto.msge.core.Engine;
-import br.com.davidbuzatto.msge.geom.Rectangle;
+import br.com.davidbuzatto.msge.utils.ImageUtils;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
@@ -32,19 +32,41 @@ public class ImageTests extends Engine {
     }
     
     private BufferedImage img;
+    private BufferedImage tImg;
     
     @Override
     public void create() {
         img = loadImage( "resources/images/duke.png" );
+        //tImg = ImageUtils.imageResize( img, 100, 400 );
+        /*tImg = ImageUtils.imageRotateCCW( img );
+        tImg = ImageUtils.imageRotateCCW( tImg );
+        tImg = ImageUtils.imageRotateCCW( tImg );
+        tImg = ImageUtils.imageRotateCCW( tImg );*/
+        //tImg = ImageUtils.imageColorTint( img, WHITE );
+        tImg = ImageUtils.imageColorInvert( img );
+        //tImg = ImageUtils.imageColorGrayscale( img );
+        //tImg = ImageUtils.imageColorContrast( img, -0.5 );
+        //tImg = ImageUtils.imageColorBrightness( img, -0.5 );
+        //tImg = ImageUtils.imageColorReplace( img, Color.WHITE, Color.RED );
     }
 
     @Override
     public void update() {
         
+        int x = getMouseX();
+        int y = getMouseY();
+        
+        if ( x >= 0 && x < img.getWidth() && y >= 0 && y < img.getHeight() ) {
+            cColor = ImageUtils.getImageColor( img, x, y );
+        } else {
+            cColor = null;
+        }
+        
     }
     
     double r = 0;
     
+    Color cColor = null;
     Color cr = new Color( 255, 0, 0, 100 );
     Color cg = new Color( 0, 255, 0, 100 );
     Color cb = new Color( 0, 0, 255, 100 );
@@ -52,7 +74,15 @@ public class ImageTests extends Engine {
     @Override
     public void draw() {
         
-        drawImage( img, 10, 10, cg );
+        /*drawImage( img, 0, 0, cg );
+        if ( cColor != null ) {
+            fillRectangle( getMouseX(), getMouseY(), 20, 20, cColor );
+        }*/
+        
+        drawImage( tImg, 10, 10, cg );
+        
+        
+        /*drawImage( img, 10, 10, cg );
         drawImage( img, 10, 10, 45, cb );
         drawImage( img, 10, 10, 10, 10, 90, cr );
         
@@ -62,7 +92,7 @@ public class ImageTests extends Engine {
         
         drawImage( img, new Rectangle( 0, 0, 100, 100 ), new Rectangle( 200, 100, 200, 200 ), cg );
         drawImage( img, new Rectangle( 0, 0, 100, 100 ), new Rectangle( 200, 100, 200, 200 ), 45, cb );
-        drawImage( img, new Rectangle( 0, 0, 100, 100 ), new Rectangle( 200, 100, 200, 200 ), 10, 10, 90 );
+        drawImage( img, new Rectangle( 0, 0, 100, 100 ), new Rectangle( 200, 100, 200, 200 ), 10, 10, 90 );*/
         
         r += 5;
         
