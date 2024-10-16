@@ -17,11 +17,6 @@
 package br.com.davidbuzatto.msge;
 
 import br.com.davidbuzatto.msge.core.Engine;
-import static br.com.davidbuzatto.msge.core.Engine.BLUE;
-import static br.com.davidbuzatto.msge.core.Engine.GOLD;
-import static br.com.davidbuzatto.msge.core.Engine.MOUSE_BUTTON_LEFT;
-import static br.com.davidbuzatto.msge.core.Engine.RAYWHITE;
-import static br.com.davidbuzatto.msge.core.Engine.WHITE;
 import br.com.davidbuzatto.msge.geom.Arc;
 import br.com.davidbuzatto.msge.geom.Circle;
 import br.com.davidbuzatto.msge.geom.CircleSector;
