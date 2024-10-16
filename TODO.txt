@@ -1,2 +1,4 @@
 Implementar a câmera 2D.
 Funções para carga, desenho e transformação de imagens e texturas.
+    Criar uma classe para imagens, permitindo a inserção dos métodos de desenho para as imagens.
+Ajustar as classes utilitárias

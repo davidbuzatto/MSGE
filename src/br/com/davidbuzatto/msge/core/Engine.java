@@ -32,6 +32,7 @@ import br.com.davidbuzatto.msge.geom.Ring;
 import br.com.davidbuzatto.msge.geom.RoundRectangle;
 import br.com.davidbuzatto.msge.geom.Triangle;
 import br.com.davidbuzatto.msge.geom.Vector2;
+import br.com.davidbuzatto.msge.utils.ImageUtils;
 import br.com.davidbuzatto.msge.utils.Utils;
 import java.awt.AWTException;
 import java.awt.BasicStroke;
@@ -47,6 +48,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Robot;
 import java.awt.Toolkit;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -125,6 +127,9 @@ public abstract class Engine extends JFrame {
 
     // flag que sinaliza o uso da suavização (antialiasing) para o contexto gráfico
     private boolean antialiasing;
+    
+    // código da tecla de saída
+    private int exitKeyCode;
     
     // flag para controle de execução da thread de desenho
     private boolean running;
@@ -234,6 +239,15 @@ public abstract class Engine extends JFrame {
         drawingPanel = new DrawingPanel();
         drawingPanel.setPreferredSize( new Dimension( windowWidth, windowHeight ) );
         drawingPanel.setFocusable( true );
+        drawingPanel.addKeyListener( new KeyAdapter(){
+            @Override
+            public void keyPressed( KeyEvent e ) {
+                if ( e.getKeyCode() == exitKeyCode ) {
+                    System.exit( 0 );
+                }
+            }
+        });
+        exitKeyCode = KEY_ESCAPE;
         prepareInputManager();
 
         // configura a engine
@@ -613,7 +627,16 @@ public abstract class Engine extends JFrame {
     /***************************************************************************
      * Tratamento do teclado.
      **************************************************************************/
-
+    
+    /**
+     * Configura a tecla de saída. Por padrão é a tecla <ESC>
+     * 
+     * @param keyCode Código da tecla.
+     */
+    public void setExitKey( int keyCode ) {
+        exitKeyCode = keyCode;
+    }
+    
      /**
      * Registra um código de tecla para ser "ouvido".
      * 
@@ -2740,7 +2763,7 @@ public abstract class Engine extends JFrame {
      * Métodos para obtenção e/ou configuração de opções e/ou dados
      * relativos à execução.
      **************************************************************************/
-
+    
     /**
      * Configura o quantidade de quadros por segundo desejado para a execução
      * do jogo/simulação.
@@ -3031,10 +3054,10 @@ public abstract class Engine extends JFrame {
      * Métodos para carga e desenho de imagens.
      **************************************************************************/
     /**
-     * TODO
+     * Carrega uma imagem.
      * 
-     * @param filePath
-     * @return 
+     * @param filePath Caminho do arquivo da imagem.
+     * @return Uma imagem.
      */
     public BufferedImage loadImage( String filePath ) {
         
@@ -3044,15 +3067,15 @@ public abstract class Engine extends JFrame {
             exc.printStackTrace();
         }
         
-        return createBufferedImageOnError();
+        return ImageUtils.createTextBufferedImage( "error", 20, Font.BOLD, WHITE, BLACK );
         
     }
     
     /**
-     * TODO
+     * Carrega uma imagem.
      * 
-     * @param input
-     * @return 
+     * @param input Um input stream para uma imagem.
+     * @return Uma imagem.
      */
     public BufferedImage loadImage( InputStream input ) {
         
@@ -3062,15 +3085,15 @@ public abstract class Engine extends JFrame {
             exc.printStackTrace();
         }
         
-        return createBufferedImageOnError();
+        return ImageUtils.createTextBufferedImage( "error", 20, Font.BOLD, WHITE, BLACK );
         
     }
     
     /**
-     * TODO
+     * Carrega uma imagem.
      * 
-     * @param url
-     * @return 
+     * @param url Uma URL para uma imagem.
+     * @return Uma imagem.
      */
     public BufferedImage loadImage( URL url ) {
         
@@ -3080,68 +3103,68 @@ public abstract class Engine extends JFrame {
             exc.printStackTrace();
         }
         
-        return createBufferedImageOnError();
+        return ImageUtils.createTextBufferedImage( "error", 20, Font.BOLD, WHITE, BLACK );
         
     }
     
     /**
-     * TODO
+     * Desenha uma imagem com fundo colorido.
      * 
-     * @param image
-     * @param x
-     * @param y
-     * @param bgColor 
+     * @param image A imagem a ser desenhada.
+     * @param x Coordenada x do desenho da imagem.
+     * @param y Coordenada y do desenho da imagem.
+     * @param bgColor Uma cor de fundo.
      */
     public void drawImage( BufferedImage image, double x, double y, Color bgColor ) {
         g2d.drawImage( image, (int) x, (int) y, bgColor, null );
     }
     
     /**
-     * TODO
+     * Desenha uma imagem.
      * 
-     * @param image
-     * @param x
-     * @param y 
+     * @param image A imagem a ser desenhada.
+     * @param x Coordenada x do desenho da imagem.
+     * @param y Coordenada y do desenho da imagem.
      */
     public void drawImage( BufferedImage image, double x, double y ) {
         drawImage( image, x, y, null );
     }
     
     /**
-     * TODO
+     * Desenha uma imagem rotacionada com fundo colorido.
      * 
-     * @param image
-     * @param x
-     * @param y
-     * @param rotation
-     * @param bgColor 
+     * @param image A imagem a ser desenhada.
+     * @param x Coordenada x do desenho da imagem.
+     * @param y Coordenada y do desenho da imagem.
+     * @param rotation Rotação em graus do desenho da imagem (sentido horário).
+     * @param bgColor Uma cor de fundo.
      */
     public void drawImage( BufferedImage image, double x, double y, double rotation, Color bgColor ) {
         drawImage( image, x, y, 0, 0, rotation, bgColor );
     }
     
     /**
-     * TODO
+     * Desenha uma imagem rotacionada.
      * 
-     * @param image
-     * @param x
-     * @param y
-     * @param rotation 
+     * @param image A imagem a ser desenhada.
+     * @param x Coordenada x do desenho da imagem.
+     * @param y Coordenada y do desenho da imagem.
+     * @param rotation Rotação em graus do desenho da imagem (sentido horário).
      */
     public void drawImage( BufferedImage image, double x, double y, double rotation ) {
         drawImage( image, x, y, 0, 0, rotation, null );
     }
     
     /**
-     * TODO
+     * Desenha uma imagem rotacionada com fundo colorido.
      * 
-     * @param image
-     * @param x
-     * @param y
-     * @param xOrigin
-     * @param yOrigin
-     * @param rotation
-     * @param bgColor 
+     * @param image A imagem a ser desenhada.
+     * @param x Coordenada x do desenho da imagem.
+     * @param y Coordenada y do desenho da imagem.
+     * @param xOrigin Coordenada x do eixo de rotação.
+     * @param yOrigin Coordenada y do eixo de rotação.
+     * @param rotation Rotação em graus do desenho da imagem (sentido horário).
+     * @param bgColor Uma cor de fundo.
      */
     public void drawImage( BufferedImage image, double x, double y, double xOrigin, double yOrigin, double rotation, Color bgColor ) {
         Graphics2D ig2d = (Graphics2D) g2d.create();
@@ -3151,27 +3174,27 @@ public abstract class Engine extends JFrame {
     }
     
     /**
-     * TODO
+     * Desenha uma imagem rotacionada.
      * 
-     * @param image
-     * @param x
-     * @param y
-     * @param xOrigin
-     * @param yOrigin
-     * @param rotation 
+     * @param image A imagem a ser desenhada.
+     * @param x Coordenada x do desenho da imagem.
+     * @param y Coordenada y do desenho da imagem.
+     * @param xOrigin Coordenada x do eixo de rotação.
+     * @param yOrigin Coordenada y do eixo de rotação.
+     * @param rotation Rotação em graus do desenho da imagem (sentido horário).
      */
     public void drawImage( BufferedImage image, double x, double y, double xOrigin, double yOrigin, double rotation ) {
         drawImage( image, x, y, xOrigin, yOrigin, rotation, null );
     }
     
     /**
-     * TODO
+     * Desenha o recorte de uma imagem com fundo colorido.
      * 
-     * @param image
-     * @param source
-     * @param x
-     * @param y
-     * @param bgColor 
+     * @param image A imagem a ser desenhada.
+     * @param source Um retângulo que delimita o recorte da imagem que será desenhado.
+     * @param x Coordenada x do desenho da imagem.
+     * @param y Coordenada y do desenho da imagem.
+     * @param bgColor Uma cor de fundo.
      */
     public void drawImage( BufferedImage image, Rectangle source, double x, double y, Color bgColor ) {
         g2d.drawImage( 
@@ -3190,55 +3213,55 @@ public abstract class Engine extends JFrame {
     }
     
     /**
-     * TODO
+     * Desenha o recorte de uma imagem.
      * 
-     * @param image
-     * @param source
-     * @param x
-     * @param y 
+     * @param image A imagem a ser desenhada.
+     * @param source Um retângulo que delimita o recorte da imagem que será desenhado.
+     * @param x Coordenada x do desenho da imagem.
+     * @param y Coordenada y do desenho da imagem.
      */
     public void drawImage( BufferedImage image, Rectangle source, double x, double y ) {
         drawImage( image, source, x, y, null );
     }
     
     /**
-     * TODO
+     * Desenha o recorte rotacionado de uma imagem com fundo colorido.
      * 
-     * @param image
-     * @param source
-     * @param x
-     * @param y
-     * @param rotation
-     * @param bgColor 
+     * @param image A imagem a ser desenhada.
+     * @param source Um retângulo que delimita o recorte da imagem que será desenhado.
+     * @param x Coordenada x do desenho da imagem.
+     * @param y Coordenada y do desenho da imagem.
+     * @param rotation Rotação em graus do desenho da imagem (sentido horário).
+     * @param bgColor Uma cor de fundo.
      */
     public void drawImage( BufferedImage image, Rectangle source, double x, double y, double rotation, Color bgColor ) {
         drawImage( image, source, x, y, 0, 0, rotation, bgColor );
     }
     
     /**
-     * TODO
+     * Desenha o recorte rotacionado de uma imagem.
      * 
-     * @param image
-     * @param source
-     * @param x
-     * @param y
-     * @param rotation 
+     * @param image A imagem a ser desenhada.
+     * @param source Um retângulo que delimita o recorte da imagem que será desenhado.
+     * @param x Coordenada x do desenho da imagem.
+     * @param y Coordenada y do desenho da imagem.
+     * @param rotation Rotação em graus do desenho da imagem (sentido horário).
      */
     public void drawImage( BufferedImage image, Rectangle source, double x, double y, double rotation ) {
         drawImage( image, source, x, y, 0, 0, rotation, null );
     }
     
     /**
-     * TODO
+     * Desenha o recorte rotacionado de uma imagem com fundo colorido.
      * 
-     * @param image
-     * @param source
-     * @param x
-     * @param y
-     * @param xOrigin
-     * @param yOrigin
-     * @param rotation
-     * @param bgColor 
+     * @param image A imagem a ser desenhada.
+     * @param source Um retângulo que delimita o recorte da imagem que será desenhado.
+     * @param x Coordenada x do desenho da imagem.
+     * @param y Coordenada y do desenho da imagem.
+     * @param xOrigin Coordenada x do eixo de rotação.
+     * @param yOrigin Coordenada y do eixo de rotação.
+     * @param rotation Rotação em graus do desenho da imagem (sentido horário).
+     * @param bgColor Uma cor de fundo.
      */
     public void drawImage( BufferedImage image, Rectangle source, double x, double y, double xOrigin, double yOrigin, double rotation, Color bgColor ) {
         Graphics2D ig2d = (Graphics2D) g2d.create();
@@ -3260,27 +3283,27 @@ public abstract class Engine extends JFrame {
     }
     
     /**
-     * TODO
+     * Desenha o recorte rotacionado de uma imagem.
      * 
-     * @param image
-     * @param source
-     * @param x
-     * @param y
-     * @param xOrigin
-     * @param yOrigin
-     * @param rotation 
+     * @param image A imagem a ser desenhada.
+     * @param source Um retângulo que delimita o recorte da imagem que será desenhado.
+     * @param x Coordenada x do desenho da imagem.
+     * @param y Coordenada y do desenho da imagem.
+     * @param xOrigin Coordenada x do eixo de rotação.
+     * @param yOrigin Coordenada y do eixo de rotação.
+     * @param rotation Rotação em graus do desenho da imagem (sentido horário).
      */
     public void drawImage( BufferedImage image, Rectangle source, double x, double y, double xOrigin, double yOrigin, double rotation ) {
         drawImage( image, source, x, y, xOrigin, yOrigin, rotation, null );
     }
     
     /**
-     * TODO
+     * Desenha o recorte de uma imagem em um retângulo de destino com fundo colorido.
      * 
-     * @param image
-     * @param source
-     * @param dest
-     * @param bgColor 
+     * @param image A imagem a ser desenhada.
+     * @param source Um retângulo que delimita o recorte da imagem que será desenhado.
+     * @param dest Um retângulo de destino que define a posição e dimensões que a imagem será desenhada.
+     * @param bgColor Uma cor de fundo.
      */
     public void drawImage( BufferedImage image, Rectangle source, Rectangle dest, Color bgColor ) {
         g2d.drawImage( 
@@ -3299,51 +3322,51 @@ public abstract class Engine extends JFrame {
     }
     
     /**
-     * TODO
+     * Desenha o recorte de uma imagem em um retângulo de destino.
      * 
-     * @param image
-     * @param source
-     * @param dest 
+     * @param image A imagem a ser desenhada.
+     * @param source Um retângulo que delimita o recorte da imagem que será desenhado.
+     * @param dest Um retângulo de destino que define a posição e dimensões que a imagem será desenhada.
      */
     public void drawImage( BufferedImage image, Rectangle source, Rectangle dest ) {
         drawImage( image, source, dest, null );
     }
     
     /**
-     * TODO
+     * Desenha o recorte rotacionado de uma imagem em um retângulo de destino com fundo colorido.
      * 
-     * @param image
-     * @param source
-     * @param dest
-     * @param rotation
-     * @param bgColor 
+     * @param image A imagem a ser desenhada.
+     * @param source Um retângulo que delimita o recorte da imagem que será desenhado.
+     * @param dest Um retângulo de destino que define a posição e dimensões que a imagem será desenhada.
+     * @param rotation Rotação em graus do desenho da imagem (sentido horário).
+     * @param bgColor Uma cor de fundo.
      */
     public void drawImage( BufferedImage image, Rectangle source, Rectangle dest, double rotation, Color bgColor ) {
         drawImage( image, source, dest, 0, 0, rotation, bgColor );
     }
     
     /**
-     * TODO
+     * Desenha o recorte rotacionado de uma imagem em um retângulo de destino.
      * 
-     * @param image
-     * @param source
-     * @param dest
-     * @param rotation 
+     * @param image A imagem a ser desenhada.
+     * @param source Um retângulo que delimita o recorte da imagem que será desenhado.
+     * @param dest Um retângulo de destino que define a posição e dimensões que a imagem será desenhada.
+     * @param rotation Rotação em graus do desenho da imagem (sentido horário).
      */
     public void drawImage( BufferedImage image, Rectangle source, Rectangle dest, double rotation ) {
         drawImage( image, source, dest, 0, 0, rotation, null );
     }
     
     /**
-     * TODO
+     * Desenha o recorte rotacionado de uma imagem em um retângulo de destino com fundo colorido.
      * 
-     * @param image
-     * @param source
-     * @param dest
-     * @param xOrigin
-     * @param yOrigin
-     * @param rotation
-     * @param bgColor 
+     * @param image A imagem a ser desenhada.
+     * @param source Um retângulo que delimita o recorte da imagem que será desenhado.
+     * @param dest Um retângulo de destino que define a posição e dimensões que a imagem será desenhada.
+     * @param xOrigin Coordenada x do eixo de rotação.
+     * @param yOrigin Coordenada y do eixo de rotação.
+     * @param rotation Rotação em graus do desenho da imagem (sentido horário).
+     * @param bgColor Uma cor de fundo.
      */
     public void drawImage( BufferedImage image, Rectangle source, Rectangle dest, double xOrigin, double yOrigin, double rotation, Color bgColor ) {
         Graphics2D ig2d = (Graphics2D) g2d.create();
@@ -3365,40 +3388,19 @@ public abstract class Engine extends JFrame {
     }
     
     /**
-     * TODO
+     * Desenha o recorte rotacionado de uma imagem em um retângulo de destino.
      * 
-     * @param image
-     * @param source
-     * @param dest
-     * @param xOrigin
-     * @param yOrigin
-     * @param rotation 
+     * @param image A imagem a ser desenhada.
+     * @param source Um retângulo que delimita o recorte da imagem que será desenhado.
+     * @param dest Um retângulo de destino que define a posição e dimensões que a imagem será desenhada.
+     * @param xOrigin Coordenada x do eixo de rotação.
+     * @param yOrigin Coordenada y do eixo de rotação.
+     * @param rotation Rotação em graus do desenho da imagem (sentido horário).
      */
     public void drawImage( BufferedImage image, Rectangle source, Rectangle dest, double xOrigin, double yOrigin, double rotation ) {
         drawImage( image, source, dest, xOrigin, yOrigin, rotation, null );
     }
     
-    /**
-     * TODO
-     * 
-     * @return 
-     */
-    private BufferedImage createBufferedImageOnError() {
-        
-        BufferedImage img = new BufferedImage( 80, 30, BufferedImage.TYPE_INT_ARGB );
-        
-        Graphics g = img.createGraphics();
-        g.setColor( BLACK );
-        g.fillRect( 0, 0, img.getWidth(), img.getHeight() );
-        g.setColor( WHITE );
-        g.setFont( new Font( Font.MONOSPACED, Font.BOLD, 20 ) );
-        g.drawString( "error", 10, 20 );
-        g.dispose();
-        
-        return img;
-        
-    }
-
     
     
     /**
@@ -3430,6 +3432,8 @@ public abstract class Engine extends JFrame {
 
     }
 
+    
+    
     /**
      * Classe interna para gerenciamento da entrada de teclas e mouse.
      * Os eventos são mapeados para GameActions.
@@ -3882,6 +3886,8 @@ public abstract class Engine extends JFrame {
 
     }
 
+    
+    
     /**
      * A classe GameAction é uma abstração para uma ação iniciada pelo usuário,
      * como pular ou mover. As GameActions podem ser mapeadas para teclas ou
@@ -4006,9 +4012,11 @@ public abstract class Engine extends JFrame {
         
     }
 
-    /*
+    
+    
+    /***************************************************************************
      * Constantes para controle de teclado e mouse, iguais à da raylib.
-     */
+     **************************************************************************/
     public static final int KEY_NULL            = 0;                         // Tecla: NULL, usada para indicar que nenhuma tecla foi pressionada
 
     // alfa-numéricos
@@ -4135,9 +4143,9 @@ public abstract class Engine extends JFrame {
     */
 
 
-    /*
+    /***************************************************************************
      * Cores padrão.
-     */
+     **************************************************************************/
     public static final Color LIGHTGRAY  = new Color( 200, 200, 200 );
     public static final Color GRAY       = new Color( 130, 130, 130 );
     public static final Color DARKGRAY   = new Color( 80, 80, 80 );

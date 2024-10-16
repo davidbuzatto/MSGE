@@ -29,13 +29,13 @@ import java.awt.Color;
 import java.util.Random;
 
 /**
- * Classe com métodos estáticos utilitários.
+ * Classe com métodos estáticos utilitários relacinados à geometria.
  * Várias implementações são baseadas na raylib e em seus módulos
  * (www.raylib.com).
  * 
  * @author Prof. Dr. David Buzatto
  */
-public class Utils {
+public class GeomUtils {
     
     private static final double FLT_EPSILON = 2.2204460492503131e-16;
     private static final Random random = new Random();

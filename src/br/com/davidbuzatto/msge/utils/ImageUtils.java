@@ -17,30 +17,32 @@
 package br.com.davidbuzatto.msge.utils;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 /**
- * Classe com métodos utilitários para tratamento de imagens.
+ * Classe com métodos estáticos utilitários para tratamento de imagens.
  * 
  * @author Prof. Dr. David Buzatto
  */
 public class ImageUtils {
     
     /**
-     * TODO
+     * Cria uma imagem redimensionada da imagem original.
      * 
-     * @param image
-     * @param newWidth
-     * @param newHeight
-     * @return 
+     * @param image Uma imagem.
+     * @param newImageWidth A altura da nova imagem.
+     * @param newImageHeight A largura da nova imagem.
+     * @return Uma nova imagem redimensionada.
      */
-    public static BufferedImage imageResize( BufferedImage image, int newWidth, int newHeight ) {
+    public static BufferedImage imageResize( BufferedImage image, int newImageWidth, int newImageHeight ) {
         
-        BufferedImage newImage = new BufferedImage( newWidth, newHeight, BufferedImage.TYPE_INT_ARGB );
+        BufferedImage newImage = new BufferedImage( newImageWidth, newImageHeight, BufferedImage.TYPE_INT_ARGB );
         
         Graphics2D g2d = (Graphics2D) newImage.createGraphics();
-        g2d.drawImage( image, 0, 0, newWidth, newHeight, 0, 0, image.getWidth(), image.getHeight(), null );
+        g2d.drawImage( image, 0, 0, newImageWidth, newImageHeight, 0, 0, image.getWidth(), image.getHeight(), null );
         g2d.dispose();
         
         return newImage;
@@ -48,10 +50,88 @@ public class ImageUtils {
     }
     
     /**
-     * TODO
+     * Cria uma imagem invertida verticalmente.
      * 
-     * @param image
-     * @return 
+     * @param image Uma imagem.
+     * @return Uma nova imagem invertida verticalmente.
+     */
+    public static BufferedImage imageFlipVertical( BufferedImage image ) {
+        
+        BufferedImage newImage = new BufferedImage( image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB );
+        
+        for ( int i = 0; i < image.getWidth(); i++ ) {
+            for ( int j = 0; j < image.getHeight(); j++ ) {
+                newImage.setRGB( i, j, image.getRGB( i, image.getHeight() - j - 1 ) );
+            }
+        }
+        
+        return newImage;
+        
+    }
+    
+    /**
+     * Cria uma imagem invertida horizontalmente.
+     * 
+     * @param image Uma imagem.
+     * @return Uma nova imagem invertida horizontalmente.
+     */
+    public static BufferedImage imageFlipHorizontal( BufferedImage image ) {
+        
+        BufferedImage newImage = new BufferedImage( image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB );
+        
+        for ( int i = 0; i < image.getHeight(); i++ ) {
+            for ( int j = 0; j < image.getWidth(); j++ ) {
+                newImage.setRGB( j, i, image.getRGB( image.getWidth() - j - 1, i ) );
+            }
+        }
+        
+        return newImage;
+        
+    }
+    
+    /**
+     * Cria uma imagem rotacionada.
+     * 
+     * @param image Uma imagem.
+     * @param rotation Rotação em graus (sentido horário).
+     * @return Uma nova imagem rotacionada.
+     */
+    public static BufferedImage imageRotate( BufferedImage image, double rotation ) {
+        
+        rotation -= ( (int) ( rotation / 360.0 ) ) * 360.0;
+        if ( rotation < 0.0 ) {
+            rotation = 360.0 + rotation;
+        }
+        
+        while ( rotation >= 90.0 ) {
+            rotation -= 90.0;
+            image = imageRotateCW( image );
+        }
+        
+        double newWidth  =  image.getWidth() * Math.cos( Math.toRadians( rotation ) ) +
+                           image.getHeight() * Math.sin( Math.toRadians( rotation ) );
+        
+        double newHeight =  image.getWidth() * Math.sin( Math.toRadians( rotation ) ) +
+                           image.getHeight() * Math.cos( Math.toRadians( rotation ) );
+        
+        BufferedImage newImage = new BufferedImage( (int) newWidth, (int) newHeight, BufferedImage.TYPE_INT_ARGB );
+        
+        Graphics2D g2d = (Graphics2D) newImage.createGraphics();
+        g2d.setColor( Color.BLACK );
+        g2d.translate( newImage.getWidth() / 2, newImage.getHeight() / 2 );
+        g2d.rotate( Math.toRadians( rotation ) );
+        g2d.drawImage( image, -image.getWidth() / 2, -image.getHeight() / 2, null );
+        g2d.dispose();
+        
+        return newImage;
+        
+    }
+    
+    /**
+     * Cria uma imagem rotacionada em 90 graus (sentido horário) da imagem original.
+     * 
+     * @param image Uma imagem.
+     * @return Uma nova imagem rotacionada.
      */
     public static BufferedImage imageRotateCW( BufferedImage image ) {
         
@@ -68,10 +148,10 @@ public class ImageUtils {
     }
     
     /**
-     * TODO
+     * Cria uma imagem rotacionada em 90 graus (sentido anti-horário) da imagem original.
      * 
-     * @param image
-     * @return 
+     * @param image Uma imagem.
+     * @return Uma nova imagem rotacionada.
      */
     public static BufferedImage imageRotateCCW( BufferedImage image ) {
         
@@ -88,11 +168,11 @@ public class ImageUtils {
     }
     
     /**
-     * TODO
+     * Cria uma imagem com a tonalidade alterada.
      * 
-     * @param image
-     * @param color
-     * @return 
+     * @param image Uma imagem.
+     * @param color A cor que será usada para tonalizar a imagem.
+     * @return Uma nova imagem tonalizada.
      */
     public static BufferedImage imageColorTint( BufferedImage image, Color color ) {
         
@@ -116,10 +196,10 @@ public class ImageUtils {
     }
     
     /**
-     * TODO
+     * Cria uma imagem com as cores invertidas.
      * 
-     * @param image
-     * @return 
+     * @param image Uma imagem.
+     * @return Uma nova imagem com cores invertidas.
      */
     public static BufferedImage imageColorInvert( BufferedImage image ) {
         
@@ -141,10 +221,10 @@ public class ImageUtils {
     }
     
     /**
-     * TODO
+     * Cria uma imagem em tons de cinza.
      * 
-     * @param image
-     * @return 
+     * @param image Uma imagem.
+     * @return Uma nova imagem em tons de cinza.
      */
     public static BufferedImage imageColorGrayscale( BufferedImage image ) {
         
@@ -167,11 +247,12 @@ public class ImageUtils {
     }
     
     /**
-     * TODO
+     * Cria uma imagem com ajuste no contraste. O fator de contraste vai de 
+     * -1.0 a 1.0.
      * 
-     * @param image
-     * @param contrast
-     * @return 
+     * @param image Uma imagem.
+     * @param contrast O fator de contraste de -1.0 a 1.0.
+     * @return Uma nova imagem com ajuste no contraste.
      */
     public static BufferedImage imageColorContrast( BufferedImage image, double contrast ) {
         
@@ -194,11 +275,12 @@ public class ImageUtils {
     }
     
     /**
-     * TODO
+     * Cria uma imagem com ajuste no brilho. O fator de brilho vai de 
+     * -1.0 a 1.0.
      * 
-     * @param image
-     * @param brightness
-     * @return 
+     * @param image Uma imagem.
+     * @param brightness O fator de brilho de -1.0 a 1.0.
+     * @return Uma nova imagem com ajuste no brilho.
      */
     public static BufferedImage imageColorBrightness( BufferedImage image, double brightness ) {
         
@@ -222,12 +304,12 @@ public class ImageUtils {
     }
     
     /**
-     * TODO
+     * Cria uma nova imagem trocando uma cor.
      * 
-     * @param image
-     * @param color
-     * @param replace
-     * @return 
+     * @param image Uma imagem.
+     * @param color A cor que será substituída.
+     * @param replace A cor que substituirá a outra cor.
+     * @return Uma nova imagem com as cores trocadas.
      */
     public static BufferedImage imageColorReplace( BufferedImage image, Color color, Color replace ) {
         
@@ -257,32 +339,47 @@ public class ImageUtils {
     }
     
     /**
-     * TODO
+     * Obtém a cor de um pixel de uma imagem.
      * 
-     * @param image
-     * @param x
-     * @param y
-     * @return 
+     * @param image Uma imagem.
+     * @param x Coordenada x do pixel.
+     * @param y Coordenada y do pixel.
+     * @return A cor do pixel.
      */
     public static Color getImageColor( BufferedImage image, int x, int y ) {
         return new Color( image.getRGB( x, y ), true );
     }
     
-    
-    //void ImageDrawPixel(Image *dst, int posX, int posY, Color color);                                  // Draw pixel within an image
-    //void ImageDrawPixelV(Image *dst, Vector2 position, Color color);                                   // Draw pixel within an image (Vector version)
-    //void ImageDrawLine(Image *dst, int startPosX, int startPosY, int endPosX, int endPosY, Color color); // Draw line within an image
-    //void ImageDrawLineV(Image *dst, Vector2 start, Vector2 end, Color color);                          // Draw line within an image (Vector version)
-    //void ImageDrawCircle(Image *dst, int centerX, int centerY, int radius, Color color);               // Draw a filled circle within an image
-    //void ImageDrawCircleV(Image *dst, Vector2 center, int radius, Color color);                        // Draw a filled circle within an image (Vector version)
-    //void ImageDrawCircleLines(Image *dst, int centerX, int centerY, int radius, Color color);          // Draw circle outline within an image
-    //void ImageDrawCircleLinesV(Image *dst, Vector2 center, int radius, Color color);                   // Draw circle outline within an image (Vector version)
-    //void ImageDrawRectangle(Image *dst, int posX, int posY, int width, int height, Color color);       // Draw rectangle within an image
-    //void ImageDrawRectangleV(Image *dst, Vector2 position, Vector2 size, Color color);                 // Draw rectangle within an image (Vector version)
-    //void ImageDrawRectangleRec(Image *dst, Rectangle rec, Color color);                                // Draw rectangle within an image
-    //void ImageDrawRectangleLines(Image *dst, Rectangle rec, int thick, Color color);                   // Draw rectangle lines within an image
-    //void ImageDraw(Image *dst, Image src, Rectangle srcRec, Rectangle dstRec, Color tint);             // Draw a source image within a destination image (tint applied to source)
-    //void ImageDrawText(Image *dst, const char *text, int posX, int posY, int fontSize, Color color);   // Draw text (using default font) within an image (destination)
-    //void ImageDrawTextEx(Image *dst, Font font, const char *text, Vector2 position, float fontSize, float spacing, Color tint); // Draw text (custom sprite font) within an image (destination)
+    /**
+     * Cria uma imagem com texto.
+     * 
+     * @param text O texto da imagem.
+     * @param fontSize O tamanho da fonte do texto.
+     * @param fontStyle O estilo da fonte do texto.
+     * @param textColor A cor do texto.
+     * @param backgroundColor A cor de fundo da imagem.
+     * @return Uma imagem com texto.
+     */
+    public static BufferedImage createTextBufferedImage( String text, int fontSize, int fontStyle, Color textColor, Color backgroundColor ) {
+        
+        BufferedImage dummy = new BufferedImage( 1, 1, BufferedImage.TYPE_INT_ARGB );
+        Graphics gd = dummy.createGraphics();
+        gd.setFont( new Font( Font.MONOSPACED, fontStyle, fontSize ) );
+        int w = gd.getFontMetrics().stringWidth( text );
+        gd.dispose();
+        
+        BufferedImage newImage = new BufferedImage( w + 20, 30, BufferedImage.TYPE_INT_ARGB );
+        
+        Graphics g = newImage.createGraphics();
+        g.setColor( backgroundColor );
+        g.fillRect( 0, 0, newImage.getWidth(), newImage.getHeight() );
+        g.setColor( textColor );
+        g.setFont( new Font( Font.MONOSPACED, fontStyle, fontSize ) );
+        g.drawString( text, newImage.getWidth() / 2 - w / 2, 20 );
+        g.dispose();
+        
+        return newImage;
+        
+    }
     
 }

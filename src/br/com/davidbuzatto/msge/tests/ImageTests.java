@@ -36,14 +36,17 @@ public class ImageTests extends Engine {
     
     @Override
     public void create() {
-        img = loadImage( "resources/images/duke.png" );
+        img = loadImage( "resources/images/dukeCont.png" );
         //tImg = ImageUtils.imageResize( img, 100, 400 );
+        tImg = ImageUtils.imageRotate( img, r );
+        //tImg = ImageUtils.imageFlipVertical( img );
+        //tImg = ImageUtils.imageFlipHorizontal( img );
         /*tImg = ImageUtils.imageRotateCCW( img );
         tImg = ImageUtils.imageRotateCCW( tImg );
         tImg = ImageUtils.imageRotateCCW( tImg );
         tImg = ImageUtils.imageRotateCCW( tImg );*/
         //tImg = ImageUtils.imageColorTint( img, WHITE );
-        tImg = ImageUtils.imageColorInvert( img );
+        //tImg = ImageUtils.imageColorInvert( img );
         //tImg = ImageUtils.imageColorGrayscale( img );
         //tImg = ImageUtils.imageColorContrast( img, -0.5 );
         //tImg = ImageUtils.imageColorBrightness( img, -0.5 );
@@ -62,6 +65,16 @@ public class ImageTests extends Engine {
             cColor = null;
         }
         
+        r -= 1;
+        tImg = ImageUtils.imageRotate( img, r );
+        if ( isKeyPressed( KEY_RIGHT ) ) {
+            r += 10;
+            tImg = ImageUtils.imageRotate( img, r );
+        } else if ( isKeyPressed( KEY_LEFT ) ) {
+            r -= 10;
+            tImg = ImageUtils.imageRotate( img, r );
+        }
+        
     }
     
     double r = 0;
@@ -74,12 +87,13 @@ public class ImageTests extends Engine {
     @Override
     public void draw() {
         
-        /*drawImage( img, 0, 0, cg );
-        if ( cColor != null ) {
+        //drawImage( img, 0, 0, cg );
+        /*if ( cColor != null ) {
             fillRectangle( getMouseX(), getMouseY(), 20, 20, cColor );
         }*/
         
         drawImage( tImg, 10, 10, cg );
+        drawText( "r: " + r, 300, 300, 20, BLACK );
         
         
         /*drawImage( img, 10, 10, cg );
@@ -93,8 +107,6 @@ public class ImageTests extends Engine {
         drawImage( img, new Rectangle( 0, 0, 100, 100 ), new Rectangle( 200, 100, 200, 200 ), cg );
         drawImage( img, new Rectangle( 0, 0, 100, 100 ), new Rectangle( 200, 100, 200, 200 ), 45, cb );
         drawImage( img, new Rectangle( 0, 0, 100, 100 ), new Rectangle( 200, 100, 200, 200 ), 10, 10, 90 );*/
-        
-        r += 5;
         
     }
     
