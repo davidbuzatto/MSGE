@@ -56,15 +56,21 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -3019,7 +3025,195 @@ public abstract class Engine extends JFrame {
         g2d.setStroke( new BasicStroke( defaultStroke.getLineWidth(), defaultStroke.getEndCap(), lineJoin ) );
     }
 
+    
+    /***************************************************************************
+     * Métodos para carga e desenho de imagens.
+     **************************************************************************/
+    public BufferedImage loadImage( String filePath ) {
+        
+        try {
+            return ImageIO.read( new File( filePath ) );
+        } catch ( IOException exc ) {
+            exc.printStackTrace();
+        }
+        
+        return createBufferedImageOnError();
+        
+    }
+    
+    public BufferedImage loadImage( InputStream input ) {
+        
+        try {
+            return ImageIO.read( input );
+        } catch ( IOException exc ) {
+            exc.printStackTrace();
+        }
+        
+        return createBufferedImageOnError();
+        
+    }
+    
+    public BufferedImage loadImage( URL url ) {
+        
+        try {
+            return ImageIO.read( url );
+        } catch ( IOException exc ) {
+            exc.printStackTrace();
+        }
+        
+        return createBufferedImageOnError();
+        
+    }
+    
+    public void drawImage( BufferedImage image, double x, double y, double ox, double oy, double rotation, Color bgColor ) {
+        Graphics2D ig2d = (Graphics2D) g2d.create();
+        ig2d.rotate( Math.toRadians( rotation ), x + ox, y + oy );
+        ig2d.drawImage( image, (int) x, (int) y, bgColor, null );
+        ig2d.dispose();
+    }
+    
+    public void drawImage( BufferedImage image, double x, double y, double ox, double oy, double rotation ) {
+        drawImage( image, x, y, ox, oy, rotation, null );
+    }
+    
+    public void drawImage( BufferedImage image, double x, double y, double rotation, Color bgColor ) {
+        drawImage( image, x, y, 0, 0, rotation, bgColor );
+    }
+    
+    public void drawImage( BufferedImage image, double x, double y, double rotation ) {
+        drawImage( image, x, y, 0, 0, rotation, null );
+    }
+    
+    public void drawImage( BufferedImage image, Point point, Point origin, double rotation, Color bgColor ) {
+        drawImage( image, point.x, point.y, origin.x, origin.y, rotation, bgColor );
+    }
+    
+    public void drawImage( BufferedImage image, Point point, Point origin, double rotation ) {
+        drawImage( image, point.x, point.y, origin.x, origin.y, rotation );
+    }
+    
+    public void drawImage( BufferedImage image, Point point, double rotation, Color bgColor ) {
+        drawImage( image, point.x, point.y, 0, 0, rotation, bgColor );
+    }
+    
+    public void drawImage( BufferedImage image, Point point, double rotation ) {
+        drawImage( image, point.x, point.y, 0, 0, rotation );
+    }
+    
+    public void drawImage( BufferedImage image, Vector2 vector, Vector2 origin, double rotation, Color bgColor ) {
+        drawImage( image, vector.x, vector.y, origin.x, origin.y, rotation, bgColor );
+    }
+    
+    public void drawImage( BufferedImage image, Vector2 vector, Vector2 origin, double rotation ) {
+        drawImage( image, vector.x, vector.y, origin.x, origin.y, rotation );
+    }
+    
+    public void drawImage( BufferedImage image, Vector2 vector, double rotation, Color bgColor ) {
+        drawImage( image, vector.x, vector.y, 0, 0, rotation, bgColor );
+    }
+    
+    public void drawImage( BufferedImage image, Vector2 vector, double rotation ) {
+        drawImage( image, vector.x, vector.y, 0, 0, rotation );
+    }
+    
+    public void drawImage( BufferedImage image, double x, double y, Color bgColor ) {
+        g2d.drawImage( image, (int) x, (int) y, bgColor, null );
+    }
+    
+    public void drawImage( BufferedImage image, double x, double y ) {
+        drawImage( image, x, y, null );
+    }
+    
+    public void drawImage( BufferedImage image, Point point, Color bgColor ) {
+        drawImage( image, point.x, point.y, bgColor );
+    }
+    
+    public void drawImage( BufferedImage image, Point point ) {
+        drawImage( image, point.x, point.y, null );
+    }
+    
+    public void drawImage( BufferedImage image, Vector2 vector, Color bgColor ) {
+        drawImage( image, vector.x, vector.y, bgColor );
+    }
+    
+    public void drawImage( BufferedImage image, Vector2 vector ) {
+        drawImage( image, vector.x, vector.y, null );
+    }
+    
+    public void drawImage( BufferedImage image, Rectangle source, double x, double y, Color bgColor ) {
+        g2d.drawImage( 
+                image, 
+                (int) x, 
+                (int) y, 
+                (int) ( x + source.width ), 
+                (int) ( y + source.height ), 
+                (int) source.x, 
+                (int) source.y, 
+                (int) ( source.x + source.width ), 
+                (int) ( source.y + source.height ), 
+                bgColor,
+                null
+        );
+    }
+    
+    public void drawImage( BufferedImage image, Rectangle source, double x, double y ) {
+        drawImage( image, source, x, y, null );
+    }
+    
+    public void drawImage( BufferedImage image, Rectangle source, Point point, Color bgColor ) {
+        drawImage( image, source, point.x, point.y, bgColor );
+    }
+    
+    public void drawImage( BufferedImage image, Rectangle source, Point point ) {
+        drawImage( image, source, point.x, point.y, null );
+    }
+    
+    public void drawImage( BufferedImage image, Rectangle source, Vector2 vector, Color bgColor ) {
+        drawImage( image, source, vector.x, vector.y, bgColor );
+    }
+    
+    public void drawImage( BufferedImage image, Rectangle source, Vector2 vector ) {
+        drawImage( image, source, vector.x, vector.y, null );
+    }
+    
+    public void drawImage( BufferedImage image, Rectangle source, Rectangle dest, Color bgColor ) {
+        g2d.drawImage( 
+                image, 
+                (int) dest.x, 
+                (int) dest.y, 
+                (int) ( dest.x + dest.width ), 
+                (int) ( dest.y + dest.height ), 
+                (int) source.x, 
+                (int) source.y, 
+                (int) ( source.x + source.width ), 
+                (int) ( source.y + source.height ), 
+                bgColor,
+                null
+        );
+    }
+    
+    public void drawImage( BufferedImage image, Rectangle source, Rectangle dest ) {
+        drawImage( image, source, dest, null );
+    }
+    
+    private BufferedImage createBufferedImageOnError() {
+        
+        BufferedImage img = new BufferedImage( 80, 30, BufferedImage.TYPE_INT_ARGB );
+        
+        Graphics g = img.createGraphics();
+        g.setColor( BLACK );
+        g.fillRect( 0, 0, img.getWidth(), img.getHeight() );
+        g.setColor( WHITE );
+        g.setFont( new Font( Font.MONOSPACED, Font.BOLD, 20 ) );
+        g.drawString( "error", 10, 20 );
+        g.dispose();
+        
+        return img;
+        
+    }
 
+    
+    
     /**
      * Classe interna que encapsula o processo de desenho.
      */
