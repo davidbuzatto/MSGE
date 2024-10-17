@@ -4,4 +4,3 @@ Implementação dos métodos de desenho dentro das imagens:
         - suavização
         - stroke
         - fonte
-Melhorar o desenho do anel.

@@ -21,6 +21,7 @@ import br.com.davidbuzatto.msge.geom.Line;
 import br.com.davidbuzatto.msge.geom.Point;
 import br.com.davidbuzatto.msge.geom.QuadCurve;
 import br.com.davidbuzatto.msge.geom.Vector2;
+import java.awt.geom.Arc2D;
 import java.awt.geom.Path2D;
 import java.util.Random;
 
@@ -756,6 +757,23 @@ public class MathUtils {
      * Cria um anel.
      */
     public static Path2D createRing( double centerX, double centerY, double innerRadius, double outerRadius, double startAngle, double endAngle, int segments ) {
+
+        Path2D path = new Path2D.Double();
+        
+        double extent = endAngle - startAngle;
+        path.append( new Arc2D.Double( centerX - innerRadius, centerY - innerRadius, innerRadius * 2, innerRadius * 2, -startAngle, -extent, Arc2D.OPEN ), true );
+        path.append( new Arc2D.Double( centerX - outerRadius, centerY - outerRadius, outerRadius * 2, outerRadius * 2, -startAngle - extent, extent, Arc2D.OPEN ), true );
+        path.closePath();
+        
+        return path;
+
+    }
+    
+    /*
+     * Cria um anel (implementação antiga, mantida como referência).
+     */
+    @SuppressWarnings( "unused" )
+    private static Path2D createRingOld( double centerX, double centerY, double innerRadius, double outerRadius, double startAngle, double endAngle, int segments ) {
 
         Path2D path = new Path2D.Double();
         double currentAngle = startAngle;
