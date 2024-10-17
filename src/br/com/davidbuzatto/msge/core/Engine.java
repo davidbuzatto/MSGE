@@ -1560,8 +1560,6 @@ public abstract class Engine extends JFrame {
      * Desenha um setor circular.
      * 
      * @param circleSector um setor circular.
-     * @param startAngle ângulo inicial em graus (sentido horário).
-     * @param endAngle ângulo final em graus (sentido horário).
      * @param color cor de desenho.
      */
     public void drawCircleSector( CircleSector circleSector, Color color ) {
@@ -1626,8 +1624,6 @@ public abstract class Engine extends JFrame {
      * Pinta um setor circular.
      * 
      * @param circleSector um setor circular.
-     * @param startAngle ângulo inicial em graus (sentido horário).
-     * @param endAngle ângulo final em graus (sentido horário).
      * @param color cor de desenho.
      */
     public void fillCircleSector( CircleSector circleSector, Color color ) {
@@ -1695,8 +1691,6 @@ public abstract class Engine extends JFrame {
      * Desenha um setor de uma elipse.
      * 
      * @param ellipseSector um setor de uma elipse.
-     * @param startAngle ângulo inicial em graus (sentido horário).
-     * @param endAngle ângulo final em graus (sentido horário).
      * @param color cor de desenho.
      */
     public void drawEllipseSector( EllipseSector ellipseSector, Color color ) {
@@ -1764,8 +1758,6 @@ public abstract class Engine extends JFrame {
      * Pinta um setor de uma elipse.
      * 
      * @param ellipseSector um setor de uma elipse.
-     * @param startAngle ângulo inicial em graus (sentido horário).
-     * @param endAngle ângulo final em graus (sentido horário).
      * @param color cor de desenho.
      */
     public void fillEllipseSector( EllipseSector ellipseSector, Color color ) {
@@ -1821,8 +1813,6 @@ public abstract class Engine extends JFrame {
      * Desenha um arco
      * 
      * @param arc um arco.
-     * @param startAngle ângulo inicial em graus (sentido horário).
-     * @param endAngle ângulo final em graus (sentido horário).
      * @param color cor de desenho.
      */
     public void drawArc( Arc arc, Color color ) {
@@ -1878,8 +1868,6 @@ public abstract class Engine extends JFrame {
      * Pinta um arco
      * 
      * @param arc um arco.
-     * @param startAngle ângulo inicial em graus (sentido horário).
-     * @param endAngle ângulo final em graus (sentido horário).
      * @param color cor de desenho.
      */
     public void fillArc( Arc arc, Color color ) {
@@ -2215,7 +2203,7 @@ public abstract class Engine extends JFrame {
     /**
      * Desenha um polígono regular.
      * 
-     * @param plygon um polígono regular.
+     * @param polygon um polígono regular.
      * @param color cor de desenho.
      */
     public void drawPolygon( Polygon polygon, Color color ) {
@@ -2331,6 +2319,8 @@ public abstract class Engine extends JFrame {
         g2d.fill( path.path );
     }
 
+    
+    
     /***************************************************************************
      * Métodos de desenhos de curvas.
      **************************************************************************/
