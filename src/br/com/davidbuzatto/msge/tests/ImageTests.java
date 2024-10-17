@@ -17,9 +17,9 @@
 package br.com.davidbuzatto.msge.tests;
 
 import br.com.davidbuzatto.msge.core.Engine;
+import br.com.davidbuzatto.msge.image.Image;
 import br.com.davidbuzatto.msge.utils.ImageUtils;
 import java.awt.Color;
-import java.awt.image.BufferedImage;
 
 /**
  *
@@ -31,8 +31,8 @@ public class ImageTests extends Engine {
         super( 800, 450, "Image tests", 60, true );
     }
     
-    private BufferedImage img;
-    private BufferedImage tImg;
+    private Image img;
+    private Image tImg;
     
     @Override
     public void create() {

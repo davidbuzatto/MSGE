@@ -16,9 +16,8 @@
  */
 package br.com.davidbuzatto.msge.geom;
 
-import java.awt.Color;
-import br.com.davidbuzatto.msge.core.Drawable;
 import br.com.davidbuzatto.msge.core.Engine;
+import java.awt.Color;
 
 /**
  * Classe para representação de um retângulo com cantos arrendondados em duas dimensões.

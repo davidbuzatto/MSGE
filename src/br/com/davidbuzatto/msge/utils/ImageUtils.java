@@ -16,6 +16,7 @@
  */
 package br.com.davidbuzatto.msge.utils;
 
+import br.com.davidbuzatto.msge.image.Image;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -37,12 +38,12 @@ public class ImageUtils {
      * @param newImageHeight A largura da nova imagem.
      * @return Uma nova imagem redimensionada.
      */
-    public static BufferedImage imageResize( BufferedImage image, int newImageWidth, int newImageHeight ) {
+    public static Image imageResize( Image image, int newImageWidth, int newImageHeight ) {
         
-        BufferedImage newImage = new BufferedImage( newImageWidth, newImageHeight, BufferedImage.TYPE_INT_ARGB );
+        Image newImage = new Image( newImageWidth, newImageHeight );
         
-        Graphics2D g2d = (Graphics2D) newImage.createGraphics();
-        g2d.drawImage( image, 0, 0, newImageWidth, newImageHeight, 0, 0, image.getWidth(), image.getHeight(), null );
+        Graphics2D g2d = newImage.createGraphics();
+        g2d.drawImage(image.buffImage, 0, 0, newImageWidth, newImageHeight, 0, 0, image.getWidth(), image.getHeight(), null );
         g2d.dispose();
         
         return newImage;
@@ -55,9 +56,9 @@ public class ImageUtils {
      * @param image Uma imagem.
      * @return Uma nova imagem invertida verticalmente.
      */
-    public static BufferedImage imageFlipVertical( BufferedImage image ) {
+    public static Image imageFlipVertical( Image image ) {
         
-        BufferedImage newImage = new BufferedImage( image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB );
+        Image newImage = new Image( image.getWidth(), image.getHeight() );
         
         for ( int i = 0; i < image.getWidth(); i++ ) {
             for ( int j = 0; j < image.getHeight(); j++ ) {
@@ -75,9 +76,9 @@ public class ImageUtils {
      * @param image Uma imagem.
      * @return Uma nova imagem invertida horizontalmente.
      */
-    public static BufferedImage imageFlipHorizontal( BufferedImage image ) {
+    public static Image imageFlipHorizontal( Image image ) {
         
-        BufferedImage newImage = new BufferedImage( image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB );
+        Image newImage = new Image( image.getWidth(), image.getHeight() );
         
         for ( int i = 0; i < image.getHeight(); i++ ) {
             for ( int j = 0; j < image.getWidth(); j++ ) {
@@ -96,7 +97,7 @@ public class ImageUtils {
      * @param rotation Rotação em graus (sentido horário).
      * @return Uma nova imagem rotacionada.
      */
-    public static BufferedImage imageRotate( BufferedImage image, double rotation ) {
+    public static Image imageRotate( Image image, double rotation ) {
         
         rotation -= ( (int) ( rotation / 360.0 ) ) * 360.0;
         if ( rotation < 0.0 ) {
@@ -114,13 +115,13 @@ public class ImageUtils {
         double newHeight =  image.getWidth() * Math.sin( Math.toRadians( rotation ) ) +
                            image.getHeight() * Math.cos( Math.toRadians( rotation ) );
         
-        BufferedImage newImage = new BufferedImage( (int) newWidth, (int) newHeight, BufferedImage.TYPE_INT_ARGB );
+        Image newImage = new Image( (int) newWidth, (int) newHeight );
         
-        Graphics2D g2d = (Graphics2D) newImage.createGraphics();
+        Graphics2D g2d = newImage.createGraphics();
         g2d.setColor( Color.BLACK );
         g2d.translate( newImage.getWidth() / 2, newImage.getHeight() / 2 );
         g2d.rotate( Math.toRadians( rotation ) );
-        g2d.drawImage( image, -image.getWidth() / 2, -image.getHeight() / 2, null );
+        g2d.drawImage(image.buffImage, -image.getWidth() / 2, -image.getHeight() / 2, null );
         g2d.dispose();
         
         return newImage;
@@ -133,14 +134,14 @@ public class ImageUtils {
      * @param image Uma imagem.
      * @return Uma nova imagem rotacionada.
      */
-    public static BufferedImage imageRotateCW( BufferedImage image ) {
+    public static Image imageRotateCW( Image image ) {
         
-        BufferedImage newImage = new BufferedImage( image.getHeight(), image.getWidth(), BufferedImage.TYPE_INT_ARGB );
+        Image newImage = new Image( image.getHeight(), image.getWidth() );
         
-        Graphics2D g2d = (Graphics2D) newImage.createGraphics();
+        Graphics2D g2d = newImage.createGraphics();
         g2d.translate( newImage.getWidth(), 0 );
         g2d.rotate( Math.toRadians( 90 ) );
-        g2d.drawImage( image, 0, 0, null );
+        g2d.drawImage(image.buffImage, 0, 0, null );
         g2d.dispose();
         
         return newImage;
@@ -153,14 +154,14 @@ public class ImageUtils {
      * @param image Uma imagem.
      * @return Uma nova imagem rotacionada.
      */
-    public static BufferedImage imageRotateCCW( BufferedImage image ) {
+    public static Image imageRotateCCW( Image image ) {
         
-        BufferedImage newImage = new BufferedImage( image.getHeight(), image.getWidth(), BufferedImage.TYPE_INT_ARGB );
+        Image newImage = new Image( image.getHeight(), image.getWidth() );
         
-        Graphics2D g2d = (Graphics2D) newImage.createGraphics();
+        Graphics2D g2d = newImage.createGraphics();
         g2d.translate( 0, newImage.getHeight() );
         g2d.rotate( Math.toRadians( -90 ) );
-        g2d.drawImage( image, 0, 0, null );
+        g2d.drawImage(image.buffImage, 0, 0, null );
         g2d.dispose();
         
         return newImage;
@@ -174,9 +175,9 @@ public class ImageUtils {
      * @param color A cor que será usada para tonalizar a imagem.
      * @return Uma nova imagem tonalizada.
      */
-    public static BufferedImage imageColorTint( BufferedImage image, Color color ) {
+    public static Image imageColorTint( Image image, Color color ) {
         
-        BufferedImage newImage = new BufferedImage( image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB );
+        Image newImage = new Image( image.getWidth(), image.getHeight() );
         
         for ( int i = 0; i < image.getHeight(); i++ ) {
             for ( int j = 0; j < image.getWidth(); j++ ) {
@@ -201,9 +202,9 @@ public class ImageUtils {
      * @param image Uma imagem.
      * @return Uma nova imagem com cores invertidas.
      */
-    public static BufferedImage imageColorInvert( BufferedImage image ) {
+    public static Image imageColorInvert( Image image ) {
         
-        BufferedImage newImage = new BufferedImage( image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB );
+        Image newImage = new Image( image.getWidth(), image.getHeight() );
         
         for ( int i = 0; i < image.getHeight(); i++ ) {
             for ( int j = 0; j < image.getWidth(); j++ ) {
@@ -226,9 +227,9 @@ public class ImageUtils {
      * @param image Uma imagem.
      * @return Uma nova imagem em tons de cinza.
      */
-    public static BufferedImage imageColorGrayscale( BufferedImage image ) {
+    public static Image imageColorGrayscale( Image image ) {
         
-        BufferedImage newImage = new BufferedImage( image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB );
+        Image newImage = new Image( image.getWidth(), image.getHeight() );
         
         for ( int i = 0; i < image.getHeight(); i++ ) {
             for ( int j = 0; j < image.getWidth(); j++ ) {
@@ -254,9 +255,9 @@ public class ImageUtils {
      * @param contrast O fator de contraste de -1.0 a 1.0.
      * @return Uma nova imagem com ajuste no contraste.
      */
-    public static BufferedImage imageColorContrast( BufferedImage image, double contrast ) {
+    public static Image imageColorContrast( Image image, double contrast ) {
         
-        BufferedImage newImage = new BufferedImage( image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB );
+        Image newImage = new Image( image.getWidth(), image.getHeight() );
         
         for ( int i = 0; i < image.getHeight(); i++ ) {
             for ( int j = 0; j < image.getWidth(); j++ ) {
@@ -282,9 +283,9 @@ public class ImageUtils {
      * @param brightness O fator de brilho de -1.0 a 1.0.
      * @return Uma nova imagem com ajuste no brilho.
      */
-    public static BufferedImage imageColorBrightness( BufferedImage image, double brightness ) {
+    public static Image imageColorBrightness( Image image, double brightness ) {
         
-        BufferedImage newImage = new BufferedImage( image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB );
+        Image newImage = new Image( image.getWidth(), image.getHeight() );
         
         for ( int i = 0; i < image.getHeight(); i++ ) {
             for ( int j = 0; j < image.getWidth(); j++ ) {
@@ -311,9 +312,9 @@ public class ImageUtils {
      * @param replace A cor que substituirá a outra cor.
      * @return Uma nova imagem com as cores trocadas.
      */
-    public static BufferedImage imageColorReplace( BufferedImage image, Color color, Color replace ) {
+    public static Image imageColorReplace( Image image, Color color, Color replace ) {
         
-        BufferedImage newImage = new BufferedImage( image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB );
+        Image newImage = new Image( image.getWidth(), image.getHeight() );
         
         for ( int i = 0; i < image.getHeight(); i++ ) {
             for ( int j = 0; j < image.getWidth(); j++ ) {
@@ -346,7 +347,7 @@ public class ImageUtils {
      * @param y Coordenada y do pixel.
      * @return A cor do pixel.
      */
-    public static Color getImageColor( BufferedImage image, int x, int y ) {
+    public static Color getImageColor( Image image, int x, int y ) {
         return new Color( image.getRGB( x, y ), true );
     }
     
@@ -360,7 +361,7 @@ public class ImageUtils {
      * @param backgroundColor A cor de fundo da imagem.
      * @return Uma imagem com texto.
      */
-    public static BufferedImage createTextBufferedImage( String text, int fontSize, int fontStyle, Color textColor, Color backgroundColor ) {
+    public static Image createTextImage( String text, int fontSize, int fontStyle, Color textColor, Color backgroundColor ) {
         
         BufferedImage dummy = new BufferedImage( 1, 1, BufferedImage.TYPE_INT_ARGB );
         Graphics gd = dummy.createGraphics();
@@ -368,7 +369,7 @@ public class ImageUtils {
         int w = gd.getFontMetrics().stringWidth( text );
         gd.dispose();
         
-        BufferedImage newImage = new BufferedImage( w + 20, 30, BufferedImage.TYPE_INT_ARGB );
+        Image newImage = new Image( w + 20, 30 );
         
         Graphics g = newImage.createGraphics();
         g.setColor( backgroundColor );

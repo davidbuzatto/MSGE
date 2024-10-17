@@ -17,6 +17,7 @@
 package br.com.davidbuzatto.msge;
 
 import br.com.davidbuzatto.msge.core.Engine;
+import br.com.davidbuzatto.msge.image.Image;
 import br.com.davidbuzatto.msge.geom.Arc;
 import br.com.davidbuzatto.msge.geom.Circle;
 import br.com.davidbuzatto.msge.geom.CircleSector;
@@ -38,7 +39,6 @@ import br.com.davidbuzatto.msge.utils.MathUtils;
 import br.com.davidbuzatto.msge.utils.Utils;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -365,7 +365,7 @@ public class Main extends Engine {
     private String mouseRightDown = "none";
     
     // imagens
-    private BufferedImage img;
+    private Image img;
     private Color cr = new Color( 255, 0, 0, 100 );
     private Color cg = new Color( 0, 255, 0, 100 );
     private Color cb = new Color( 0, 0, 255, 100 );
