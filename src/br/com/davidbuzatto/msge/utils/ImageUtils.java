@@ -383,4 +383,34 @@ public class ImageUtils {
         
     }
     
+    /**
+     * Cria uma cópia de uma imagem.
+     * 
+     * @param image Imagem a ser copiada.
+     * @return Uma cópia da imagem original.
+     */
+    public static Image copyImage( Image image ) {
+        return new Image( copyBufferedImage( image.buffImage ) );
+    }
+    
+    /**
+     * Cria uma cópia de uma imagem.
+     * 
+     * @param image Imagem a ser copiada.
+     * @return  Uma cópia da imagem original.
+     */
+    public static BufferedImage copyBufferedImage( BufferedImage image ) {
+        
+        BufferedImage newImage = new BufferedImage( image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB );
+        
+        for ( int i = 0; i < image.getHeight(); i++ ) {
+            for ( int j = 0; j < image.getWidth(); j++ ) {
+                newImage.setRGB( j, i, image.getRGB( j, i ) );
+            }
+        }
+        
+        return newImage;
+        
+    }
+    
 }

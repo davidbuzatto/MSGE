@@ -21,6 +21,7 @@ import br.com.davidbuzatto.msge.geom.Line;
 import br.com.davidbuzatto.msge.geom.Point;
 import br.com.davidbuzatto.msge.geom.QuadCurve;
 import br.com.davidbuzatto.msge.geom.Vector2;
+import java.awt.geom.Path2D;
 import java.util.Random;
 
 /**
@@ -697,6 +698,107 @@ public class MathUtils {
      */
     public static Point getPointAtCubicCurve( CubicCurve cubicCurve, double amount ) {
         return getPointAtCubicCurve( cubicCurve.x1, cubicCurve.y1, cubicCurve.c1x, cubicCurve.c1y, cubicCurve.c2x, cubicCurve.c2y, cubicCurve.x2, cubicCurve.y2, amount );
+    }
+    
+    
+    
+    /***************************************************************************
+     * Métodos estáticos para a criação de Path2Ds auxiliares.
+     **************************************************************************/
+    
+    /*
+     * Cria um triângulo.
+     */
+    public static Path2D createTriangle( double v1x, double v1y, double v2x, double v2y, double v3x, double v3y ) {
+
+        Path2D path = new Path2D.Double();
+        path.moveTo( v1x, v1y );
+        path.lineTo( v2x, v2y );
+        path.lineTo( v3x, v3y );
+        path.closePath();
+
+        return path;
+
+    }
+    
+    /*
+     * Cria um polígono regular.
+     */
+    public static Path2D createPolygon( double centerX, double centerY, double sides, double radius, double rotation ) {
+
+        Path2D path = new Path2D.Double();
+        double currentAngle = rotation;
+        double angleIncrement = 360.0 / sides;
+
+        for ( int i = 0; i < sides; i++ ) {
+
+            double rad = Math.toRadians( currentAngle );
+            double x = centerX + radius * Math.cos( rad );
+            double y = centerY + radius * Math.sin( rad );
+
+            if ( i == 0 ) {
+                path.moveTo( x, y );
+            } else {
+                path.lineTo( x, y );
+            }
+
+            currentAngle += angleIncrement;
+
+        }
+
+        path.closePath();
+        
+        return path;
+
+    }
+    
+    /*
+     * Cria um anel.
+     */
+    public static Path2D createRing( double centerX, double centerY, double innerRadius, double outerRadius, double startAngle, double endAngle, int segments ) {
+
+        Path2D path = new Path2D.Double();
+        double currentAngle = startAngle;
+        double angleIncrement = Math.abs( endAngle - startAngle ) / segments;
+
+        double rad = Math.toRadians( currentAngle );
+        double x = centerX + innerRadius * Math.cos( rad );
+        double y = centerY + innerRadius * Math.sin( rad );
+        path.moveTo( x, y );
+
+        for ( int i = 0; i < segments; i++ ) {
+
+            currentAngle += angleIncrement;
+
+            rad = Math.toRadians( currentAngle );
+            x = centerX + innerRadius * Math.cos( rad );
+            y = centerY + innerRadius * Math.sin( rad );
+
+            path.lineTo( x, y );
+
+        }
+
+        rad = Math.toRadians( currentAngle );
+        x = centerX + outerRadius * Math.cos( rad );
+        y = centerY + outerRadius * Math.sin( rad );
+        path.lineTo( x, y );
+
+        for ( int i = 0; i < segments; i++ ) {
+
+            currentAngle -= angleIncrement;
+
+            rad = Math.toRadians( currentAngle );
+            x = centerX + outerRadius * Math.cos( rad );
+            y = centerY + outerRadius * Math.sin( rad );
+
+            path.lineTo( x, y );
+
+        }
+
+        path.closePath();
+        
+        return path;
+
     }
 
 }

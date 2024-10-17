@@ -35,6 +35,7 @@ import br.com.davidbuzatto.msge.geom.Triangle;
 import br.com.davidbuzatto.msge.geom.Vector2;
 import br.com.davidbuzatto.msge.utils.ColorUtils;
 import br.com.davidbuzatto.msge.utils.ImageUtils;
+import br.com.davidbuzatto.msge.utils.MathUtils;
 import java.awt.AWTException;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
@@ -59,6 +60,13 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.geom.Arc2D;
+import java.awt.geom.CubicCurve2D;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.QuadCurve2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -817,7 +825,7 @@ public abstract class Engine extends JFrame {
      */
     public void drawPixel( double posX, double posY, Color color ) {
         g2d.setColor( color );
-        g2d.draw( new java.awt.geom.Line2D.Double( posX, posY, posX, posY ) );
+        g2d.draw( new Line2D.Double( posX, posY, posX, posY ) );
     }
 
     /**
@@ -851,7 +859,7 @@ public abstract class Engine extends JFrame {
      */
     public void drawLine( double startPosX, double startPosY, double endPosX, double endPosY, Color color ) {
         g2d.setColor( color );
-        g2d.draw( new java.awt.geom.Line2D.Double( startPosX, startPosY, endPosX, endPosY ) );
+        g2d.draw( new Line2D.Double( startPosX, startPosY, endPosX, endPosY ) );
     }
 
     /**
@@ -897,7 +905,7 @@ public abstract class Engine extends JFrame {
      */
     public void drawRectangle( double posX, double posY, double width, double height, Color color ) {
         g2d.setColor( color );
-        g2d.draw( new java.awt.geom.Rectangle2D.Double( posX, posY, width, height ) );
+        g2d.draw( new Rectangle2D.Double( posX, posY, width, height ) );
     }
 
     /**
@@ -945,7 +953,7 @@ public abstract class Engine extends JFrame {
      */
     public void fillRectangle( double posX, double posY, double width, double height, Color color ) {
         g2d.setColor( color );
-        g2d.fill( new java.awt.geom.Rectangle2D.Double( posX, posY, width, height ) );
+        g2d.fill( new Rectangle2D.Double( posX, posY, width, height ) );
     }
 
     /**
@@ -1000,7 +1008,7 @@ public abstract class Engine extends JFrame {
         gc.setColor( color );
 
         gc.rotate( Math.toRadians( rotation ), originX, originY );
-        gc.draw( new java.awt.geom.Rectangle2D.Double( posX, posY, width, height ) );
+        gc.draw( new Rectangle2D.Double( posX, posY, width, height ) );
 
         gc.dispose();
 
@@ -1064,7 +1072,7 @@ public abstract class Engine extends JFrame {
         gc.setColor( color );
 
         gc.rotate( Math.toRadians( rotation ), originX, originY );
-        gc.fill( new java.awt.geom.Rectangle2D.Double( posX, posY, width, height ) );
+        gc.fill( new Rectangle2D.Double( posX, posY, width, height ) );
 
         gc.dispose();
 
@@ -1122,7 +1130,7 @@ public abstract class Engine extends JFrame {
      */
     public void drawRoundRectangle( double posX, double posY, double width, double height, double roundness, Color color ) {
         g2d.setColor( color );
-        g2d.draw( new java.awt.geom.RoundRectangle2D.Double( posX, posY, width, height, roundness, roundness ) );
+        g2d.draw( new RoundRectangle2D.Double( posX, posY, width, height, roundness, roundness ) );
     }
 
     /**
@@ -1173,7 +1181,7 @@ public abstract class Engine extends JFrame {
      */
     public void fillRoundRectangle( double posX, double posY, double width, double height, double roundness, Color color ) {
         g2d.setColor( color );
-        g2d.fill( new java.awt.geom.RoundRectangle2D.Double( posX, posY, width, height, roundness, roundness ) );
+        g2d.fill( new RoundRectangle2D.Double( posX, posY, width, height, roundness, roundness ) );
     }
 
     /**
@@ -1224,7 +1232,7 @@ public abstract class Engine extends JFrame {
      */
     public void fillRectangleGradientH( double posX, double posY, double width, double height, Color color1, Color color2 ) {
         g2d.setPaint( new GradientPaint( (int) posX, (int) (posY + height / 2), color1, (int) (posX + width), (int) (posY + height / 2), color2 ) );
-        g2d.fill( new java.awt.geom.Rectangle2D.Double( posX, posY, width, height ) );
+        g2d.fill( new Rectangle2D.Double( posX, posY, width, height ) );
     }
 
     /**
@@ -1276,7 +1284,7 @@ public abstract class Engine extends JFrame {
      */
     public void fillRectangleGradientV( double posX, double posY, double width, double height, Color color1, Color color2 ) {
         g2d.setPaint( new GradientPaint( (int) (posX + width / 2), (int) posY, color1, (int) (posX + width / 2), (int) (posY + height), color2 ) );
-        g2d.fill( new java.awt.geom.Rectangle2D.Double( posX, posY, width, height ) );
+        g2d.fill( new Rectangle2D.Double( posX, posY, width, height ) );
     }
 
     /**
@@ -1326,7 +1334,7 @@ public abstract class Engine extends JFrame {
      */
     public void drawCircle( double centerX, double centerY, double radius, Color color ) {
         g2d.setColor( color );
-        g2d.draw( new java.awt.geom.Ellipse2D.Double( centerX - radius, centerY - radius, radius * 2, radius * 2 ) );
+        g2d.draw( new Ellipse2D.Double( centerX - radius, centerY - radius, radius * 2, radius * 2 ) );
     }
 
     /**
@@ -1371,7 +1379,7 @@ public abstract class Engine extends JFrame {
      */
     public void fillCircle( double centerX, double centerY, double radius, Color color ) {
         g2d.setColor( color );
-        g2d.fill( new java.awt.geom.Ellipse2D.Double( centerX - radius, centerY - radius, radius * 2, radius * 2 ) );
+        g2d.fill( new Ellipse2D.Double( centerX - radius, centerY - radius, radius * 2, radius * 2 ) );
     }
 
     /**
@@ -1417,7 +1425,7 @@ public abstract class Engine extends JFrame {
      */
     public void drawEllipse( double centerX, double centerY, double radiusH, double radiusV, Color color ) {
         g2d.setColor( color );
-        g2d.draw( new java.awt.geom.Ellipse2D.Double( centerX - radiusH, centerY - radiusV, radiusH * 2, radiusV * 2 ) );
+        g2d.draw( new Ellipse2D.Double( centerX - radiusH, centerY - radiusV, radiusH * 2, radiusV * 2 ) );
     }
 
     /**
@@ -1465,7 +1473,7 @@ public abstract class Engine extends JFrame {
      */
     public void fillEllipse( double centerX, double centerY, double radiusH, double radiusV, Color color ) {
         g2d.setColor( color );
-        g2d.fill( new java.awt.geom.Ellipse2D.Double( centerX - radiusH, centerY - radiusV, radiusH * 2, radiusV * 2 ) );
+        g2d.fill( new Ellipse2D.Double( centerX - radiusH, centerY - radiusV, radiusH * 2, radiusV * 2 ) );
     }
 
     /**
@@ -1515,7 +1523,7 @@ public abstract class Engine extends JFrame {
     public void drawCircleSector( double centerX, double centerY, double radius, double startAngle, double endAngle, Color color ) {
         g2d.setColor( color );
         double extent = endAngle - startAngle;
-        g2d.draw( new java.awt.geom.Arc2D.Double( centerX - radius, centerY - radius, radius * 2, radius * 2, startAngle, -extent, java.awt.geom.Arc2D.PIE ) );
+        g2d.draw( new Arc2D.Double( centerX - radius, centerY - radius, radius * 2, radius * 2, startAngle, -extent, Arc2D.PIE ) );
     }
 
     /**
@@ -1579,7 +1587,7 @@ public abstract class Engine extends JFrame {
     public void fillCircleSector( double centerX, double centerY, double radius, double startAngle, double endAngle, Color color ) {
         g2d.setColor( color );
         double extent = endAngle - startAngle;
-        g2d.fill( new java.awt.geom.Arc2D.Double( centerX - radius, centerY - radius, radius * 2, radius * 2, startAngle, -extent, java.awt.geom.Arc2D.PIE ) );
+        g2d.fill( new Arc2D.Double( centerX - radius, centerY - radius, radius * 2, radius * 2, startAngle, -extent, Arc2D.PIE ) );
     }
 
     /**
@@ -1644,7 +1652,7 @@ public abstract class Engine extends JFrame {
     public void drawEllipseSector( double centerX, double centerY, double radiusH, double radiusV, double startAngle, double endAngle, Color color ) {
         g2d.setColor( color );
         double extent = endAngle - startAngle;
-        g2d.draw( new java.awt.geom.Arc2D.Double( centerX - radiusH, centerY - radiusV, radiusH * 2, radiusV * 2, startAngle, -extent, java.awt.geom.Arc2D.PIE ) );
+        g2d.draw( new Arc2D.Double( centerX - radiusH, centerY - radiusV, radiusH * 2, radiusV * 2, startAngle, -extent, Arc2D.PIE ) );
     }
 
     /**
@@ -1711,7 +1719,7 @@ public abstract class Engine extends JFrame {
     public void fillEllipseSector( double centerX, double centerY, double radiusH, double radiusV, double startAngle, double endAngle, Color color ) {
         g2d.setColor( color );
         double extent = endAngle - startAngle;
-        g2d.fill( new java.awt.geom.Arc2D.Double( centerX - radiusH, centerY - radiusV, radiusH * 2, radiusV * 2, startAngle, -extent, java.awt.geom.Arc2D.PIE ) );
+        g2d.fill( new Arc2D.Double( centerX - radiusH, centerY - radiusV, radiusH * 2, radiusV * 2, startAngle, -extent, Arc2D.PIE ) );
     }
 
     /**
@@ -1778,7 +1786,7 @@ public abstract class Engine extends JFrame {
     public void drawArc( double centerX, double centerY, double radiusH, double radiusV, double startAngle, double endAngle, Color color ) {
         g2d.setColor( color );
         double extent = endAngle - startAngle;
-        g2d.draw( new java.awt.geom.Arc2D.Double( centerX - radiusH, centerY - radiusV, radiusH * 2, radiusV * 2, startAngle, -extent, java.awt.geom.Arc2D.OPEN ) );
+        g2d.draw( new Arc2D.Double( centerX - radiusH, centerY - radiusV, radiusH * 2, radiusV * 2, startAngle, -extent, Arc2D.OPEN ) );
     }
 
     /**
@@ -1833,7 +1841,7 @@ public abstract class Engine extends JFrame {
     public void fillArc( double centerX, double centerY, double radiusH, double radiusV, double startAngle, double endAngle, Color color ) {
         g2d.setColor( color );
         double extent = endAngle - startAngle;
-        g2d.fill( new java.awt.geom.Arc2D.Double( centerX - radiusH, centerY - radiusV, radiusH * 2, radiusV * 2, startAngle, -extent, java.awt.geom.Arc2D.CHORD ) );
+        g2d.fill( new Arc2D.Double( centerX - radiusH, centerY - radiusV, radiusH * 2, radiusV * 2, startAngle, -extent, Arc2D.CHORD ) );
     }
 
     /**
@@ -1887,7 +1895,8 @@ public abstract class Engine extends JFrame {
      * @param color cor de desenho.
      */
     public void drawRing( double centerX, double centerY, double innerRadius, double outerRadius, double startAngle, double endAngle, int segments, Color color ) {
-        processRing( centerX, centerY, innerRadius, outerRadius, startAngle, endAngle, segments, color, true );
+        g2d.setColor( color );
+        g2d.draw( MathUtils.createRing( centerX, centerY, innerRadius, outerRadius, startAngle, endAngle, segments ) );
     }
 
     /**
@@ -1943,7 +1952,8 @@ public abstract class Engine extends JFrame {
      * @param color cor de desenho.
      */
     public void fillRing( double centerX, double centerY, double innerRadius, double outerRadius, double startAngle, double endAngle, int segments, Color color ) {
-        processRing( centerX, centerY, innerRadius, outerRadius, startAngle, endAngle, segments, color, false );
+        g2d.setColor( color );
+        g2d.fill( MathUtils.createRing( centerX, centerY, innerRadius, outerRadius, startAngle, endAngle, segments ) );
     }
 
     /**
@@ -1986,61 +1996,6 @@ public abstract class Engine extends JFrame {
         fillRing( ring.x, ring.y, ring.innerRadius, ring.outerRadius, ring.startAngle, ring.endAngle, ring.segments, color );
     }
 
-    /*
-     * Gera o desenho do anel.
-     */
-    private void processRing( double centerX, double centerY, double innerRadius, double outerRadius, double startAngle, double endAngle, int segments, Color color, boolean draw ) {
-
-        g2d.setColor( color );
-
-        java.awt.geom.Path2D path = new java.awt.geom.Path2D.Double();
-        double currentAngle = startAngle;
-        double angleIncrement = Math.abs( endAngle - startAngle ) / segments;
-
-        double rad = Math.toRadians( currentAngle );
-        double x = centerX + innerRadius * Math.cos( rad );
-        double y = centerY + innerRadius * Math.sin( rad );
-        path.moveTo( x, y );
-
-        for ( int i = 0; i < segments; i++ ) {
-
-            currentAngle += angleIncrement;
-
-            rad = Math.toRadians( currentAngle );
-            x = centerX + innerRadius * Math.cos( rad );
-            y = centerY + innerRadius * Math.sin( rad );
-
-            path.lineTo( x, y );
-
-        }
-
-        rad = Math.toRadians( currentAngle );
-        x = centerX + outerRadius * Math.cos( rad );
-        y = centerY + outerRadius * Math.sin( rad );
-        path.lineTo( x, y );
-
-        for ( int i = 0; i < segments; i++ ) {
-
-            currentAngle -= angleIncrement;
-
-            rad = Math.toRadians( currentAngle );
-            x = centerX + outerRadius * Math.cos( rad );
-            y = centerY + outerRadius * Math.sin( rad );
-
-            path.lineTo( x, y );
-
-        }
-
-        path.closePath();
-
-        if ( draw ) {
-            g2d.draw( path );
-        } else {
-            g2d.fill( path );
-        }
-
-    }
-
     /**
      * Desenha um triângulo.
      * 
@@ -2053,7 +2008,8 @@ public abstract class Engine extends JFrame {
      * @param color cor de desenho.
      */
     public void drawTriangle( double v1x, double v1y, double v2x, double v2y, double v3x, double v3y, Color color ) {
-        processTriangle( v1x, v1y, v2x, v2y, v3x, v3y, color, true );
+        g2d.setColor( color );
+        g2d.draw( MathUtils.createTriangle( v1x, v1y, v2x, v2y, v3x, v3y ) );
     }
 
     /**
@@ -2102,7 +2058,8 @@ public abstract class Engine extends JFrame {
      * @param color cor de desenho.
      */
     public void fillTriangle( double v1x, double v1y, double v2x, double v2y, double v3x, double v3y, Color color ) {
-        processTriangle( v1x, v1y, v2x, v2y, v3x, v3y, color, false );
+        g2d.setColor( color );
+        g2d.fill( MathUtils.createTriangle( v1x, v1y, v2x, v2y, v3x, v3y ) );
     }
 
     /**
@@ -2139,27 +2096,6 @@ public abstract class Engine extends JFrame {
         fillTriangle( triangle.x1, triangle.y1, triangle.x2, triangle.y2, triangle.x3, triangle.y3, color );
     }
 
-    /*
-     * Gera o desenho do triângulo.
-     */
-    private void processTriangle( double v1x, double v1y, double v2x, double v2y, double v3x, double v3y, Color color, boolean draw ) {
-
-        g2d.setColor( color );
-
-        java.awt.geom.Path2D path = new java.awt.geom.Path2D.Double();
-        path.moveTo( v1x, v1y );
-        path.lineTo( v2x, v2y );
-        path.lineTo( v3x, v3y );
-        path.closePath();
-
-        if ( draw ) {
-            g2d.draw( path );
-        } else {
-            g2d.fill( path );
-        }
-
-    }
-
     /**
      * Desenha um polígono regular.
      * 
@@ -2171,7 +2107,8 @@ public abstract class Engine extends JFrame {
      * @param color cor de desenho.
      */
     public void drawPolygon( double centerX, double centerY, double sides, double radius, double rotation, Color color ) {
-        processPolygon( centerX, centerY, sides, radius, rotation, color, true );
+        g2d.setColor( color );
+        g2d.draw( MathUtils.createPolygon( centerX, centerY, sides, radius, rotation ) );
     }
 
     /**
@@ -2221,7 +2158,8 @@ public abstract class Engine extends JFrame {
      * @param color cor de desenho.
      */
     public void fillPolygon( double centerX, double centerY, double sides, double radius, double rotation, Color color ) {
-        processPolygon( centerX, centerY, sides, radius, rotation, color, false );
+        g2d.setColor( color );
+        g2d.fill( MathUtils.createPolygon( centerX, centerY, sides, radius, rotation ) );
     }
 
     /**
@@ -2258,43 +2196,6 @@ public abstract class Engine extends JFrame {
      */
     public void fillPolygon( Polygon polygon, Color color ) {
         fillPolygon( polygon.x, polygon.y, polygon.sides, polygon.radius, polygon.rotation, color );
-    }
-
-    /*
-     * Gera o desenho do polígono regular.
-     */
-    private void processPolygon( double centerX, double centerY, double sides, double radius, double rotation, Color color, boolean draw ) {
-
-        g2d.setColor( color );
-
-        java.awt.geom.Path2D path = new java.awt.geom.Path2D.Double();
-        double currentAngle = rotation;
-        double angleIncrement = 360.0 / sides;
-
-        for ( int i = 0; i < sides; i++ ) {
-
-            double rad = Math.toRadians( currentAngle );
-            double x = centerX + radius * Math.cos( rad );
-            double y = centerY + radius * Math.sin( rad );
-
-            if ( i == 0 ) {
-                path.moveTo( x, y );
-            } else {
-                path.lineTo( x, y );
-            }
-
-            currentAngle += angleIncrement;
-
-        }
-
-        path.closePath();
-
-        if ( draw ) {
-            g2d.draw( path );
-        } else {
-            g2d.fill( path );
-        }
-
     }
 
     /**
@@ -2337,8 +2238,8 @@ public abstract class Engine extends JFrame {
      * @param color cor de desenhho.
      */
     public void drawQuadCurve( double p1x, double p1y, double cx, double cy, double p2x, double p2y, Color color ) {
-        this.g2d.setColor( color );
-        g2d.draw( new java.awt.geom.QuadCurve2D.Double( p1x, p1y, cx, cy, p2x, p2y ) );
+        g2d.setColor( color );
+        g2d.draw( new QuadCurve2D.Double( p1x, p1y, cx, cy, p2x, p2y ) );
     }
 
     /**
@@ -2387,8 +2288,8 @@ public abstract class Engine extends JFrame {
      * @param color cor de desenhho.
      */
     public void fillQuadCurve( double p1x, double p1y, double cx, double cy, double p2x, double p2y, Color color ) {
-        this.g2d.setColor( color );
-        g2d.fill( new java.awt.geom.QuadCurve2D.Double( p1x, p1y, cx, cy, p2x, p2y ) );
+        g2d.setColor( color );
+        g2d.fill( new QuadCurve2D.Double( p1x, p1y, cx, cy, p2x, p2y ) );
     }
 
     /**
@@ -2439,8 +2340,8 @@ public abstract class Engine extends JFrame {
      * @param color cor de desenhho.
      */
     public void drawCubicCurve( double p1x, double p1y, double c1x, double c1y, double c2x, double c2y, double p2x, double p2y, Color color ) {
-        this.g2d.setColor( color );
-        g2d.draw( new java.awt.geom.CubicCurve2D.Double( p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y ) );
+        g2d.setColor( color );
+        g2d.draw( new CubicCurve2D.Double( p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y ) );
     }
 
     /**
@@ -2493,8 +2394,8 @@ public abstract class Engine extends JFrame {
      * @param color cor de desenhho.
      */
     public void fillCubicCurve( double p1x, double p1y, double c1x, double c1y, double c2x, double c2y, double p2x, double p2y, Color color ) {
-        this.g2d.setColor( color );
-        g2d.fill( new java.awt.geom.CubicCurve2D.Double( p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y ) );
+        g2d.setColor( color );
+        g2d.fill( new CubicCurve2D.Double( p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y ) );
     }
 
     /**
@@ -2532,9 +2433,9 @@ public abstract class Engine extends JFrame {
     public void fillCubicCurve( CubicCurve cubicCurve, Color color ) {
         fillCubicCurve( cubicCurve.x1, cubicCurve.y1, cubicCurve.c1x, cubicCurve.c1y, cubicCurve.c2x, cubicCurve.c2y, cubicCurve.x2, cubicCurve.y2, color );
     }
+    
 
-
-
+    
     /***************************************************************************
      * Métodos de desenho de texto.
      **************************************************************************/
@@ -2550,6 +2451,19 @@ public abstract class Engine extends JFrame {
     public void drawText( String text, double posX, double posY, Color color ) {
         g2d.setColor( color );
         g2d.drawString( text, (int) posX, (int) posY );
+    }
+    
+    /**
+     * Desenha um texto rotacionado usando o tamanho de fonte corrente.
+     * 
+     * @param text o texto a ser desenhado.
+     * @param posX coordenada x do início do desenho do texto.
+     * @param posY coordenada y do início do desenho do texto.
+     * @param rotation ângulo de rotação em graus (sentido horário).
+     * @param color cor de desenho.
+     */
+    public void drawText( String text, double posX, double posY, double rotation, Color color ) {
+        drawText( text, posX, posY, 0, 0, rotation, color );
     }
 
     /**
@@ -2594,6 +2508,20 @@ public abstract class Engine extends JFrame {
      * @param text o texto a ser desenhado.
      * @param posX coordenada x do início do desenho do texto.
      * @param posY coordenada y do início do desenho do texto.
+     * @param rotation ângulo de rotação em graus (sentido horário).
+     * @param fontSize tamanho da fonte.
+     * @param color cor de desenho.
+     */
+    public void drawText( String text, double posX, double posY, double rotation, int fontSize, Color color ) {
+        drawText( text, posX, posY, 0, 0, rotation, fontSize, color );
+    }
+    
+    /**
+     * Desenha um texto rotacionado.
+     * 
+     * @param text o texto a ser desenhado.
+     * @param posX coordenada x do início do desenho do texto.
+     * @param posY coordenada y do início do desenho do texto.
      * @param originX coordenada x do pivô de rotação.
      * @param originY coordenada y do pivô de rotação.
      * @param rotation ângulo de rotação em graus (sentido horário).
@@ -2618,6 +2546,18 @@ public abstract class Engine extends JFrame {
      */
     public void drawText( String text, Point point, Color color ) {
         drawText( text, point.x, point.y, color );
+    }
+    
+    /**
+     * Desenha um texto rotacionado usando o tamanho de fonte corrente.
+     * 
+     * @param text o texto a ser desenhado.
+     * @param point ponto do inicio do desenho do texto.
+     * @param rotation ângulo de rotação em graus (sentido horário).
+     * @param color cor de desenho.
+     */
+    public void drawText( String text, Point point, double rotation, Color color ) {
+        drawText( text, point.x, point.y, 0, 0, rotation, color );
     }
 
     /**
@@ -2644,6 +2584,19 @@ public abstract class Engine extends JFrame {
     public void drawText( String text, Point point, int fontSize, Color color ) {
         drawText( text, point.x, point.y, fontSize, color );
     }
+    
+    /**
+     * Desenha um texto rotacionado.
+     * 
+     * @param text o texto a ser desenhado.
+     * @param point ponto do inicio do desenho do texto.
+     * @param rotation ângulo de rotação em graus (sentido horário).
+     * @param fontSize tamanho da fonte.
+     * @param color cor de desenho.
+     */
+    public void drawText( String text, Point point, double rotation, int fontSize, Color color ) {
+        drawText( text, point.x, point.y, 0, 0, rotation, fontSize, color );
+    }
 
     /**
      * Desenha um texto.
@@ -2669,6 +2622,18 @@ public abstract class Engine extends JFrame {
     public void drawText( String text, Vector2 point, Color color ) {
         drawText( text, point.x, point.y, color );
     }
+    
+    /**
+     * Desenha um texto rotacionado usando o tamanho de fonte corrente.
+     * 
+     * @param text o texto a ser desenhado.
+     * @param point ponto do inicio do desenho do texto.
+     * @param rotation ângulo de rotação em graus (sentido horário).
+     * @param color cor de desenho.
+     */
+    public void drawText( String text, Vector2 point, double rotation, Color color ) {
+        drawText( text, point.x, point.y, 0, 0, rotation, color );
+    }
 
     /**
      * Desenha um texto rotacionado usando o tamanho de fonte corrente.
@@ -2693,6 +2658,19 @@ public abstract class Engine extends JFrame {
      */
     public void drawText( String text, Vector2 point, int fontSize, Color color ) {
         drawText( text, point.x, point.y, fontSize, color );
+    }
+    
+    /**
+     * Desenha um texto rotacionado.
+     * 
+     * @param text o texto a ser desenhado.
+     * @param point ponto do inicio do desenho do texto.
+     * @param rotation ângulo de rotação em graus (sentido horário).
+     * @param fontSize tamanho da fonte.
+     * @param color cor de desenho.
+     */
+    public void drawText( String text, Vector2 point, double rotation, int fontSize, Color color ) {
+        drawText( text, point.x, point.y, 0, 0, rotation, fontSize, color );
     }
 
     /**

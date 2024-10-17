@@ -36,7 +36,29 @@ public class ImageTests extends Engine {
     
     @Override
     public void create() {
+        
         img = loadImage( "resources/images/dukeCont.png" );
+        Color ct = new Color( 0, 0, 255, 100 );
+        //img.drawPixel( 10, 10, BLACK );
+        //img.drawLine( 10, 10, 100, 100, BLACK );
+        //img.fillRectangle( 10, 10, 100, 100, ct );
+        //img.fillRectanglePro( 10, 10, 100, 100, 0, 0, 45, ct );
+        //img.fillRoundRectangle( 10, 10, 100, 100, 10, ct );
+        //img.fillRectangleGradientH( 10, 10, 100, 100, RED, BLUE );
+        //img.fillRectangleGradientV( 10, 10, 100, 100, RED, BLUE );
+        //img.fillCircle( 50, 50, 30, ct );
+        //img.fillCircleSector( 50, 50, 30, 0, 90, ct );
+        //img.fillEllipseSector( 50, 50, 30, 60, 0, 90, ct );
+        //img.fillArc( 50, 50, 30, 60, 0, 90, ct );
+        //img.fillArc( 50, 50, 30, 30, 0, 90, ct );
+        //img.fillRing( 50, 50, 30, 50, 0, 90, 30, ct );
+        //img.fillTriangle( 50, 10, 70, 40, 30, 40, ct );
+        //img.fillPolygon( 50, 50, 5, 40, 10, ct );
+        //img.drawPolygon( 50, 50, 5, 40, 10, BLACK );
+        //img.fillQuadCurve( 10, 10, 100, 10, 100, 100, ct );
+        //img.fillCubicCurve( 10, 10, 100, 10, 10, 100, 100, 100, ct );
+        img.drawText( "test", 30, 30, 30.0, 40, BLACK );
+        
         //tImg = ImageUtils.imageResize( img, 100, 400 );
         tImg = ImageUtils.imageRotate( img, r );
         //tImg = ImageUtils.imageFlipVertical( img );
@@ -82,12 +104,13 @@ public class ImageTests extends Engine {
     Color cColor = null;
     Color cr = new Color( 255, 0, 0, 100 );
     Color cg = new Color( 0, 255, 0, 100 );
-    Color cb = new Color( 0, 0, 255, 100 );
+    Color cb = new Color( 0, 0, 255, 255 );
     
     @Override
     public void draw() {
         
-        //drawImage( img, 0, 0, cg );
+        drawImage( img, 400, 10, cg );
+        
         /*if ( cColor != null ) {
             fillRectangle( getMouseX(), getMouseY(), 20, 20, cColor );
         }*/
