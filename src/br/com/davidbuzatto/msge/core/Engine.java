@@ -32,8 +32,8 @@ import br.com.davidbuzatto.msge.geom.Ring;
 import br.com.davidbuzatto.msge.geom.RoundRectangle;
 import br.com.davidbuzatto.msge.geom.Triangle;
 import br.com.davidbuzatto.msge.geom.Vector2;
+import br.com.davidbuzatto.msge.utils.ColorUtils;
 import br.com.davidbuzatto.msge.utils.ImageUtils;
-import br.com.davidbuzatto.msge.utils.Utils;
 import java.awt.AWTException;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
@@ -2892,7 +2892,7 @@ public abstract class Engine extends JFrame {
 
         drawText( 
             String.format( "%d FPS", currentFPS ), 
-            x, y, Utils.lerp( RED, LIME, currentFPS / (double) targetFPS ) );
+            x, y, ColorUtils.lerp( RED, LIME, currentFPS / (double) targetFPS ) );
 
         g2d.setFont( t );
 

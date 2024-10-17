@@ -32,6 +32,9 @@ import br.com.davidbuzatto.msge.geom.Ring;
 import br.com.davidbuzatto.msge.geom.RoundRectangle;
 import br.com.davidbuzatto.msge.geom.Triangle;
 import br.com.davidbuzatto.msge.geom.Vector2;
+import br.com.davidbuzatto.msge.utils.CollisionUtils;
+import br.com.davidbuzatto.msge.utils.ColorUtils;
+import br.com.davidbuzatto.msge.utils.MathUtils;
 import br.com.davidbuzatto.msge.utils.Utils;
 import java.awt.Color;
 import java.awt.Font;
@@ -67,7 +70,7 @@ public class Main extends Engine {
         void atualizar( double delta, int width, int height ) {
 
             if ( isMouseButtonPressed( MOUSE_BUTTON_LEFT ) ) {
-                if ( Utils.checkCollisionPointCircle( getMousePositionPoint(), pos, raio ) ) {
+                if ( CollisionUtils.checkCollisionPointCircle( getMousePositionPoint(), pos, raio ) ) {
                     arrastando = true;
                     xOffset = pos.x - getMouseX();
                     yOffset = pos.y - getMouseY();
@@ -440,33 +443,33 @@ public class Main extends Engine {
         // testes de colisão
         if ( isMouseButtonPressed( MOUSE_BUTTON_LEFT ) ) {
             
-            if ( Utils.checkCollisionPointLine( mousePos, line, 5 ) ) {
+            if ( CollisionUtils.checkCollisionPointLine( mousePos, line, 5 ) ) {
                 textPointGeom = "line!";
-            } else if ( Utils.checkCollisionPointRectangle( mousePos, rectangle ) ) {
+            } else if ( CollisionUtils.checkCollisionPointRectangle( mousePos, rectangle ) ) {
                 textPointGeom = "rectangle!";
-            } else if ( Utils.checkCollisionPointCircle( mousePos, circle ) ) {
+            } else if ( CollisionUtils.checkCollisionPointCircle( mousePos, circle ) ) {
                 textPointGeom = "circle!";
-            } else if ( Utils.checkCollisionPointTriangle( mousePos, triangle ) ) {
+            } else if ( CollisionUtils.checkCollisionPointTriangle( mousePos, triangle ) ) {
                 textPointGeom = "triangle!";
-            } else if ( Utils.checkCollisionPointPolygon( mousePos, polygon ) ) {
+            } else if ( CollisionUtils.checkCollisionPointPolygon( mousePos, polygon ) ) {
                 textPointGeom = "polygon!";
             } else {
                 textPointGeom = "none";
             }
 
-            if ( Utils.checkCollisionPointLine( mousePos, moveableLine, 10 ) ) {
+            if ( CollisionUtils.checkCollisionPointLine( mousePos, moveableLine, 10 ) ) {
                 mlDragging = true;
                 xOffset = moveableLine.x1 - mousePos.x;
                 yOffset = moveableLine.y1 - mousePos.y;
             }
 
-            if ( Utils.checkCollisionPointRectangle( mousePos, moveableRect ) ) {
+            if ( CollisionUtils.checkCollisionPointRectangle( mousePos, moveableRect ) ) {
                 mrDragging = true;
                 xOffset = moveableRect.x - mousePos.x;
                 yOffset = moveableRect.y - mousePos.y;
             }
 
-            if ( Utils.checkCollisionPointCircle( mousePos, moveableCircle ) ) {
+            if ( CollisionUtils.checkCollisionPointCircle( mousePos, moveableCircle ) ) {
                 mcDragging = true;
                 xOffset = moveableCircle.x - mousePos.x;
                 yOffset = moveableCircle.y - mousePos.y;
@@ -489,9 +492,9 @@ public class Main extends Engine {
             amount = 1.0;
         }
 
-        pointForLine = Utils.getPointAtLine( lineForPoint, amount );
-        pointForQuad = Utils.getPointAtQuadCurve( quadForPoint, amount );
-        pointForCubic = Utils.getPointAtCubicCurve( cubicForPoint, amount );
+        pointForLine = MathUtils.getPointAtLine( lineForPoint, amount );
+        pointForQuad = MathUtils.getPointAtQuadCurve( quadForPoint, amount );
+        pointForCubic = MathUtils.getPointAtCubicCurve( cubicForPoint, amount );
 
         if ( mlDragging && mousePos != null ) {
             double difX = moveableLine.x2 - moveableLine.x1;
@@ -508,7 +511,7 @@ public class Main extends Engine {
             moveableCircle.y = mousePos.y + yOffset;
         }
 
-        lineCollisionPoint = Utils.checkCollisionLines( moveableLine, line );
+        lineCollisionPoint = CollisionUtils.checkCollisionLines( moveableLine, line );
 
         if ( lineCollisionPoint != null ) {
             textLineGeom = "line!";
@@ -518,23 +521,23 @@ public class Main extends Engine {
             textLineGeom = "none";
         }
 
-        if ( Utils.checkCollisionRectangles( moveableRect, rectangle ) ) {
+        if ( CollisionUtils.checkCollisionRectangles( moveableRect, rectangle ) ) {
             textRectGeom = "rectangle!";
             moveableRectColor = overlapColor;
-            overlapRec = Utils.getCollisionRectangle( moveableRect, rectangle );
+            overlapRec = CollisionUtils.getCollisionRectangle( moveableRect, rectangle );
         } else {
             moveableRectColor = noOverlapColor;
             overlapRec = null;
             textRectGeom = "none";
         }
 
-        if ( Utils.checkCollisionCircleLine( moveableCircle, line ) ) {
+        if ( CollisionUtils.checkCollisionCircleLine( moveableCircle, line ) ) {
             textCircleGeom = "line!";
             moveableCircleColor = overlapColor;
-        } else if ( Utils.checkCollisionCircleRectangle( moveableCircle, rectangle ) ) {
+        } else if ( CollisionUtils.checkCollisionCircleRectangle( moveableCircle, rectangle ) ) {
             textCircleGeom = "rectangle!";
             moveableCircleColor = overlapColor;
-        } else if ( Utils.checkCollisionCircles( moveableCircle, circle ) ) {
+        } else if ( CollisionUtils.checkCollisionCircles( moveableCircle, circle ) ) {
             textCircleGeom = "circle!";
             moveableCircleColor = overlapColor;
         } else {
@@ -543,15 +546,15 @@ public class Main extends Engine {
         }
         
         // partículas
-        if ( isMouseButtonDown( MOUSE_BUTTON_LEFT ) && Utils.checkCollisionPointRectangle( mousePos, limitesParticulas ) ) {
+        if ( isMouseButtonDown( MOUSE_BUTTON_LEFT ) && CollisionUtils.checkCollisionPointRectangle( mousePos, limitesParticulas ) ) {
             for ( int i = 0; i < 20; i++ ) {
                 Particula p = new Particula();
                 p.pos = new Vector2( mousePos.x, mousePos.y );
-                p.vel = new Vector2( Utils.getRandomValue( -200, 200 ), Utils.getRandomValue( -200, 200 ) );
-                p.raio = Utils.getRandomValue( 2, 6 );
+                p.vel = new Vector2( MathUtils.getRandomValue( -200, 200 ), MathUtils.getRandomValue( -200, 200 ) );
+                p.raio = MathUtils.getRandomValue( 2, 6 );
                 p.atrito = 0.99;
                 p.elasticidade = 0.8;
-                p.cor = Utils.colorFromHSV( Utils.getRandomValue( 0, 30 ), 1, 1 );
+                p.cor = ColorUtils.colorFromHSV( MathUtils.getRandomValue( 0, 30 ), 1, 1 );
                 particulas.add( p );
             }
         }
@@ -640,15 +643,15 @@ public class Main extends Engine {
         
         // testes das funções de cores
         for ( int i = 0; i <= 360; i++ ) {
-            drawRectangle( 100 + i, 460 + i, 2, 2, Utils.colorFromHSV( i, 1, 1 ) );
+            drawRectangle( 100 + i, 460 + i, 2, 2, ColorUtils.colorFromHSV( i, 1, 1 ) );
         }
 
         Color c = LIME;
         fillRectangle( 10, 460, 50, 50, c );
-        fillRectangle( 10, 510, 50, 50, Utils.colorAlpha( c, 0.5 ) );
-        fillRectangle( 10, 560, 50, 50, Utils.colorTint( c, WHITE ) );
-        fillRectangle( 10, 610, 50, 50, Utils.colorBrightness( c, -0.5 ) );
-        fillRectangle( 10, 660, 50, 50, Utils.colorContrast( c, -0.5 ) );
+        fillRectangle( 10, 510, 50, 50, ColorUtils.colorAlpha( c, 0.5 ) );
+        fillRectangle( 10, 560, 50, 50, ColorUtils.colorTint( c, WHITE ) );
+        fillRectangle( 10, 610, 50, 50, ColorUtils.colorBrightness( c, -0.5 ) );
+        fillRectangle( 10, 660, 50, 50, ColorUtils.colorContrast( c, -0.5 ) );
         
         // partículas
         fillRectangle( limitesParticulas, BLACK );

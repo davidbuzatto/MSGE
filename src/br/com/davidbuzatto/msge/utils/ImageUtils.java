@@ -181,7 +181,7 @@ public class ImageUtils {
         for ( int i = 0; i < image.getHeight(); i++ ) {
             for ( int j = 0; j < image.getWidth(); j++ ) {
                 
-                Color c = Utils.colorTint( new Color( image.getRGB( j, i ) ), color );
+                Color c = ColorUtils.colorTint( new Color( image.getRGB( j, i ) ), color );
                 int pixel = image.getRGB( j, i );
                 int alpha = (pixel >> 24) & 0xff;
                 c = new Color( c.getRed(), c.getGreen(), c.getBlue(), alpha );
@@ -261,7 +261,7 @@ public class ImageUtils {
         for ( int i = 0; i < image.getHeight(); i++ ) {
             for ( int j = 0; j < image.getWidth(); j++ ) {
                 
-                Color c = Utils.colorContrast( new Color( image.getRGB( j, i ) ), contrast );
+                Color c = ColorUtils.colorContrast( new Color( image.getRGB( j, i ) ), contrast );
                 int pixel = image.getRGB( j, i );
                 int alpha = (pixel >> 24) & 0xff;
                 c = new Color( c.getRed(), c.getGreen(), c.getBlue(), alpha );
@@ -289,7 +289,7 @@ public class ImageUtils {
         for ( int i = 0; i < image.getHeight(); i++ ) {
             for ( int j = 0; j < image.getWidth(); j++ ) {
                 
-                Color c = Utils.colorBrightness( new Color( image.getRGB( j, i ) ), brightness );
+                Color c = ColorUtils.colorBrightness( new Color( image.getRGB( j, i ) ), brightness );
                 int pixel = image.getRGB( j, i );
                 int alpha = (pixel >> 24) & 0xff;
                 c = new Color( c.getRed(), c.getGreen(), c.getBlue(), alpha );
