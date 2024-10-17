@@ -33,9 +33,12 @@ import br.com.davidbuzatto.msge.geom.RoundRectangle;
 import br.com.davidbuzatto.msge.geom.Triangle;
 import br.com.davidbuzatto.msge.geom.Vector2;
 import br.com.davidbuzatto.msge.utils.MathUtils;
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.Arc2D;
 import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Ellipse2D;
@@ -51,6 +54,16 @@ import java.awt.image.BufferedImage;
  * @author Prof. Dr. David Buzatto
  */
 public class Image {
+    
+    private static Font font;
+    private static BasicStroke stroke;
+    private static boolean antialiasing;
+    
+    static {
+        resetFont();
+        resetStroke();
+        disableAntialiasing();
+    }
     
     public BufferedImage buffImage;
     
@@ -71,7 +84,20 @@ public class Image {
     }
     
     public Graphics2D createGraphics() {
-        return (Graphics2D) buffImage.createGraphics();
+        
+        Graphics2D g2d = (Graphics2D) buffImage.createGraphics();
+        
+        if ( antialiasing ) {
+            g2d.setRenderingHint( 
+                    RenderingHints.KEY_ANTIALIASING, 
+                    RenderingHints.VALUE_ANTIALIAS_ON );
+        }
+        
+        g2d.setFont( font );
+        g2d.setStroke( stroke );
+        
+        return g2d;
+        
     }
     
     public int getRGB( int x, int y ) {
@@ -2015,6 +2041,123 @@ public class Image {
      */
     public void drawText( String text, Vector2 point, Vector2 origin, double rotation, int fontSize, Color color ) {
         drawText( text, point.x, point.y, origin.x, origin.y, rotation, fontSize, color );
+    }
+    
+    /***************************************************************************
+     * Métodos para gerenciamento de fonte e contornos para o contexto gráfico
+     * das imagens.
+     **************************************************************************/
+    
+    /**
+     * Reconfigura a fonte corrente que é usada para os processos de desenho
+     * do contexto gráfico das imagens.
+     */
+    public static void resetFont() {
+        font = new Font( Font.MONOSPACED, Font.PLAIN, 10 );
+    }
+    
+    /**
+     * Configura o nome da fonte corrente que é usada para os processos de desenho
+     * do contexto gráfico das imagens.
+     * 
+     * @param name o nome da fonte.
+     */
+    public static void setFontName( String name ) {
+        font = new Font( name, font.getStyle(), font.getSize() );
+    }
+    
+    /**
+     * Configura o estilo da fonte corrente que é usada para os processos de desenho
+     * do contexto gráfico das imagens.
+     * 
+     * @param style o estilo da fonte.
+     */
+    public static void setFontStyle( int style ) {
+        font = font.deriveFont( style );
+    }
+    
+    /**
+     * Configura o tamanho da fonte corrente que é usada para os processos de desenho
+     * do contexto gráfico das imagens.
+     * 
+     * @param size o tamanho da fonte.
+     */
+    public static void setFontSize( int size ) {
+        font = font.deriveFont( (float) size );
+    }
+    
+    /**
+     * Configura a fonte corrente que é usada para os processos de desenho
+     * do contexto gráfico das imagens.
+     * 
+     * @param font a nova fonte.
+     */
+    public static void setFont( Font font ) {
+        Image.font = font;
+    }
+    
+    /**
+     * Reconfigura a contorno corrente que é usado para os processos de desenho
+     * do contexto gráfico das imagens.
+     */
+    public static void resetStroke() {
+        stroke = new BasicStroke( 1 );
+    }
+    
+    /**
+     * Configura a largura do desenho da linha do contorno corrente que é usado
+     * para os processos de desenho do contexto gráfico das imagens.
+     * 
+     * @param width A largura da linha do contorno padrão.
+     */
+    public static void setStrokeWidth( float width ) {
+        stroke = new BasicStroke( width, stroke.getEndCap(), stroke.getLineJoin() );
+    }
+    
+    /**
+     * Configura o modelo de desenho do fim das linhas do contorno corrente que é usado
+     * para os processos de desenho do contexto gráfico das imagens.
+     * 
+     * @param endCap O novo modelo de desenho.
+     */
+    public static void setStrokeEndCap( int endCap ) {
+        stroke = new BasicStroke( stroke.getLineWidth(), endCap, stroke.getLineJoin() );
+    }
+    
+    /**
+     * Configura o modelo de junção de linhas do contorno corrente que é usado
+     * para os processos de desenho do contexto gráfico das imagens.
+     * 
+     * @param lineJoin O novo modelo de junção de linhas.
+     */
+    public static void setStrokeLineJoin( int lineJoin ) {
+        stroke = new BasicStroke( stroke.getLineWidth(), stroke.getEndCap(), lineJoin );
+    }
+    
+    /**
+     * Configura o contorno corrente que é usada para os processos de desenho
+     * do contexto gráfico das imagens.
+     * 
+     * @param stroke o novo contorno.
+     */
+    public static void setStroke( BasicStroke stroke ) {
+        Image.stroke = stroke;
+    }
+    
+    /**
+     * Liga a suavização para os processos de desenho do contexto gráfico das
+     * imagens.
+     */
+    public static void enableAntialiasing() {
+        antialiasing = true;
+    }
+    
+    /**
+     * Desliga a suavização para os processos de desenho do contexto gráfico das
+     * imagens.
+     */
+    public static void disableAntialiasing() {
+        antialiasing = false;
     }
     
 }

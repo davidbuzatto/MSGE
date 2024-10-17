@@ -2953,10 +2953,10 @@ public abstract class Engine extends JFrame {
     }
 
     /**
-     * Altera a largura do contorno padrão do contexto gráfico.
+     * Altera a largura da linha do contorno padrão do contexto gráfico.
      * Utilize no método create();
      * 
-     * @param width A largura do contorno padrão.
+     * @param width A largura da linha do contorno padrão.
      */
     public void setDefaultStrokeWidth( float width ) {
         defaultStroke = new BasicStroke( width, defaultStroke.getEndCap(), defaultStroke.getLineJoin() );
@@ -2985,17 +2985,17 @@ public abstract class Engine extends JFrame {
     }
 
     /**
-     * Altera a largura do contorno corrente do contexto gráfico.
+     * Altera a largura da linha do contorno corrente do contexto gráfico.
      * Cuidado, essa operação alterará o contorno toda vez que for executada.
      * 
-     * @param width A largura do contorno padrão.
+     * @param width A largura da linha do contorno padrão.
      */
     public void setStrokeWidth( float width ) {
         g2d.setStroke( new BasicStroke( width, defaultStroke.getEndCap(), defaultStroke.getLineJoin() ) );
     }
 
     /**
-     * Altera o modelo desenho do fim das linhas do contorno corrente do contexto
+     * Altera o modelo de desenho do fim das linhas do contorno corrente do contexto
      * gráfico.
      * Cuidado, essa operação alterará o contorno toda vez que for executada.
      * 

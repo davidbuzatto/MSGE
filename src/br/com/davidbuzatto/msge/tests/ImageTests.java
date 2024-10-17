@@ -39,6 +39,7 @@ public class ImageTests extends Engine {
         
         img = loadImage( "resources/images/dukeCont.png" );
         Color ct = new Color( 0, 0, 255, 100 );
+        Image.enableAntialiasing();
         //img.drawPixel( 10, 10, BLACK );
         //img.drawLine( 10, 10, 100, 100, BLACK );
         //img.fillRectangle( 10, 10, 100, 100, ct );
@@ -51,7 +52,7 @@ public class ImageTests extends Engine {
         //img.fillEllipseSector( 50, 50, 30, 60, 0, 90, ct );
         //img.fillArc( 50, 50, 30, 60, 0, 90, ct );
         //img.fillArc( 50, 50, 30, 30, 0, 90, ct );
-        //img.fillRing( 50, 50, 30, 50, 0, 90, 30, ct );
+        img.fillRing( 50, 50, 30, 50, 0, 90, 30, ct );
         //img.fillTriangle( 50, 10, 70, 40, 30, 40, ct );
         //img.fillPolygon( 50, 50, 5, 40, 10, ct );
         //img.drawPolygon( 50, 50, 5, 40, 10, BLACK );
