@@ -89,14 +89,14 @@ public class Image {
     /**
      * Desenha um pixel.
      * 
-     * @param posX coordenada x do pixel.
-     * @param posY coordenada y do pixel.
+     * @param x coordenada x do pixel.
+     * @param y coordenada y do pixel.
      * @param color cor de desenho.
      */
-    public void drawPixel( double posX, double posY, Color color ) {
+    public void drawPixel( double x, double y, Color color ) {
         Graphics2D g2d = createGraphics();
         g2d.setColor( color );
-        g2d.draw( new Line2D.Double( posX, posY, posX, posY ) );
+        g2d.draw( new Line2D.Double( x, y, x, y ) );
         g2d.dispose();
     }
 
@@ -171,16 +171,16 @@ public class Image {
     /**
      * Desenha um retângulo.
      * 
-     * @param posX coordenada x do vértice superior esquerdo do retângulo.
-     * @param posY coordenada y do vértice superior esquerdo do retângulo.
+     * @param x coordenada x do vértice superior esquerdo do retângulo.
+     * @param y coordenada y do vértice superior esquerdo do retângulo.
      * @param width largura.
      * @param height algura.
      * @param color cor de desenho.
      */
-    public void drawRectangle( double posX, double posY, double width, double height, Color color ) {
+    public void drawRectangle( double x, double y, double width, double height, Color color ) {
         Graphics2D g2d = createGraphics();
         g2d.setColor( color );
-        g2d.draw( new Rectangle2D.Double( posX, posY, width, height ) );
+        g2d.draw( new Rectangle2D.Double( x, y, width, height ) );
         g2d.dispose();
     }
 
@@ -221,16 +221,16 @@ public class Image {
     /**
      * Pinta um retângulo.
      * 
-     * @param posX coordenada x do vértice superior esquerdo do retângulo.
-     * @param posY coordenada y do vértice superior esquerdo do retângulo.
+     * @param x coordenada x do vértice superior esquerdo do retângulo.
+     * @param y coordenada y do vértice superior esquerdo do retângulo.
      * @param width largura.
      * @param height algura.
      * @param color cor de desenho.
      */
-    public void fillRectangle( double posX, double posY, double width, double height, Color color ) {
+    public void fillRectangle( double x, double y, double width, double height, Color color ) {
         Graphics2D g2d = createGraphics();
         g2d.setColor( color );
-        g2d.fill( new Rectangle2D.Double( posX, posY, width, height ) );
+        g2d.fill( new Rectangle2D.Double( x, y, width, height ) );
         g2d.dispose();
     }
 
@@ -271,8 +271,8 @@ public class Image {
     /**
      * Desenha um retângulo rotacionado.
      * 
-     * @param posX coordenada x do vértice superior esquerdo do retângulo.
-     * @param posY coordenada y do vértice superior esquerdo do retângulo.
+     * @param x coordenada x do vértice superior esquerdo do retângulo.
+     * @param y coordenada y do vértice superior esquerdo do retângulo.
      * @param width largura.
      * @param height algura.
      * @param originX coordenada x do pivô da rotação.
@@ -280,13 +280,13 @@ public class Image {
      * @param rotation rotação em graus (sentido horário).
      * @param color cor de desenho.
      */
-    public void drawRectanglePro( double posX, double posY, double width, double height, double originX, double originY, double rotation, Color color ) {
+    public void drawRectanglePro( double x, double y, double width, double height, double originX, double originY, double rotation, Color color ) {
 
         Graphics2D g2d = createGraphics();
         g2d.setColor( color );
 
         g2d.rotate( Math.toRadians( rotation ), originX, originY );
-        g2d.draw( new Rectangle2D.Double( posX, posY, width, height ) );
+        g2d.draw( new Rectangle2D.Double( x, y, width, height ) );
 
         g2d.dispose();
 
@@ -335,8 +335,8 @@ public class Image {
     /**
      * Pinta um retângulo rotacionado.
      * 
-     * @param posX coordenada x do vértice superior esquerdo do retângulo.
-     * @param posY coordenada y do vértice superior esquerdo do retângulo.
+     * @param x coordenada x do vértice superior esquerdo do retângulo.
+     * @param y coordenada y do vértice superior esquerdo do retângulo.
      * @param width largura.
      * @param height algura.
      * @param originX coordenada x do pivô da rotação.
@@ -344,13 +344,13 @@ public class Image {
      * @param rotation rotação em graus (sentido horário).
      * @param color cor de desenho.
      */
-    public void fillRectanglePro( double posX, double posY, double width, double height, double originX, double originY, double rotation, Color color ) {
+    public void fillRectanglePro( double x, double y, double width, double height, double originX, double originY, double rotation, Color color ) {
 
         Graphics2D g2d = createGraphics();
         g2d.setColor( color );
 
         g2d.rotate( Math.toRadians( rotation ), originX, originY );
-        g2d.fill( new Rectangle2D.Double( posX, posY, width, height ) );
+        g2d.fill( new Rectangle2D.Double( x, y, width, height ) );
 
         g2d.dispose();
 
@@ -399,17 +399,17 @@ public class Image {
     /**
      * Desenha um retângulo com cantos arredondados.
      * 
-     * @param posX coordenada x do vértice superior esquerdo do retângulo.
-     * @param posY coordenada y do vértice superior esquerdo do retângulo.
+     * @param x coordenada x do vértice superior esquerdo do retângulo.
+     * @param y coordenada y do vértice superior esquerdo do retângulo.
      * @param width largura.
      * @param height algura.
      * @param roundness arredondamento dos cantos.
      * @param color cor de desenho.
      */
-    public void drawRoundRectangle( double posX, double posY, double width, double height, double roundness, Color color ) {
+    public void drawRoundRectangle( double x, double y, double width, double height, double roundness, Color color ) {
         Graphics2D g2d = createGraphics();
         g2d.setColor( color );
-        g2d.draw( new RoundRectangle2D.Double( posX, posY, width, height, roundness, roundness ) );
+        g2d.draw( new RoundRectangle2D.Double( x, y, width, height, roundness, roundness ) );
         g2d.dispose();
     }
 
@@ -452,17 +452,17 @@ public class Image {
     /**
      * Pinta um retângulo com cantos arredondados.
      * 
-     * @param posX coordenada x do vértice superior esquerdo do retângulo.
-     * @param posY coordenada y do vértice superior esquerdo do retângulo.
+     * @param x coordenada x do vértice superior esquerdo do retângulo.
+     * @param y coordenada y do vértice superior esquerdo do retângulo.
      * @param width largura.
      * @param height algura.
      * @param roundness arredondamento dos cantos.
      * @param color cor de desenho.
      */
-    public void fillRoundRectangle( double posX, double posY, double width, double height, double roundness, Color color ) {
+    public void fillRoundRectangle( double x, double y, double width, double height, double roundness, Color color ) {
         Graphics2D g2d = createGraphics();
         g2d.setColor( color );
-        g2d.fill( new RoundRectangle2D.Double( posX, posY, width, height, roundness, roundness ) );
+        g2d.fill( new RoundRectangle2D.Double( x, y, width, height, roundness, roundness ) );
         g2d.dispose();
     }
 
@@ -505,17 +505,17 @@ public class Image {
     /**
      * Pinta um retângulo com um gradiente horizontal.
      * 
-     * @param posX coordenada x do vértice superior esquerdo do retângulo.
-     * @param posY coordenada y do vértice superior esquerdo do retângulo.
+     * @param x coordenada x do vértice superior esquerdo do retângulo.
+     * @param y coordenada y do vértice superior esquerdo do retângulo.
      * @param width largura.
      * @param height algura.
      * @param color1 cor inicial do gradiente.
      * @param color2 cor final do gradiente.
      */
-    public void fillRectangleGradientH( double posX, double posY, double width, double height, Color color1, Color color2 ) {
+    public void fillRectangleGradientH( double x, double y, double width, double height, Color color1, Color color2 ) {
         Graphics2D g2d = createGraphics();
-        g2d.setPaint( new GradientPaint( (int) posX, (int) (posY + height / 2), color1, (int) (posX + width), (int) (posY + height / 2), color2 ) );
-        g2d.fill( new Rectangle2D.Double( posX, posY, width, height ) );
+        g2d.setPaint( new GradientPaint( (int) x, (int) (y + height / 2), color1, (int) (x + width), (int) (y + height / 2), color2 ) );
+        g2d.fill( new Rectangle2D.Double( x, y, width, height ) );
         g2d.dispose();
     }
 
@@ -559,17 +559,17 @@ public class Image {
     /**
      * Pinta um retângulo com um gradiente vertical.
      * 
-     * @param posX coordenada x do vértice superior esquerdo do retângulo.
-     * @param posY coordenada y do vértice superior esquerdo do retângulo.
+     * @param x coordenada x do vértice superior esquerdo do retângulo.
+     * @param y coordenada y do vértice superior esquerdo do retângulo.
      * @param width largura.
      * @param height algura.
      * @param color1 cor inicial do gradiente.
      * @param color2 cor final do gradiente.
      */
-    public void fillRectangleGradientV( double posX, double posY, double width, double height, Color color1, Color color2 ) {
+    public void fillRectangleGradientV( double x, double y, double width, double height, Color color1, Color color2 ) {
         Graphics2D g2d = createGraphics();
-        g2d.setPaint( new GradientPaint( (int) (posX + width / 2), (int) posY, color1, (int) (posX + width / 2), (int) (posY + height), color2 ) );
-        g2d.fill( new Rectangle2D.Double( posX, posY, width, height ) );
+        g2d.setPaint( new GradientPaint( (int) (x + width / 2), (int) y, color1, (int) (x + width / 2), (int) (y + height), color2 ) );
+        g2d.fill( new Rectangle2D.Double( x, y, width, height ) );
         g2d.dispose();
     }
 
@@ -1772,14 +1772,14 @@ public class Image {
      * Desenha um texto usando o tamanho de fonte corrente.
      * 
      * @param text o texto a ser desenhado.
-     * @param posX coordenada x do início do desenho do texto.
-     * @param posY coordenada y do início do desenho do texto.
+     * @param x coordenada x do início do desenho do texto.
+     * @param y coordenada y do início do desenho do texto.
      * @param color cor de desenho.
      */
-    public void drawText( String text, double posX, double posY, Color color ) {
+    public void drawText( String text, double x, double y, Color color ) {
         Graphics2D g2d = createGraphics();
         g2d.setColor( color );
-        g2d.drawString( text, (int) posX, (int) posY );
+        g2d.drawString( text, (int) x, (int) y );
         g2d.dispose();
     }
     
@@ -1787,31 +1787,31 @@ public class Image {
      * Desenha um texto rotacionado usando o tamanho de fonte corrente.
      * 
      * @param text o texto a ser desenhado.
-     * @param posX coordenada x do início do desenho do texto.
-     * @param posY coordenada y do início do desenho do texto.
+     * @param x coordenada x do início do desenho do texto.
+     * @param y coordenada y do início do desenho do texto.
      * * @param rotation ângulo de rotação em graus (sentido horário).
      * @param color cor de desenho.
      */
-    public void drawText( String text, double posX, double posY, double rotation, Color color ) {
-        drawText( text, posX, posY, 0, 0, rotation, color );
+    public void drawText( String text, double x, double y, double rotation, Color color ) {
+        drawText( text, x, y, 0, 0, rotation, color );
     }
 
     /**
      * Desenha um texto rotacionado usando o tamanho de fonte corrente.
      * 
      * @param text o texto a ser desenhado.
-     * @param posX coordenada x do início do desenho do texto.
-     * @param posY coordenada y do início do desenho do texto.
+     * @param x coordenada x do início do desenho do texto.
+     * @param y coordenada y do início do desenho do texto.
      * @param originX coordenada x do pivô de rotação.
      * @param originY coordenada y do pivô de rotação.
      * @param rotation ângulo de rotação em graus (sentido horário).
      * @param color cor de desenho.
      */
-    public void drawText( String text, double posX, double posY, double originX, double originY, double rotation, Color color ) {
+    public void drawText( String text, double x, double y, double originX, double originY, double rotation, Color color ) {
         Graphics2D g2d = createGraphics();
         g2d.setColor( color );
         g2d.rotate( Math.toRadians( rotation ), originX, originY );
-        g2d.drawString( text, (int) posX, (int) posY );
+        g2d.drawString( text, (int) x, (int) y );
         g2d.dispose();
     }
 
@@ -1819,16 +1819,16 @@ public class Image {
      * Desenha um texto.
      * 
      * @param text o texto a ser desenhado.
-     * @param posX coordenada x do início do desenho do texto.
-     * @param posY coordenada y do início do desenho do texto.
+     * @param x coordenada x do início do desenho do texto.
+     * @param y coordenada y do início do desenho do texto.
      * @param fontSize tamanho da fonte.
      * @param color cor de desenho.
      */
-    public void drawText( String text, double posX, double posY, int fontSize, Color color ) {
+    public void drawText( String text, double x, double y, int fontSize, Color color ) {
         Graphics2D g2d = createGraphics();
         g2d.setColor( color );
         g2d.setFont( g2d.getFont().deriveFont( (float) fontSize ) );
-        g2d.drawString( text, (int) posX, (int) posY );
+        g2d.drawString( text, (int) x, (int) y );
         g2d.dispose();
     }
     
@@ -1836,34 +1836,34 @@ public class Image {
      * Desenha um texto rotacionado.
      * 
      * @param text o texto a ser desenhado.
-     * @param posX coordenada x do início do desenho do texto.
-     * @param posY coordenada y do início do desenho do texto.
+     * @param x coordenada x do início do desenho do texto.
+     * @param y coordenada y do início do desenho do texto.
      * @param rotation ângulo de rotação em graus (sentido horário).
      * @param fontSize tamanho da fonte.
      * @param color cor de desenho.
      */
-    public void drawText( String text, double posX, double posY, double rotation, int fontSize, Color color ) {
-        drawText( text, posX, posY, 0, 0, rotation, fontSize, color );
+    public void drawText( String text, double x, double y, double rotation, int fontSize, Color color ) {
+        drawText( text, x, y, 0, 0, rotation, fontSize, color );
     }
     
     /**
      * Desenha um texto rotacionado.
      * 
      * @param text o texto a ser desenhado.
-     * @param posX coordenada x do início do desenho do texto.
-     * @param posY coordenada y do início do desenho do texto.
+     * @param x coordenada x do início do desenho do texto.
+     * @param y coordenada y do início do desenho do texto.
      * @param originX coordenada x do pivô de rotação.
      * @param originY coordenada y do pivô de rotação.
      * @param rotation ângulo de rotação em graus (sentido horário).
      * @param fontSize tamanho da fonte.
      * @param color cor de desenho.
      */
-    public void drawText( String text, double posX, double posY, double originX, double originY, double rotation, int fontSize, Color color ) {
+    public void drawText( String text, double x, double y, double originX, double originY, double rotation, int fontSize, Color color ) {
         Graphics2D g2d = createGraphics();
         g2d.setColor( color );
         g2d.setFont( g2d.getFont().deriveFont( (float) fontSize ) );
         g2d.rotate( Math.toRadians( rotation ), originX, originY );
-        g2d.drawString( text, (int) posX, (int) posY );
+        g2d.drawString( text, (int) x, (int) y );
         g2d.dispose();
     }
 

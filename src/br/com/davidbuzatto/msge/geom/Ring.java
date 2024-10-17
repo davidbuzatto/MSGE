@@ -34,9 +34,23 @@ public class Ring implements Drawable {
     public double endAngle;
     public int segments;
 
+    /**
+     * Cria um novo anel com valores padrão.
+     */
     public Ring() {
     }
 
+    /**
+     * Cria um novo anel.
+     * 
+     * @param x coordenada x do centro.
+     * @param y coordenada y do centro.
+     * @param innerRadius raio interno.
+     * @param outerRadius raio externo.
+     * @param startAngle ângulo inicial em graus (sentido horário).
+     * @param endAngle ângulo final em graus (sentido horário.
+     * @param segments 
+     */
     public Ring( double x, double y, double innerRadius, double outerRadius, double startAngle, double endAngle, int segments ) {
         this.x = x;
         this.y = y;

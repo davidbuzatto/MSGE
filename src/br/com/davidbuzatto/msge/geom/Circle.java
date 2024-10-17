@@ -30,9 +30,19 @@ public class Circle implements Drawable {
     public double y;
     public double radius;
 
+    /**
+     * Cria um círculo com valores padrão.
+     */
     public Circle() {
     }
 
+    /**
+     * Cria um círculo.
+     * 
+     * @param x coordenada x do centro.
+     * @param y coordenada y do centro.
+     * @param radius raio.
+     */
     public Circle( double x, double y, double radius ) {
         this.x = x;
         this.y = y;

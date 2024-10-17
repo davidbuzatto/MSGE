@@ -18,6 +18,7 @@ package br.com.davidbuzatto.msge.geom;
 
 import br.com.davidbuzatto.msge.core.Engine;
 import java.awt.Color;
+import java.awt.geom.Path2D;
 
 /**
  * Classe para representação de um caminho em duas dimensões.
@@ -26,24 +27,57 @@ import java.awt.Color;
  */
 public class Path implements Drawable {
     
-    public java.awt.geom.Path2D.Double path = new java.awt.geom.Path2D.Double();
+    public Path2D.Double path = new Path2D.Double();
 
+    /**
+     * Move para a coordenada desejada.
+     * 
+     * @param x coordenada x do ponto desejado.
+     * @param y coordenada y do ponto desejado.
+     */
     public void moveTo( double x, double y ) {
         path.moveTo( x, y );
     }
 
+    /**
+     * Cria uma linha do ponto atual até o ponto desejado.
+     * 
+     * @param x coordenada x do ponto desejado.
+     * @param y coordenada y do ponto desejado.
+     */
     public void lineTo( double x, double y ) {
         path.lineTo( x, y );
     }
 
+    /**
+     * Cria uma curva Bézier quadrática do ponto atual até o ponto desejado.
+     * 
+     * @param cx coordenada x do ponto de controle.
+     * @param cy coordenada y do ponto de controle.
+     * @param x coordenada x do ponto desejado.
+     * @param y coordenada y do ponto desejado.
+     */
     public void quadTo( double cx, double cy, double x, double y ) {
         path.quadTo( cx, cy, x, y );
     }
 
+    /**
+     * Cria uma curva Bézier cúbica do ponto atual até o ponto desejado.
+     * 
+     * @param c1x coordenada x do primeiro ponto de controle.
+     * @param c1y coordenada y do primeiro ponto de controle.
+     * @param c2x coordenada x do segundo ponto de controle.
+     * @param c2y coordenada y do segundo ponto de controle.
+     * @param x coordenada x do ponto desejado.
+     * @param y coordenada y do ponto desejado.
+     */
     public void cubicTo( double c1x, double c1y, double c2x, double c2y, double x, double y ) {
         path.curveTo( c1x, c1y, c2x, c2y, x, y );
     }
 
+    /**
+     * Fecha o caminho, ligando com uma linha do ponto inicial até o último ponto criado.
+     */
     public void closePath() {
         path.closePath();
     }

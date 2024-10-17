@@ -33,9 +33,22 @@ public class QuadCurve implements Drawable {
     public double x2;
     public double y2;
 
+    /**
+     * Uma uma nova curva Bézier quadrática com valores padrão.
+     */
     public QuadCurve() {
     }
 
+    /**
+     * Cria uma nova curva Bézier quadrática.
+     * 
+     * @param x1 coordenada x inicial.
+     * @param y1 coordenada y inicial.
+     * @param cx coordenada x do ponto de controle.
+     * @param cy coordenada y do ponto de controle.
+     * @param x2 coordenada x final.
+     * @param y2 coordenada y final.
+     */
     public QuadCurve( double x1, double y1, double cx, double cy, double x2, double y2 ) {
         this.x1 = x1;
         this.y1 = y1;

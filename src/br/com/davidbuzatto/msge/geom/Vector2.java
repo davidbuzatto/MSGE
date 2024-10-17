@@ -29,9 +29,18 @@ public class Vector2 implements Drawable {
     public double x;
     public double y;
 
+    /**
+     * Cria um novo vetor de duas dimensões com valores padrão.
+     */
     public Vector2() {
     }
     
+    /**
+     * Cria um novo vetor de duas dimensões.
+     * 
+     * @param x coordenada x.
+     * @param y coordenada y.
+     */
     public Vector2( double x, double y ) {
         this.x = x;
         this.y = y;

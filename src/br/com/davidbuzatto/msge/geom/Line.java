@@ -31,9 +31,20 @@ public class Line implements Drawable {
     public double x2;
     public double y2;
 
+    /**
+     * Cria uma nova linha com valores padrão.
+     */
     public Line() {
     }
 
+    /**
+     * Cria uma nova linha.
+     * 
+     * @param x1 coordenada x inicial.
+     * @param y1 coordenada y inicial.
+     * @param x2 coordenada x final.
+     * @param y2 coordenada y final.
+     */
     public Line( double x1, double y1, double x2, double y2 ) {
         this.x1 = x1;
         this.y1 = y1;

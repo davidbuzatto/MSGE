@@ -31,9 +31,20 @@ public class Rectangle implements Drawable {
     public double width;
     public double height;
 
+    /**
+     * Cria um novo retângulo com valores padrão.
+     */
     public Rectangle() {
     }
 
+    /**
+     * Cria um novo retângulo.
+     * 
+     * @param x coordenada x do vértice superior esquerdo.
+     * @param y coordenada y do vértice superior esquerdo.
+     * @param width largura.
+     * @param height altura.
+     */
     public Rectangle( double x, double y, double width, double height ) {
         this.x = x;
         this.y = y;

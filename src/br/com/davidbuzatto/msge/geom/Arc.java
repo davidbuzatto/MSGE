@@ -33,9 +33,22 @@ public class Arc implements Drawable {
     public double startAngle;
     public double endAngle;
 
+    /**
+     * Cria um arco com valores padrão.
+     */
     public Arc() {
     }
 
+    /**
+     * Cria um novo arco.
+     * 
+     * @param x coordenada x do centro.
+     * @param y coordenada y do centro.
+     * @param radiusH raio horizontal.
+     * @param radiusV raio vertical.
+     * @param startAngle ângulo inicial em graus (sentido horário).
+     * @param endAngle ângulo final em gradus (sentido horário).
+     */
     public Arc( double x, double y, double radiusH, double radiusV, double startAngle, double endAngle ) {
         this.x = x;
         this.y = y;

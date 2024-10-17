@@ -29,9 +29,18 @@ public class Point implements Drawable {
     public double x;
     public double y;
 
+    /**
+     * Cria um novo ponto com valores padrão.
+     */
     public Point() {
     }
 
+    /**
+     * Cria um novo ponto.
+     * 
+     * @param x coordenada x.
+     * @param y coordenada y.
+     */
     public Point( double x, double y ) {
         this.x = x;
         this.y = y;

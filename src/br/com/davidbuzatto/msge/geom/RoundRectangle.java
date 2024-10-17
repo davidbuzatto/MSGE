@@ -32,9 +32,21 @@ public class RoundRectangle implements Drawable {
     public double height;
     public double roundness;
 
+    /**
+     * Cria um novo retângulo com cantos arredondados com valores padrão.
+     */
     public RoundRectangle() {
     }
 
+    /**
+     * Cria um novo retângulo com cantos arredondados.
+     * 
+     * @param x coordenada x do vértice superior esquerdo.
+     * @param y coordenada y do vértice superior esquerdo.
+     * @param width largura.
+     * @param height altura.
+     * @param roundness arredondamento dos cantos.
+     */
     public RoundRectangle( double x, double y, double width, double height, double roundness ) {
         this.x = x;
         this.y = y;

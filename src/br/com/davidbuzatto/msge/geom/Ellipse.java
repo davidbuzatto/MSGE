@@ -31,9 +31,20 @@ public class Ellipse implements Drawable {
     public double radiusH;
     public double radiusV;
 
+    /**
+     * Cria uma nova elipse com valores padrão.
+     */
     public Ellipse() {
     }
 
+    /**
+     * Cria uma nova elipse.
+     * 
+     * @param x coordenada x do centro.
+     * @param y coordenada y do centro.
+     * @param radiusH raio horizontal.
+     * @param radiusV raio vertical.
+     */
     public Ellipse( double x, double y, double radiusH, double radiusV ) {
         this.x = x;
         this.y = y;

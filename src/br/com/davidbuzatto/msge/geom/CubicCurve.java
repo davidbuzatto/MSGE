@@ -35,9 +35,24 @@ public class CubicCurve implements Drawable {
     public double x2;
     public double y2;
 
+    /**
+     * Uma uma nova curva Bézier cúbica com valores padrão.
+     */
     public CubicCurve() {
     }
 
+    /**
+     * Cria uma nova curva Bézier cúbica.
+     * 
+     * @param x1 coordenada x inicial.
+     * @param y1 coordenada y inicial.
+     * @param c1x coordenada x do primeiro ponto de controle.
+     * @param c1y coordenada y do primeiro ponto de controle.
+     * @param c2x coordenada x do segundo ponto de controle.
+     * @param c2y coordenada y do segundo ponto de controle.
+     * @param x2 coordenada x final.
+     * @param y2 coordenada y final.
+     */
     public CubicCurve( double x1, double y1, double c1x, double c1y, double c2x, double c2y, double x2, double y2 ) {
         this.x1 = x1;
         this.y1 = y1;

@@ -33,9 +33,22 @@ public class Triangle implements Drawable {
     public double x3;
     public double y3;
 
+    /**
+     * Cria um novo triângulo com valores padrão.
+     */
     public Triangle() {
     }
 
+    /**
+     * Cria um novo triângulo.
+     * 
+     * @param x1 coordenada x do primeiro vértice.
+     * @param y1 coordenada y do primeiro vértice.
+     * @param x2 coordenada x do segundo vértice.
+     * @param y2 coordenada y do segundo vértice.
+     * @param x3 coordenada x do terceiro vértice.
+     * @param y3 coordenada y do terceiro vértice.
+     */
     public Triangle( double x1, double y1, double x2, double y2, double x3, double y3 ) {
         this.x1 = x1;
         this.y1 = y1;

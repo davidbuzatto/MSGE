@@ -32,9 +32,21 @@ public class CircleSector implements Drawable {
     public double startAngle;
     public double endAngle;
 
+    /**
+     * Cria um setor circular com valores padrão.
+     */
     public CircleSector() {
     }
 
+    /**
+     * Cria um setor circular.
+     * 
+     * @param x coordenada x do centro.
+     * @param y coordenada y do centro.
+     * @param radius raio .
+     * @param startAngle ângulo inicial em graus (sentido horário).
+     * @param endAngle ângulo final em gradus (sentido horário).
+     */
     public CircleSector( double x, double y, double radius, double startAngle, double endAngle ) {
         this.x = x;
         this.y = y;

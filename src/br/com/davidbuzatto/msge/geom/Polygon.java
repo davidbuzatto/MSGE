@@ -32,9 +32,21 @@ public class Polygon implements Drawable {
     public double radius;
     public double rotation;
 
+    /**
+     * Cria um novo polígono regular com valores padrão.
+     */
     public Polygon() {
     }
 
+    /**
+     * Cria um novo polígono regular.
+     * 
+     * @param x coordenada x do centro.
+     * @param y coordenada y do centro.
+     * @param sides quantidade de lados.
+     * @param radius raio do círculo circunscrito.
+     * @param rotation ângulo inicial em graus (sentido horário).
+     */
     public Polygon( double x, double y, int sides, double radius, double rotation ) {
         this.x = x;
         this.y = y;
