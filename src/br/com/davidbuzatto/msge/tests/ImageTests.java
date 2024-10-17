@@ -37,6 +37,8 @@ public class ImageTests extends Engine {
     @Override
     public void create() {
         
+        
+        
         img = loadImage( "resources/images/dukeCont.png" );
         Color ct = new Color( 0, 0, 255, 100 );
         Image.enableAntialiasing();
@@ -96,6 +98,18 @@ public class ImageTests extends Engine {
         } else if ( isKeyPressed( KEY_LEFT ) ) {
             r -= 10;
             tImg = ImageUtils.imageRotate( img, r );
+        }
+        
+        if ( isKeyPressed( KEY_ONE ) ) {
+            hideCursor();
+        }
+        
+        if ( isKeyPressed( KEY_TWO ) ) {
+            showCursor();
+        }
+        
+        if ( isCursorHidden() ) {
+            System.out.println( "aaaaaa" );
         }
         
     }

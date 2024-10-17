@@ -1,14 +1,5 @@
 Implementar a câmera 2D.
 
-Implementar operações com cursores
-    void SetMouseCursor(int cursor);                        // Set mouse cursor
-    void ShowCursor(void);                                      // Shows cursor
-    void HideCursor(void);                                      // Hides cursor
-    bool IsCursorHidden(void);                                  // Check if cursor is not visible
-    void EnableCursor(void);                                    // Enables cursor (unlock cursor)
-    void DisableCursor(void);                                   // Disables cursor (lock cursor)
-    bool IsCursorOnScreen(void);                                // Check if cursor is on the screen
-
 Implementar audio
 
 Empacotar e criar exemplos no VSCode

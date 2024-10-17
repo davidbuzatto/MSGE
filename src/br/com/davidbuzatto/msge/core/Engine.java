@@ -179,7 +179,19 @@ public abstract class Engine extends JFrame {
     private Map<Integer, Boolean> keysReleasedMap;
     private Map<Integer, Boolean> keysDownMap;
     private Map<Integer, Boolean> keysUpMap;
-
+    
+    private Cursor currentCursor;
+    
+    /**
+     * Um cursor invisível.
+     */
+    public static final Cursor INVISIBLE_CURSOR =
+            Toolkit.getDefaultToolkit().createCustomCursor(
+                Toolkit.getDefaultToolkit().getImage( "" ),
+                new java.awt.Point( 0, 0 ),
+                "invisible"
+            );
+        
     /**
      * Processa a entrada inicial fornecida pelo usuário e cria
      * e/ou inicializa os objetos/contextos/variáveis do jogo ou simulação.
@@ -256,6 +268,8 @@ public abstract class Engine extends JFrame {
             }
         });
         exitKeyCode = KEY_ESCAPE;
+        currentCursor = getCursor();
+        
         prepareInputManager();
 
         // configura a engine
@@ -3366,6 +3380,43 @@ public abstract class Engine extends JFrame {
     }
     
     
+    /***************************************************************************
+     * Métodos para gerenciamento do cursor do mouse.
+     **************************************************************************/
+    /**
+     * Configura o cursor do mouse.
+     * 
+     * @param cursor O identificador do cursor.
+     */
+    public void setMouseCursor( int cursor ) {
+        currentCursor = Cursor.getPredefinedCursor( cursor );
+        drawingPanel.setCursor( currentCursor );
+    }
+    
+    /**
+     * Mostra o cursor.
+     */
+    public void showCursor() {
+        drawingPanel.setCursor( currentCursor );
+    }
+    
+    /**
+     * Esconde o cursor.
+     */
+    public void hideCursor() {
+        drawingPanel.setCursor( INVISIBLE_CURSOR );
+    }
+    
+    /**
+     * Retorna se o cursor está escondido.
+     * 
+     * @return verdadeiro se o cursor estiver escondido, falso caso contrário.
+     */
+    public boolean isCursorHidden() {
+        return drawingPanel.getCursor() == INVISIBLE_CURSOR;
+    }
+    
+    
     
     /**
      * Classe interna que encapsula o processo de desenho.
@@ -3405,17 +3456,6 @@ public abstract class Engine extends JFrame {
      * @author Prof. Dr. David Buzatto
      */
     private class InputManager implements KeyListener, MouseListener, MouseMotionListener, MouseWheelListener {
-        
-        /**
-         * Um cursor invisível.
-         */
-        @SuppressWarnings( "unused" )
-        public static final Cursor INVISIBLE_CURSOR =
-                Toolkit.getDefaultToolkit().createCustomCursor(
-                    Toolkit.getDefaultToolkit().getImage( "" ),
-                    new java.awt.Point( 0, 0 ),
-                    "invisible"
-                );
         
         /**
          * Códigos do mouse (apenas para diferenciar as operações de rolagem
@@ -4091,20 +4131,18 @@ public abstract class Engine extends JFrame {
     public static final int MOUSE_BUTTON_RIGHT   = MouseEvent.BUTTON3;       // botão da direitra do mouse
     public static final int MOUSE_BUTTON_MIDDLE  = MouseEvent.BUTTON2;       // botão do meio do mouse (pressionado)
 
-    // constantes para o cursor (por enquanto, fazer via API do Java)
-    /*
-    public static final int MOUSE_CURSOR_DEFAULT       = 0;     // Default pointer shape
-    public static final int MOUSE_CURSOR_ARROW         = 1;     // Arrow shape
-    public static final int MOUSE_CURSOR_IBEAM         = 2;     // Text writing cursor shape
-    public static final int MOUSE_CURSOR_CROSSHAIR     = 3;     // Cross shape
-    public static final int MOUSE_CURSOR_POINTING_HAND = 4;     // Pointing hand cursor
-    public static final int MOUSE_CURSOR_RESIZE_EW     = 5;     // Horizontal resize/move arrow shape
-    public static final int MOUSE_CURSOR_RESIZE_NS     = 6;     // Vertical resize/move arrow shape
-    public static final int MOUSE_CURSOR_RESIZE_NWSE   = 7;     // Top-left to bottom-right diagonal resize/move arrow shape
-    public static final int MOUSE_CURSOR_RESIZE_NESW   = 8;     // The top-right to bottom-left diagonal resize/move arrow shape
-    public static final int MOUSE_CURSOR_RESIZE_ALL    = 9;     // The omnidirectional resize/move cursor shape
-    public static final int MOUSE_CURSOR_NOT_ALLOWED   = 10;    // The operation-not-allowed shape
-    */
+    // constantes para o cursor
+    public static final int MOUSE_CURSOR_DEFAULT       = Cursor.DEFAULT_CURSOR;   // cursor padrão
+    public static final int MOUSE_CURSOR_IBEAM         = Cursor.TEXT_CURSOR;      // cursor de texto
+    public static final int MOUSE_CURSOR_CROSSHAIR     = Cursor.CROSSHAIR_CURSOR; // cursor em cruz
+    public static final int MOUSE_CURSOR_POINTING_HAND = Cursor.HAND_CURSOR;      // cursor dedo apontando
+    public static final int MOUSE_CURSOR_RESIZE_EW     = Cursor.E_RESIZE_CURSOR;  // cursor redimensionamento horizontal
+    public static final int MOUSE_CURSOR_RESIZE_NS     = Cursor.N_RESIZE_CURSOR;  // cursor redimensionamento vertical
+    public static final int MOUSE_CURSOR_RESIZE_NWSE   = Cursor.NW_RESIZE_CURSOR; // cursor redimensionamento diagonal cima-esquerda -> baixo-direita
+    public static final int MOUSE_CURSOR_RESIZE_NESW   = Cursor.NE_RESIZE_CURSOR; // cursor redimensionamento diagonal baixo-esquerda -> cima-direita
+    public static final int MOUSE_CURSOR_RESIZE_ALL    = Cursor.MOVE_CURSOR;      // cursor redimensionamento omnidirecional
+    public static final int MOUSE_CURSOR_WAIT          = Cursor.WAIT_CURSOR;      // cursor aguarde
+    
 
 
     /***************************************************************************
