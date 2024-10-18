@@ -106,7 +106,7 @@ public class CameraTest extends Engine {
         camera.offset.x = getScreenWidth() / 2;
         camera.offset.y = getScreenHeight() / 2;
         camera.zoom = 1.0;
-        //camera.rotation = 45;
+        camera.rotation = 0;
         
     }
     

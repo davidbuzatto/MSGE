@@ -1106,7 +1106,7 @@ public class MathUtils {
         //   2. Rotate and Scale
         //   3. Move by -target
         Matrix matOrigin = matrixTranslate( -camera.target.x, -camera.target.y, 0.0 );
-        Matrix matRotation = matrixRotate( new Vector3( 0.0f, 0.0f, 1.0f ), Math.toRadians( camera.rotation ));
+        Matrix matRotation = matrixRotate( new Vector3( 0.0f, 0.0f, 1.0f ), Math.toRadians( camera.rotation ) );
         Matrix matScale = matrixScale( camera.zoom, camera.zoom, 1.0 );
         Matrix matTranslation = matrixTranslate( camera.offset.x, camera.offset.y, 0.0 );
 

@@ -3435,19 +3435,16 @@ public abstract class Engine extends JFrame {
      */
     public void beginMode2D( Camera2D camera ) {
         
-        //https://github.com/raysan5/raylib/blob/master/src/rcore.c
-        
         if ( !mode2DActive ) {
             
             baseGraphics = g2d;
             cameraGraphics = (Graphics2D) g2d.create();
             
-            double tx = -camera.target.x * camera.zoom + camera.offset.x;
-            double ty = -camera.target.y * camera.zoom + camera.offset.y;
-            
-            cameraGraphics.translate( tx, ty );
-            cameraGraphics.rotate( Math.toRadians( camera.rotation ) );
+            // referência: MathUtils.getCameraMatrix2D
+            cameraGraphics.translate( camera.offset.x, camera.offset.y );
             cameraGraphics.scale( camera.zoom, camera.zoom );
+            cameraGraphics.rotate( Math.toRadians( camera.rotation ) );
+            cameraGraphics.translate( -camera.target.x, -camera.target.y );
             
             g2d = cameraGraphics;
             mode2DActive = true;
