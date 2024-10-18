@@ -32,7 +32,6 @@ public class Ring implements Drawable {
     public double outerRadius;
     public double startAngle;
     public double endAngle;
-    public int segments;
 
     /**
      * Cria um novo anel com valores padrão.
@@ -48,21 +47,15 @@ public class Ring implements Drawable {
      * @param innerRadius raio interno.
      * @param outerRadius raio externo.
      * @param startAngle ângulo inicial em graus (sentido horário).
-     * @param endAngle ângulo final em graus (sentido horário.
-     * @param segments 
+     * @param endAngle ângulo final em graus (sentido horário).
      */
-    public Ring( double x, double y, double innerRadius, double outerRadius, double startAngle, double endAngle, int segments ) {
+    public Ring( double x, double y, double innerRadius, double outerRadius, double startAngle, double endAngle ) {
         this.x = x;
         this.y = y;
         this.innerRadius = innerRadius;
         this.outerRadius = outerRadius;
         this.startAngle = startAngle;
         this.endAngle = endAngle;
-        this.segments = segments;
-    }
-
-    public Ring( double x, double y, double innerRadius, double outerRadius, double startAngle, double endAngle ) {
-        this( x, y, innerRadius, outerRadius, startAngle, endAngle, 30 );
     }
 
     @Override
@@ -77,7 +70,7 @@ public class Ring implements Drawable {
 
     @Override
     public String toString() {
-        return String.format( "Ring[%.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %d]", x, y, innerRadius, outerRadius, startAngle, endAngle, segments );
+        return String.format( "Ring[%.2f, %.2f, %.2f, %.2f, %.2f, %.2f]", x, y, innerRadius, outerRadius, startAngle, endAngle );
     }
 
 }

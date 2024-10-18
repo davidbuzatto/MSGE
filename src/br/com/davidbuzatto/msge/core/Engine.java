@@ -174,12 +174,14 @@ public abstract class Engine extends JFrame {
     private boolean mouseRightDown;
     private boolean mouseRightUp;
     
+    // mapas para o teclado
     private Map<Integer, Boolean> keysProcessedMap;
     private Map<Integer, Boolean> keysPressedMap;
     private Map<Integer, Boolean> keysReleasedMap;
     private Map<Integer, Boolean> keysDownMap;
     private Map<Integer, Boolean> keysUpMap;
     
+    // controle do cursor
     private Cursor currentCursor;
     
     /**
@@ -191,6 +193,11 @@ public abstract class Engine extends JFrame {
                 new java.awt.Point( 0, 0 ),
                 "invisible"
             );
+    
+    // controle da câmera (modo 2D)
+    private boolean mode2DActive = false;
+    private Graphics2D cameraGraphics;
+    private Graphics2D baseGraphics;
         
     /**
      * Processa a entrada inicial fornecida pelo usuário e cria
@@ -1905,12 +1912,25 @@ public abstract class Engine extends JFrame {
      * @param outerRadius raio externo.
      * @param startAngle ângulo inicial em graus (sentido horário).
      * @param endAngle ângulo final em graus (sentido horário).
-     * @param segments quantidade de segmentos.
      * @param color cor de desenho.
      */
-    public void drawRing( double centerX, double centerY, double innerRadius, double outerRadius, double startAngle, double endAngle, int segments, Color color ) {
+    public void drawRing( double centerX, double centerY, double innerRadius, double outerRadius, double startAngle, double endAngle, Color color ) {
         g2d.setColor( color );
-        g2d.draw( MathUtils.createRing( centerX, centerY, innerRadius, outerRadius, startAngle, endAngle, segments ) );
+        g2d.draw( MathUtils.createRing( centerX, centerY, innerRadius, outerRadius, startAngle, endAngle ) );
+    }
+
+    /**
+     * Desenha um anel.
+     * 
+     * @param center centro do anel.
+     * @param innerRadius raio interno.
+     * @param outerRadius raio externo.
+     * @param startAngle ângulo inicial em graus (sentido horário).
+     * @param endAngle ângulo final em graus (sentido horário).
+     * @param color cor de desenho.
+     */
+    public void drawRing( Vector2 center, double innerRadius, double outerRadius, double startAngle, double endAngle, Color color ) {
+        drawRing( center.x, center.y, innerRadius, outerRadius, startAngle, endAngle, color );
     }
 
     /**
@@ -1924,23 +1944,8 @@ public abstract class Engine extends JFrame {
      * @param segments quantidade de segmentos.
      * @param color cor de desenho.
      */
-    public void drawRing( Vector2 center, double innerRadius, double outerRadius, double startAngle, double endAngle, int segments, Color color ) {
-        drawRing( center.x, center.y, innerRadius, outerRadius, startAngle, endAngle, segments, color );
-    }
-
-    /**
-     * Desenha um anel.
-     * 
-     * @param center centro do anel.
-     * @param innerRadius raio interno.
-     * @param outerRadius raio externo.
-     * @param startAngle ângulo inicial em graus (sentido horário).
-     * @param endAngle ângulo final em graus (sentido horário).
-     * @param segments quantidade de segmentos.
-     * @param color cor de desenho.
-     */
-    public void drawRing( Point center, double innerRadius, double outerRadius, double startAngle, double endAngle, int segments, Color color ) {
-        drawRing( center.x, center.y, innerRadius, outerRadius, startAngle, endAngle, segments, color );
+    public void drawRing( Point center, double innerRadius, double outerRadius, double startAngle, double endAngle, Color color ) {
+        drawRing( center.x, center.y, innerRadius, outerRadius, startAngle, endAngle, color );
     }
 
     /**
@@ -1950,7 +1955,7 @@ public abstract class Engine extends JFrame {
      * @param color cor de desenho.
      */
     public void drawRing( Ring ring, Color color ) {
-        drawRing( ring.x, ring.y, ring.innerRadius, ring.outerRadius, ring.startAngle, ring.endAngle, ring.segments, color );
+        drawRing( ring.x, ring.y, ring.innerRadius, ring.outerRadius, ring.startAngle, ring.endAngle, color );
     }
 
     /**
@@ -1962,12 +1967,11 @@ public abstract class Engine extends JFrame {
      * @param outerRadius raio externo.
      * @param startAngle ângulo inicial em graus (sentido horário).
      * @param endAngle ângulo final em graus (sentido horário).
-     * @param segments quantidade de segmentos.
      * @param color cor de desenho.
      */
-    public void fillRing( double centerX, double centerY, double innerRadius, double outerRadius, double startAngle, double endAngle, int segments, Color color ) {
+    public void fillRing( double centerX, double centerY, double innerRadius, double outerRadius, double startAngle, double endAngle, Color color ) {
         g2d.setColor( color );
-        g2d.fill( MathUtils.createRing( centerX, centerY, innerRadius, outerRadius, startAngle, endAngle, segments ) );
+        g2d.fill( MathUtils.createRing( centerX, centerY, innerRadius, outerRadius, startAngle, endAngle ) );
     }
 
     /**
@@ -1978,11 +1982,10 @@ public abstract class Engine extends JFrame {
      * @param outerRadius raio externo.
      * @param startAngle ângulo inicial em graus (sentido horário).
      * @param endAngle ângulo final em graus (sentido horário).
-     * @param segments quantidade de segmentos.
      * @param color cor de desenho.
      */
-    public void fillRing( Vector2 center, double innerRadius, double outerRadius, double startAngle, double endAngle, int segments, Color color ) {
-        fillRing( center.x, center.y, innerRadius, outerRadius, startAngle, endAngle, segments, color );
+    public void fillRing( Vector2 center, double innerRadius, double outerRadius, double startAngle, double endAngle, Color color ) {
+        fillRing( center.x, center.y, innerRadius, outerRadius, startAngle, endAngle, color );
     }
 
     /**
@@ -1993,11 +1996,10 @@ public abstract class Engine extends JFrame {
      * @param outerRadius raio externo.
      * @param startAngle ângulo inicial em graus (sentido horário).
      * @param endAngle ângulo final em graus (sentido horário).
-     * @param segments quantidade de segmentos.
      * @param color cor de desenho.
      */
-    public void fillRing( Point center, double innerRadius, double outerRadius, double startAngle, double endAngle, int segments, Color color ) {
-        fillRing( center.x, center.y, innerRadius, outerRadius, startAngle, endAngle, segments, color );
+    public void fillRing( Point center, double innerRadius, double outerRadius, double startAngle, double endAngle, Color color ) {
+        fillRing( center.x, center.y, innerRadius, outerRadius, startAngle, endAngle, color );
     }
 
     /**
@@ -2007,7 +2009,7 @@ public abstract class Engine extends JFrame {
      * @param color cor de desenho.
      */
     public void fillRing( Ring ring, Color color ) {
-        fillRing( ring.x, ring.y, ring.innerRadius, ring.outerRadius, ring.startAngle, ring.endAngle, ring.segments, color );
+        fillRing( ring.x, ring.y, ring.innerRadius, ring.outerRadius, ring.startAngle, ring.endAngle, color );
     }
 
     /**
@@ -3414,6 +3416,90 @@ public abstract class Engine extends JFrame {
      */
     public boolean isCursorHidden() {
         return drawingPanel.getCursor() == INVISIBLE_CURSOR;
+    }
+    
+    /***************************************************************************
+     * Métodos para controle da câmera
+     **************************************************************************/
+    
+    /**
+     * Inicia o modo 2D usando a câmera.
+     * 
+     * @param camera câmera que deve ser usada.
+     */
+    public void beginMode2D( Camera2D camera ) {
+        
+        //https://github.com/raysan5/raylib/blob/master/src/rcore.c
+        
+        if ( !mode2DActive ) {
+            
+            baseGraphics = g2d;
+            cameraGraphics = (Graphics2D) g2d.create();
+            
+            double tx = -camera.target.x * camera.zoom + camera.offset.x;
+            double ty = -camera.target.y * camera.zoom + camera.offset.y;
+            
+            cameraGraphics.translate( tx, ty );
+            cameraGraphics.rotate( Math.toRadians( camera.rotation ) );
+            cameraGraphics.scale( camera.zoom, camera.zoom );
+            
+            g2d = cameraGraphics;
+            mode2DActive = true;
+            
+        }
+        
+    }
+    
+    /**
+     * Finaliza o modo 2D, voltando ao modo original
+     */
+    public void endMode2D() {
+        if ( mode2DActive ) {
+            g2d = baseGraphics;
+            cameraGraphics.dispose();
+            mode2DActive = false;
+        }
+    }
+    
+    /**
+     * Converte uma coordenada da tela para uma coordenada do mundo 2D de 
+     * acordo com o câmera.
+     * 
+     * @param position A posição da tela.
+     * @param camera A câmera a ser utilizada.
+     * @return A coordenada correspondente do mundo 2D.
+     */
+    public Vector2 getScreenToWorld2D( Vector2 position, Camera2D camera ) {
+        
+        // TODO
+        
+        /*Matrix invMatCamera = MatrixInvert(GetCameraMatrix2D(camera));
+        Vector3 transform = Vector3Transform((Vector3){ position.x, position.y, 0 }, invMatCamera);
+
+        return (Vector2){ transform.x, transform.y };*/
+    
+        return null;
+    }
+    
+    /**
+     * Converte uma coordenada do mundo 2D para uma coordenada da tela de 
+     * acordo com o câmera.
+     * 
+     * @param position A posição do mundo 2D.
+     * @param camera A câmera a ser utilizada.
+     * @return Uma coordenada correspondente da tela.
+     */
+    public Vector2 getWorldToScreen2D( Vector2 position, Camera2D camera ) {
+        
+        // TODO
+        
+        /*Matrix matCamera = GetCameraMatrix2D(camera);
+        Vector3 transform = Vector3Transform((Vector3){ position.x, position.y, 0 }, matCamera);
+
+        return (Vector2){ transform.x, transform.y };*/
+        
+        return null;
+        
     }
     
     

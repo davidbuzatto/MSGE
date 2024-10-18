@@ -1,5 +1,6 @@
 Implementar a câmera 2D.
+    Métodos de transformação de coordenadas.
 
-Implementar audio
+Implementar audio.
 
 Empacotar e criar exemplos no VSCode

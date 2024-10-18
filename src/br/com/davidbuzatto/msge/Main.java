@@ -190,7 +190,7 @@ public class Main extends Engine {
             circleSector = new CircleSector( dx + 250, dy + 220, 30, 0, 130 );
             ellipseSector = new EllipseSector( dx + 250, dy + 280, 60, 30, 0, 130 );
             arc = new Arc( dx + 250, dy + 350, 60, 30, 0, 130 );
-            ring = new Ring( dx + 250, dy + 400, 10, 30, 0, 130, 50 );
+            ring = new Ring( dx + 250, dy + 400, 10, 30, 0, 130 );
             triangle = new Triangle( dx + 400, dy + 50, dx + 440, dy + 100, dx + 360, dy + 100 );
             polygon = new Polygon( dx + 400, dy + 160, 5, 35, 0 );
             quadCurve = new QuadCurve( dx + 400, dy + 220, dx + 450, dy + 270, dx + 400, dy + 320 );
@@ -233,8 +233,8 @@ public class Main extends Engine {
             fillArc( dx + 250, dy + 350, 60, 30, 0, 130, MAROON );
             drawArc( dx + 250, dy + 350, 60, 30, 0, 130, BLACK );
 
-            fillRing( dx + 250, dy + 400, 10, 30, 0, 130, 50, MAROON );
-            drawRing( dx + 250, dy + 400, 10, 30, 0, 130, 50, BLACK );
+            fillRing( dx + 250, dy + 400, 10, 30, 0, 130, MAROON );
+            drawRing( dx + 250, dy + 400, 10, 30, 0, 130, BLACK );
 
             fillTriangle( dx + 400, dy + 50, dx + 440, dy + 100, dx + 360, dy + 100, ORANGE );
             drawTriangle( dx + 400, dy + 50, dx + 440, dy + 100, dx + 360, dy + 100, BLACK );

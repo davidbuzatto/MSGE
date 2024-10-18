@@ -756,7 +756,7 @@ public class MathUtils {
     /*
      * Cria um anel.
      */
-    public static Path2D createRing( double centerX, double centerY, double innerRadius, double outerRadius, double startAngle, double endAngle, int segments ) {
+    public static Path2D createRing( double centerX, double centerY, double innerRadius, double outerRadius, double startAngle, double endAngle ) {
 
         Path2D path = new Path2D.Double();
         

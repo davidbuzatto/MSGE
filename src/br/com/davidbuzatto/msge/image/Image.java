@@ -1223,13 +1223,12 @@ public class Image {
      * @param outerRadius raio externo.
      * @param startAngle ângulo inicial em graus (sentido horário).
      * @param endAngle ângulo final em graus (sentido horário).
-     * @param segments quantidade de segmentos.
      * @param color cor de desenho.
      */
-    public void drawRing( double centerX, double centerY, double innerRadius, double outerRadius, double startAngle, double endAngle, int segments, Color color ) {
+    public void drawRing( double centerX, double centerY, double innerRadius, double outerRadius, double startAngle, double endAngle, Color color ) {
         Graphics2D g2d = createGraphics();
         g2d.setColor( color );
-        g2d.draw( MathUtils.createRing( centerX, centerY, innerRadius, outerRadius, startAngle, endAngle, segments ) );
+        g2d.draw( MathUtils.createRing( centerX, centerY, innerRadius, outerRadius, startAngle, endAngle ) );
         g2d.dispose();
     }
 
@@ -1241,11 +1240,10 @@ public class Image {
      * @param outerRadius raio externo.
      * @param startAngle ângulo inicial em graus (sentido horário).
      * @param endAngle ângulo final em graus (sentido horário).
-     * @param segments quantidade de segmentos.
      * @param color cor de desenho.
      */
-    public void drawRing( Vector2 center, double innerRadius, double outerRadius, double startAngle, double endAngle, int segments, Color color ) {
-        drawRing( center.x, center.y, innerRadius, outerRadius, startAngle, endAngle, segments, color );
+    public void drawRing( Vector2 center, double innerRadius, double outerRadius, double startAngle, double endAngle, Color color ) {
+        drawRing( center.x, center.y, innerRadius, outerRadius, startAngle, endAngle, color );
     }
 
     /**
@@ -1256,11 +1254,10 @@ public class Image {
      * @param outerRadius raio externo.
      * @param startAngle ângulo inicial em graus (sentido horário).
      * @param endAngle ângulo final em graus (sentido horário).
-     * @param segments quantidade de segmentos.
      * @param color cor de desenho.
      */
-    public void drawRing( Point center, double innerRadius, double outerRadius, double startAngle, double endAngle, int segments, Color color ) {
-        drawRing( center.x, center.y, innerRadius, outerRadius, startAngle, endAngle, segments, color );
+    public void drawRing( Point center, double innerRadius, double outerRadius, double startAngle, double endAngle, Color color ) {
+        drawRing( center.x, center.y, innerRadius, outerRadius, startAngle, endAngle, color );
     }
 
     /**
@@ -1270,7 +1267,7 @@ public class Image {
      * @param color cor de desenho.
      */
     public void drawRing( Ring ring, Color color ) {
-        drawRing( ring.x, ring.y, ring.innerRadius, ring.outerRadius, ring.startAngle, ring.endAngle, ring.segments, color );
+        drawRing( ring.x, ring.y, ring.innerRadius, ring.outerRadius, ring.startAngle, ring.endAngle, color );
     }
 
     /**
@@ -1282,13 +1279,12 @@ public class Image {
      * @param outerRadius raio externo.
      * @param startAngle ângulo inicial em graus (sentido horário).
      * @param endAngle ângulo final em graus (sentido horário).
-     * @param segments quantidade de segmentos.
      * @param color cor de desenho.
      */
-    public void fillRing( double centerX, double centerY, double innerRadius, double outerRadius, double startAngle, double endAngle, int segments, Color color ) {
+    public void fillRing( double centerX, double centerY, double innerRadius, double outerRadius, double startAngle, double endAngle, Color color ) {
         Graphics2D g2d = createGraphics();
         g2d.setColor( color );
-        g2d.fill( MathUtils.createRing( centerX, centerY, innerRadius, outerRadius, startAngle, endAngle, segments ) );
+        g2d.fill( MathUtils.createRing( centerX, centerY, innerRadius, outerRadius, startAngle, endAngle ) );
         g2d.dispose();
     }
 
@@ -1300,11 +1296,10 @@ public class Image {
      * @param outerRadius raio externo.
      * @param startAngle ângulo inicial em graus (sentido horário).
      * @param endAngle ângulo final em graus (sentido horário).
-     * @param segments quantidade de segmentos.
      * @param color cor de desenho.
      */
-    public void fillRing( Vector2 center, double innerRadius, double outerRadius, double startAngle, double endAngle, int segments, Color color ) {
-        fillRing( center.x, center.y, innerRadius, outerRadius, startAngle, endAngle, segments, color );
+    public void fillRing( Vector2 center, double innerRadius, double outerRadius, double startAngle, double endAngle, Color color ) {
+        fillRing( center.x, center.y, innerRadius, outerRadius, startAngle, endAngle, color );
     }
 
     /**
@@ -1315,11 +1310,10 @@ public class Image {
      * @param outerRadius raio externo.
      * @param startAngle ângulo inicial em graus (sentido horário).
      * @param endAngle ângulo final em graus (sentido horário).
-     * @param segments quantidade de segmentos.
      * @param color cor de desenho.
      */
-    public void fillRing( Point center, double innerRadius, double outerRadius, double startAngle, double endAngle, int segments, Color color ) {
-        fillRing( center.x, center.y, innerRadius, outerRadius, startAngle, endAngle, segments, color );
+    public void fillRing( Point center, double innerRadius, double outerRadius, double startAngle, double endAngle, Color color ) {
+        fillRing( center.x, center.y, innerRadius, outerRadius, startAngle, endAngle, color );
     }
 
     /**
@@ -1329,7 +1323,7 @@ public class Image {
      * @param color cor de desenho.
      */
     public void fillRing( Ring ring, Color color ) {
-        fillRing( ring.x, ring.y, ring.innerRadius, ring.outerRadius, ring.startAngle, ring.endAngle, ring.segments, color );
+        fillRing( ring.x, ring.y, ring.innerRadius, ring.outerRadius, ring.startAngle, ring.endAngle, color );
     }
 
     /**
