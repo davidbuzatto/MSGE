@@ -1,5 +1,5 @@
 Implementar a câmera 2D.
-    Métodos de transformação de coordenadas.
+    Rotação.
 
 Implementar audio.
 

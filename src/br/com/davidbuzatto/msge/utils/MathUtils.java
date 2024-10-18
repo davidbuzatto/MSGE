@@ -16,6 +16,7 @@
  */
 package br.com.davidbuzatto.msge.utils;
 
+import br.com.davidbuzatto.msge.core.Camera2D;
 import br.com.davidbuzatto.msge.geom.CubicCurve;
 import br.com.davidbuzatto.msge.geom.Line;
 import br.com.davidbuzatto.msge.geom.Point;
@@ -29,7 +30,8 @@ import java.util.Random;
  * Classe com métodos estáticos utilitários relacionados à matemática.
  * 
  * Várias implementações são baseadas na raylib e em seus módulos
- * (www.raylib.com).
+ * (www.raylib.com). Alguns métodos não são expostos pois o objetivo
+ * é que sejam utilizados apenas como suporte à métodos para o mundo 2D.
  * 
  * @author Prof. Dr. David Buzatto
  */
@@ -517,7 +519,93 @@ public class MathUtils {
     public static Vector2 pointToVector2( Point p ) {
         return new Vector2( p.x, p.y );
     }
+    
+    /**
+     * Converte uma coordenada da tela para uma coordenada do mundo 2D de 
+     * acordo com o câmera.
+     * 
+     * @param x A coordenada x da posição da tela.
+     * @param y A coordenada y da posição da tela.
+     * @param camera A câmera a ser utilizada.
+     * @return O ponto correspondente do mundo 2D.
+     */
+    public static Point getScreenToWorld2D( double x, double y, Camera2D camera ) {
+        
+        Matrix invMatCamera = MathUtils.matrixInvert( MathUtils.getCameraMatrix2D( camera ) );
+        Vector3 transform = MathUtils.vector3Transform( new Vector3( x, y, 0 ), invMatCamera );
 
+        return new Point( transform.x, transform.y );
+        
+    }
+    
+    /**
+     * Converte uma coordenada da tela para uma coordenada do mundo 2D de 
+     * acordo com o câmera.
+     * 
+     * @param point A posição da tela.
+     * @param camera A câmera a ser utilizada.
+     * @return O ponto correspondente do mundo 2D.
+     */
+    public static Point getScreenToWorld2D( Point point, Camera2D camera ) {
+        return getScreenToWorld2D( point.x, point.y, camera );
+        
+    }
+    
+    /**
+     * Converte uma coordenada da tela para uma coordenada do mundo 2D de 
+     * acordo com o câmera.
+     * 
+     * @param vector A posição da tela.
+     * @param camera A câmera a ser utilizada.
+     * @return O ponto correspondente do mundo 2D.
+     */
+    public static Point getScreenToWorld2D( Vector2 vector, Camera2D camera ) {
+        return getScreenToWorld2D( vector.x, vector.y, camera );
+    }
+    
+    /**
+     * Converte uma coordenada do mundo 2D para uma coordenada da tela de 
+     * acordo com o câmera.
+     * 
+     * @param x A coordenada x da posição do mundo 2D.
+     * @param y A coordenada y da posição do mundo 2D.
+     * @param camera A câmera a ser utilizada.
+     * @return O ponto correspondente da tela.
+     */
+    public static Point getWorldToScreen2D( double x, double y, Camera2D camera ) {
+        
+        Matrix matCamera = MathUtils.getCameraMatrix2D( camera );
+        Vector3 transform = MathUtils.vector3Transform( new Vector3( x, y, 0 ), matCamera );
+
+        return new Point( transform.x, transform.y );
+        
+    }
+    
+    /**
+     * Converte uma coordenada do mundo 2D para uma coordenada da tela de 
+     * acordo com o câmera.
+     * 
+     * @param point A posição do mundo 2D.
+     * @param camera A câmera a ser utilizada.
+     * @return O ponto correspondente da tela.
+     */
+    public static Point getWorldToScreen2D( Point point, Camera2D camera ) {
+        return getWorldToScreen2D( point.x, point.y, camera );
+        
+    }
+    
+    /**
+     * Converte uma coordenada do mundo 2D para uma coordenada da tela de 
+     * acordo com o câmera.
+     * 
+     * @param vector A posição do mundo 2D.
+     * @param camera A câmera a ser utilizada.
+     * @return O ponto correspondente da tela.
+     */
+    public static Point getWorldToScreen2D( Vector2 vector, Camera2D camera ) {
+        return getWorldToScreen2D( vector.x, vector.y, camera );
+    }
+    
     /**
      * Obtém um ponto dentro de uma linha.
      * 
@@ -704,7 +792,7 @@ public class MathUtils {
     
     
     /***************************************************************************
-     * Métodos estáticos para a criação de Path2Ds auxiliares.
+     * Métodos estáticos privados para a criação de Path2Ds auxiliares.
      **************************************************************************/
     
     /*
@@ -817,6 +905,375 @@ public class MathUtils {
         
         return path;
 
+    }
+    
+    
+    
+    /***************************************************************************
+     * Métodos estáticos privados de suporte.
+     **************************************************************************
+     * /
+     * 
+    /**
+     * Transforma um vetor 3D com uma matrix.
+     */
+    private static Vector3 vector3Transform( Vector3 v, Matrix mat ) {
+        
+        Vector3 result = new Vector3();
+
+        double x = v.x;
+        double y = v.y;
+        double z = v.z;
+
+        result.x = mat.m0*x + mat.m4*y + mat.m8*z + mat.m12;
+        result.y = mat.m1*x + mat.m5*y + mat.m9*z + mat.m13;
+        result.z = mat.m2*x + mat.m6*y + mat.m10*z + mat.m14;
+
+        return result;
+        
+    }
+    
+    /**
+     * Inverte uma matriz.
+     */
+    private static Matrix matrixInvert( Matrix mat ) {
+        
+        Matrix result = new Matrix();
+
+        // Cache the matrix values (speed optimization)
+        double a00 = mat.m0, a01 = mat.m1, a02 = mat.m2, a03 = mat.m3;
+        double a10 = mat.m4, a11 = mat.m5, a12 = mat.m6, a13 = mat.m7;
+        double a20 = mat.m8, a21 = mat.m9, a22 = mat.m10, a23 = mat.m11;
+        double a30 = mat.m12, a31 = mat.m13, a32 = mat.m14, a33 = mat.m15;
+
+        double b00 = a00*a11 - a01*a10;
+        double b01 = a00*a12 - a02*a10;
+        double b02 = a00*a13 - a03*a10;
+        double b03 = a01*a12 - a02*a11;
+        double b04 = a01*a13 - a03*a11;
+        double b05 = a02*a13 - a03*a12;
+        double b06 = a20*a31 - a21*a30;
+        double b07 = a20*a32 - a22*a30;
+        double b08 = a20*a33 - a23*a30;
+        double b09 = a21*a32 - a22*a31;
+        double b10 = a21*a33 - a23*a31;
+        double b11 = a22*a33 - a23*a32;
+
+        // Calculate the invert determinant (inlined to avoid double-caching)
+        double invDet = 1.0f/(b00*b11 - b01*b10 + b02*b09 + b03*b08 - b04*b07 + b05*b06);
+
+        result.m0 = (a11*b11 - a12*b10 + a13*b09)*invDet;
+        result.m1 = (-a01*b11 + a02*b10 - a03*b09)*invDet;
+        result.m2 = (a31*b05 - a32*b04 + a33*b03)*invDet;
+        result.m3 = (-a21*b05 + a22*b04 - a23*b03)*invDet;
+        result.m4 = (-a10*b11 + a12*b08 - a13*b07)*invDet;
+        result.m5 = (a00*b11 - a02*b08 + a03*b07)*invDet;
+        result.m6 = (-a30*b05 + a32*b02 - a33*b01)*invDet;
+        result.m7 = (a20*b05 - a22*b02 + a23*b01)*invDet;
+        result.m8 = (a10*b10 - a11*b08 + a13*b06)*invDet;
+        result.m9 = (-a00*b10 + a01*b08 - a03*b06)*invDet;
+        result.m10 = (a30*b04 - a31*b02 + a33*b00)*invDet;
+        result.m11 = (-a20*b04 + a21*b02 - a23*b00)*invDet;
+        result.m12 = (-a10*b09 + a11*b07 - a12*b06)*invDet;
+        result.m13 = (a00*b09 - a01*b07 + a02*b06)*invDet;
+        result.m14 = (-a30*b03 + a31*b01 - a32*b00)*invDet;
+        result.m15 = (a20*b03 - a21*b01 + a22*b00)*invDet;
+
+        return result;
+        
+    }
+    
+    /**
+     * Multiplica duas matrizes.
+     */
+    private static Matrix matrixMultiply( Matrix left, Matrix right ) {
+        
+        Matrix result = new Matrix();
+
+        result.m0 = left.m0*right.m0 + left.m1*right.m4 + left.m2*right.m8 + left.m3*right.m12;
+        result.m1 = left.m0*right.m1 + left.m1*right.m5 + left.m2*right.m9 + left.m3*right.m13;
+        result.m2 = left.m0*right.m2 + left.m1*right.m6 + left.m2*right.m10 + left.m3*right.m14;
+        result.m3 = left.m0*right.m3 + left.m1*right.m7 + left.m2*right.m11 + left.m3*right.m15;
+        result.m4 = left.m4*right.m0 + left.m5*right.m4 + left.m6*right.m8 + left.m7*right.m12;
+        result.m5 = left.m4*right.m1 + left.m5*right.m5 + left.m6*right.m9 + left.m7*right.m13;
+        result.m6 = left.m4*right.m2 + left.m5*right.m6 + left.m6*right.m10 + left.m7*right.m14;
+        result.m7 = left.m4*right.m3 + left.m5*right.m7 + left.m6*right.m11 + left.m7*right.m15;
+        result.m8 = left.m8*right.m0 + left.m9*right.m4 + left.m10*right.m8 + left.m11*right.m12;
+        result.m9 = left.m8*right.m1 + left.m9*right.m5 + left.m10*right.m9 + left.m11*right.m13;
+        result.m10 = left.m8*right.m2 + left.m9*right.m6 + left.m10*right.m10 + left.m11*right.m14;
+        result.m11 = left.m8*right.m3 + left.m9*right.m7 + left.m10*right.m11 + left.m11*right.m15;
+        result.m12 = left.m12*right.m0 + left.m13*right.m4 + left.m14*right.m8 + left.m15*right.m12;
+        result.m13 = left.m12*right.m1 + left.m13*right.m5 + left.m14*right.m9 + left.m15*right.m13;
+        result.m14 = left.m12*right.m2 + left.m13*right.m6 + left.m14*right.m10 + left.m15*right.m14;
+        result.m15 = left.m12*right.m3 + left.m13*right.m7 + left.m14*right.m11 + left.m15*right.m15;
+
+        return result;
+        
+    }
+    
+    /**
+     * Traslada uma matriz.
+     */
+    private static Matrix matrixTranslate( double x, double y, double z ) {
+        Matrix result = new Matrix( 
+                1.0, 0.0, 0.0, x,
+                0.0, 1.0, 0.0, y,
+                0.0, 0.0, 1.0, z,
+                0.0, 0.0, 0.0, 1.0
+        );
+        return result;
+    }
+    
+    /**
+     * Rotaciona uma matriz (ângulo em readianos)
+     */
+    private static Matrix matrixRotate( Vector3 axis, double angle ) {
+        
+        Matrix result = new Matrix();
+
+        double x = axis.x, y = axis.y, z = axis.z;
+
+        double lengthSquared = x*x + y*y + z*z;
+
+        if ((lengthSquared != 1.0f) && (lengthSquared != 0.0f)) {
+            double ilength = 1.0f/Math.sqrt(lengthSquared);
+            x *= ilength;
+            y *= ilength;
+            z *= ilength;
+        }
+
+        double sinres = Math.sin(angle);
+        double cosres = Math.cos(angle);
+        double t = 1.0f - cosres;
+
+        result.m0 = x*x*t + cosres;
+        result.m1 = y*x*t + z*sinres;
+        result.m2 = z*x*t - y*sinres;
+        result.m3 = 0.0;
+
+        result.m4 = x*y*t - z*sinres;
+        result.m5 = y*y*t + cosres;
+        result.m6 = z*y*t + x*sinres;
+        result.m7 = 0.0;
+
+        result.m8 = x*z*t + y*sinres;
+        result.m9 = y*z*t - x*sinres;
+        result.m10 = z*z*t + cosres;
+        result.m11 = 0.0;
+
+        result.m12 = 0.0;
+        result.m13 = 0.0;
+        result.m14 = 0.0;
+        result.m15 = 1.0;
+
+        return result;
+        
+    }
+    
+    /**
+     * Escalona uma matriz.
+     */
+    private static Matrix matrixScale( double x, double y, double z ) {
+        Matrix result = new Matrix( 
+                x, 0.0, 0.0, 0.0,
+                0.0, y, 0.0, 0.0,
+                0.0, 0.0, z, 0.0,
+                0.0, 0.0, 0.0, 1.0
+        );
+
+        return result;
+    }
+    
+    /**
+     * Obtém a matriz da câmera 2D.
+     */
+    private static Matrix getCameraMatrix2D( Camera2D camera ) {
+        
+        Matrix matTransform = new Matrix();
+        
+        // The camera in world-space is set by
+        //   1. Move it to target
+        //   2. Rotate by -rotation and scale by (1/zoom)
+        //      When setting higher scale, it's more intuitive for the world to become bigger (= camera become smaller),
+        //      not for the camera getting bigger, hence the invert. Same deal with rotation
+        //   3. Move it by (-offset);
+        //      Offset defines target transform relative to screen, but since we're effectively "moving" screen (camera)
+        //      we need to do it into opposite direction (inverse transform)
+
+        // Having camera transform in world-space, inverse of it gives the modelview transform
+        // Since (A*B*C)' = C'*B'*A', the modelview is
+        //   1. Move to offset
+        //   2. Rotate and Scale
+        //   3. Move by -target
+        Matrix matOrigin = matrixTranslate( -camera.target.x, -camera.target.y, 0.0 );
+        Matrix matRotation = matrixRotate( new Vector3( 0.0f, 0.0f, 1.0f ), Math.toRadians( camera.rotation ));
+        Matrix matScale = matrixScale( camera.zoom, camera.zoom, 1.0 );
+        Matrix matTranslation = matrixTranslate( camera.offset.x, camera.offset.y, 0.0 );
+
+        matTransform = matrixMultiply( matrixMultiply( matOrigin, matrixMultiply( matScale, matRotation ) ), matTranslation );
+
+        return matTransform;
+        
+    }
+    
+    
+    
+    /***************************************************************************
+     * Classes internas estáticas de suporte.
+     **************************************************************************/
+    
+    /**
+     * Classe para representação de um vetor de três dimensões.
+     * 
+     * @author Prof. Dr. David Buzatto
+     */
+    private static class Vector3 {
+    
+        public double x;
+        public double y;
+        public double z;
+    
+        /**
+         * Cria um novo vetor de três dimensões com valores padrão.
+         */
+        public Vector3() {
+        }
+        
+        /**
+         * Cria um novo vetor de três dimensões.
+         * 
+         * @param x coordenada x.
+         * @param y coordenada y.
+         * @param z coordenada z.
+         */
+        public Vector3( double x, double y, double z ) {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+        }
+    
+        @Override
+        public String toString() {
+            return String.format( "Vector3[%.2f, %.2f, %.2f]", x, y, z );
+        }
+    
+    }
+    
+    /**
+     * Classe para representação de um vetor de quatro dimensões.
+     * 
+     * @author Prof. Dr. David Buzatto
+     */
+    private static class Vector4 {
+    
+        public double x;
+        public double y;
+        public double z;
+        public double w;
+    
+        /**
+         * Cria um novo vetor de quatro dimensões com valores padrão.
+         */
+        public Vector4() {
+        }
+        
+        /**
+         * Cria um novo vetor de quatro dimensões.
+         * 
+         * @param x coordenada x.
+         * @param y coordenada y.
+         * @param z coordenada z.
+         * @param w coordenada w.
+         */
+        public Vector4( double x, double y, double z, double w ) {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.w = w;
+        }
+    
+        @Override
+        public String toString() {
+            return String.format( "Vector3[%.2f, %.2f, %.2f, %.2f]", x, y, z, w );
+        }
+    
+    }
+
+    /**
+     * Uma matriz.
+     * 
+     * @author Prof. Dr. David Buzatto
+     */
+    private static class Matrix {
+ 
+        public double m0, m4, m8, m12;  // primeira linha
+        public double m1, m5, m9, m13;  // segunda linha
+        public double m2, m6, m10, m14; // terceira linha
+        public double m3, m7, m11, m15; // quarta linha
+ 
+        /**
+         * Cria uma nova matriz com valores padrão.
+         */
+        public Matrix() {
+        }
+ 
+        /**
+         * Cria uma nova matriz.
+         * 
+         * @param m0 valor da linha 1, coluna 1
+         * @param m4 valor da linha 1, coluna 2
+         * @param m8 valor da linha 1, coluna 3
+         * @param m12 valor da linha 1, coluna 4
+         * @param m1 valor da linha 2, coluna 1
+         * @param m5 valor da linha 2, coluna 2
+         * @param m9 valor da linha 2, coluna 3
+         * @param m13 valor da linha 2, coluna 4
+         * @param m2 valor da linha 3, coluna 1
+         * @param m6 valor da linha 3, coluna 2
+         * @param m10 valor da linha 3, coluna 3
+         * @param m14 valor da linha 3, coluna 4
+         * @param m3 valor da linha 4, coluna 1
+         * @param m7 valor da linha 4, coluna 2
+         * @param m11 valor da linha 4, coluna 3
+         * @param m15 valor da linha 4, coluna 4
+         */
+        public Matrix( double m0, double m4, double m8, double m12, double m1, double m5, double m9, double m13, double m2, double m6, double m10, double m14, double m3, double m7, double m11, double m15 ) {
+            this.m0 = m0;
+            this.m4 = m4;
+            this.m8 = m8;
+            this.m12 = m12;
+            this.m1 = m1;
+            this.m5 = m5;
+            this.m9 = m9;
+            this.m13 = m13;
+            this.m2 = m2;
+            this.m6 = m6;
+            this.m10 = m10;
+            this.m14 = m14;
+            this.m3 = m3;
+            this.m7 = m7;
+            this.m11 = m11;
+            this.m15 = m15;
+        }
+ 
+        @Override
+        public String toString() {
+            return String.format( 
+                    """
+                    Matrix[
+                        %.2f, %.2f, %.2f, %.2f
+                        %.2f, %.2f, %.2f, %.2f
+                        %.2f, %.2f, %.2f, %.2f
+                        %.2f, %.2f, %.2f, %.2f
+                    ]
+                    """, 
+                    m0, m4, m8, m12,
+                    m1, m5, m9, m13,
+                    m2, m6, m10, m14,
+                    m3, m7, m11, m15
+            );
+        }
+ 
     }
 
 }

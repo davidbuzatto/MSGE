@@ -53,12 +53,12 @@ public class Vector2 implements Drawable {
 
     @Override
     public void fill( Engine engine, Color color ) {
-        throw new UnsupportedOperationException( "can'f fill a vector." );
+        throw new UnsupportedOperationException( "can'f fill a 2D vector." );
     }
 
     @Override
     public String toString() {
-        return String.format( "Vector[%.2f, %.2f]", x, y );
+        return String.format( "Vector2[%.2f, %.2f]", x, y );
     }
 
 }

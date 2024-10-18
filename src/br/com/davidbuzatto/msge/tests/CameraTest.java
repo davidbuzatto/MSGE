@@ -20,8 +20,9 @@ import br.com.davidbuzatto.msge.core.Camera2D;
 import br.com.davidbuzatto.msge.core.Engine;
 import static br.com.davidbuzatto.msge.core.Engine.KEY_LEFT;
 import static br.com.davidbuzatto.msge.core.Engine.KEY_RIGHT;
-import br.com.davidbuzatto.msge.geom.Rectangle;
+import br.com.davidbuzatto.msge.geom.Point;
 import br.com.davidbuzatto.msge.geom.Vector2;
+import br.com.davidbuzatto.msge.utils.MathUtils;
 
 /**
  *
@@ -123,7 +124,15 @@ public class CameraTest extends Engine {
         
         player.draw();
         
+        Point pWorld = MathUtils.getScreenToWorld2D( new Vector2( 200, 200 ), camera );
+        fillCircle( pWorld.x, pWorld.y, 10, LIME );
+        drawText( "Screen to world", pWorld.x, pWorld.y, 10, BLACK );
+        
         endMode2D();
+        
+        Point pScreen = MathUtils.getWorldToScreen2D( new Vector2( player.x, player.y ), camera );
+        fillCircle( pScreen.x, pScreen.y, 10, ORANGE );
+        drawText( "World to screen", pScreen.x, pScreen.y, 10, BLACK );
         
         fillRectangle( 10, getScreenHeight() - 20, 10, 10, BLACK );
         

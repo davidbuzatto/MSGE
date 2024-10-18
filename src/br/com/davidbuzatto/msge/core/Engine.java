@@ -2466,7 +2466,8 @@ public abstract class Engine extends JFrame {
      */
     public void drawText( String text, double x, double y, Color color ) {
         g2d.setColor( color );
-        g2d.drawString( text, (int) x, (int) y );
+        Rectangle2D r = g2d.getFontMetrics().getStringBounds( text, g2d );
+        g2d.drawString( text, (int) x, (int) ( y + r.getHeight() / 2 ) );
     }
     
     /**
@@ -2497,7 +2498,8 @@ public abstract class Engine extends JFrame {
         g2d.setColor( color );
         Graphics2D ig2d = (Graphics2D) g2d.create();
         ig2d.rotate( Math.toRadians( rotation ), originX, originY );
-        ig2d.drawString( text, (int) x, (int) y );
+        Rectangle2D r = ig2d.getFontMetrics().getStringBounds( text, ig2d );
+        ig2d.drawString( text, (int) x, (int) ( y + r.getHeight() / 2 ) );
         ig2d.dispose();
     }
 
@@ -2514,7 +2516,8 @@ public abstract class Engine extends JFrame {
         g2d.setColor( color );
         Graphics2D ig2d = (Graphics2D) g2d.create();
         ig2d.setFont( g2d.getFont().deriveFont( (float) fontSize ) );
-        ig2d.drawString( text, (int) x, (int) y );
+        Rectangle2D r = ig2d.getFontMetrics().getStringBounds( text, ig2d );
+        ig2d.drawString( text, (int) x, (int) ( y + r.getHeight() / 2 ) );
         ig2d.dispose();
     }
     
@@ -2549,7 +2552,8 @@ public abstract class Engine extends JFrame {
         Graphics2D ig2d = (Graphics2D) g2d.create();
         ig2d.setFont( g2d.getFont().deriveFont( (float) fontSize ) );
         ig2d.rotate( Math.toRadians( rotation ), originX, originY );
-        ig2d.drawString( text, (int) x, (int) y );
+        Rectangle2D r = ig2d.getFontMetrics().getStringBounds( text, ig2d );
+        ig2d.drawString( text, (int) x, (int) ( y + r.getHeight() / 2 ) );
         ig2d.dispose();
     }
 
@@ -3463,48 +3467,11 @@ public abstract class Engine extends JFrame {
         }
     }
     
-    /**
-     * Converte uma coordenada da tela para uma coordenada do mundo 2D de 
-     * acordo com o câmera.
-     * 
-     * @param position A posição da tela.
-     * @param camera A câmera a ser utilizada.
-     * @return A coordenada correspondente do mundo 2D.
-     */
-    public Vector2 getScreenToWorld2D( Vector2 position, Camera2D camera ) {
-        
-        // TODO
-        
-        /*Matrix invMatCamera = MatrixInvert(GetCameraMatrix2D(camera));
-        Vector3 transform = Vector3Transform((Vector3){ position.x, position.y, 0 }, invMatCamera);
-
-        return (Vector2){ transform.x, transform.y };*/
-    
-        return null;
-    }
-    
-    /**
-     * Converte uma coordenada do mundo 2D para uma coordenada da tela de 
-     * acordo com o câmera.
-     * 
-     * @param position A posição do mundo 2D.
-     * @param camera A câmera a ser utilizada.
-     * @return Uma coordenada correspondente da tela.
-     */
-    public Vector2 getWorldToScreen2D( Vector2 position, Camera2D camera ) {
-        
-        // TODO
-        
-        /*Matrix matCamera = GetCameraMatrix2D(camera);
-        Vector3 transform = Vector3Transform((Vector3){ position.x, position.y, 0 }, matCamera);
-
-        return (Vector2){ transform.x, transform.y };*/
-        
-        return null;
-        
-    }
     
     
+    /***************************************************************************
+     * Classes internas privadas.
+     **************************************************************************/
     
     /**
      * Classe interna que encapsula o processo de desenho.
