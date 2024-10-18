@@ -1,3 +1,0 @@
-Implementar audio.
-
-Empacotar e criar exemplos no VSCode
