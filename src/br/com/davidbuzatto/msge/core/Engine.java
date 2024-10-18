@@ -3418,6 +3418,8 @@ public abstract class Engine extends JFrame {
         return drawingPanel.getCursor() == INVISIBLE_CURSOR;
     }
     
+    
+    
     /***************************************************************************
      * Métodos para controle da câmera
      **************************************************************************/
